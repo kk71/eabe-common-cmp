@@ -1,0 +1,48 @@
+@import 'layout.less';
+
+.filter-box {
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+
+  .button-bar {
+    margin-top: 5px;
+    text-align: right;
+  }
+}
+
+.button-bar > div,
+.button-bar > button,
+.button-bar > .el-button {
+  padding: 0 20px 0 20px !important;
+  margin: 0 10px 0 0 !important;
+}
+
+.button-bar > .el-dropdown {
+  padding: 0 !important;
+  margin: 0 10px 0 0 !important;
+}
+
+.clickable {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// 暗色模式适配
+html.dark {
+  .filter-box {
+    background-color: transparent;
+  }
+
+  .clickable {
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}

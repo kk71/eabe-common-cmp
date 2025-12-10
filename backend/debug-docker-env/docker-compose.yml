@@ -1,0 +1,43 @@
+name: "live-source-backend-debug-env"
+services:
+#  celery-live:
+#    build:
+#      context: ../
+#      dockerfile: local-debug-env/dockerfile
+#    command: sh /project/celery_worker.sh
+#    volumes:
+#      - type: bind
+#        source: ../
+#        target: /project
+#    logging:
+#      driver: json-file
+#      options:
+#        max-size: "10m"
+#        max-file: "3"
+#    environment:
+#      C_FORCE_ROOT: 1
+#      _HOST: 10.10.10.166
+
+  pg-live:
+      image: postgres:17
+      restart: always
+      shm_size: 128mb
+      volumes:
+        - pg-data:/var/lib/postgresql/data
+      ports:
+        - "5432:5432"
+      environment:
+        POSTGRES_PASSWORD: example
+      logging:
+        driver: json-file
+        options:
+          max-size: "10m"
+          max-file: "3"
+
+  redis-live:
+    image: redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  pg-data:

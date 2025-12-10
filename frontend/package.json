@@ -1,0 +1,162 @@
+{
+  "name": "eb-cmp",
+  "version": "0.0.1",
+  "author": "kk71",
+  "scripts": {
+    "dev": "vite --mode development",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "build:dev": "vite build --mode development",
+    "build:pro": "vite build --mode production",
+    "serve": "vite preview",
+    "plop": "plop",
+    "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
+    "clean:lib": "rimraf node_modules",
+    "lint:eslint": "eslint --cache --max-warnings 0  \"{src,mock}/**/*.{vue,ts,tsx}\" --fix",
+    "lint:prettier": "prettier --write  \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
+    "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
+    "lint:lint-staged": "lint-staged",
+    "prepare": "husky install",
+    "commit": "git add . && git-cz",
+    "deps": "yarn upgrade-interactive --latest"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
+    "@devui-design/icons": "^1.4.0",
+    "@element-plus/icons-vue": "^2.3.2",
+    "@idux/cdk": "^2.6.3",
+    "@idux/components": "^2.6.3",
+    "@idux/pro": "^2.6.3",
+    "@vueuse/components": "^12.8.2",
+    "@vueuse/core": "^12.8.2",
+    "ant-design-vue": "^4.2.6",
+    "axios": "^1.11.0",
+    "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.13",
+    "devui-theme": "^0.0.7",
+    "echarts": "^6.0.0",
+    "echarts-wordcloud": "^2.1.0",
+    "element-plus": "^2.10.7",
+    "mitt": "^3.0.1",
+    "naive-ui": "^2.42.0",
+    "pinia": "^3.0.3",
+    "pinia-plugin-persistedstate": "^4.5.0",
+    "qs": "^6.14.0",
+    "sass": "^1.93.3",
+    "swiper": "^12.0.3",
+    "tdesign-vue-next": "^1.15.4",
+    "unocss": "66.4.1",
+    "vue": "^3.5.18",
+    "vue-axios": "^3.5.2",
+    "vue-devui": "^1.6.33",
+    "vue-json-viewer": "^3.0.4",
+    "vue-router": "^4.5.1",
+    "vue3-photo-preview": "^0.3.0",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "@arco-design/web-vue": "^2.57.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.33.0",
+    "@types/node": "^18.19.123",
+    "@types/nprogress": "^0.2.3",
+    "@types/qs": "^6.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "@unocss/preset-attributify": "^66.4.2",
+    "@unocss/preset-icons": "^66.4.2",
+    "@unocss/preset-uno": "^66.4.2",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vitejs/plugin-vue-jsx": "^4.2.0",
+    "autoprefixer": "^10.4.21",
+    "cz-git": "^1.12.0",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-define-config": "^2.1.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-vue": "^9.33.0",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "import": "^0.0.6",
+    "less": "^4.4.0",
+    "less-loader": "^12.3.0",
+    "lint-staged": "^15.5.2",
+    "mockjs": "^1.1.0",
+    "nprogress": "^0.2.0",
+    "plop": "^4.0.1",
+    "postcss": "^8.5.6",
+    "postcss-html": "^1.8.0",
+    "postcss-less": "^6.0.0",
+    "postcss-px-to-viewport": "^1.1.1",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.6.2",
+    "rollup-plugin-visualizer": "^5.14.0",
+    "stylelint": "^15.11.0",
+    "stylelint-config-recommended": "^12.0.0",
+    "stylelint-config-recommended-vue": "^1.6.1",
+    "stylelint-config-standard": "^33.0.0",
+    "stylelint-config-standard-scss": "^10.0.0",
+    "stylelint-order": "^6.0.4",
+    "stylelint-prettier": "^3.0.0",
+    "typescript": "5.8.2",
+    "typescript-eslint": "^8.39.1",
+    "unplugin-auto-import": "^19.3.0",
+    "unplugin-icons": "^22.2.0",
+    "unplugin-vue-components": "^28.8.0",
+    "unplugin-vue-router": "^0.11.2",
+    "vite": "^7.1.2",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-html": "^3.2.2",
+    "vite-plugin-imagemin": "^0.6.1",
+    "vite-plugin-mkcert": "^1.17.8",
+    "vite-plugin-mock": "^3.0.2",
+    "vite-plugin-progress": "^0.0.7",
+    "vite-plugin-restart": "^0.4.2",
+    "vite-plugin-style-import": "^2.0.0",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vite-plugin-vue-images": "^0.6.1",
+    "vite-plugin-vue-setup-extend": "^0.4.0",
+    "vue-eslint-parser": "^9.4.3",
+    "vue-tsc": "^2.2.12"
+  },
+  "resolutions": {
+    "bin-wrapper": "npm:bin-wrapper-china"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "{!(package)*.json,*.code-snippets,.!(browserslist)*rc}": [
+      "prettier --write--parser json"
+    ],
+    "package.json": [
+      "prettier --write"
+    ],
+    "*.vue": [
+      "prettier --write",
+      "eslint --fix",
+      "stylelint --fix"
+    ],
+    "*.{scss,less,styl,html}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  }
+}

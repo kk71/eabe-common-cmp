@@ -1,0 +1,39 @@
+from typing import Annotated, Any
+
+from fastapi import Header
+
+from backend.core.tpdm import *
+from backend.apis import *
+from backend.models import *
+from backend.apis.auth.base import *
+
+
+@init_t_pdm
+class OrderGetter(TGetter):
+    class TMeta:
+        cls = Order
+
+
+@router.get(tags=[APITags.buyer], summary="查询用户订单")
+async def _(
+        header: Annotated[HeaderToken, Header()],
+        query: build_query({
+            "id": opt_query(int),
+        }, pagination=True)
+) -> JsonResp[list[OrderGetter]]:
+    await header.verify()
+    orders = Order.filter(**query.model_dump())
+    orders = await query.paginate(orders)
+    return PaginationJsonResp(
+        data=[await OrderGetter.parse_record(i) for i in orders],
+        pagination=query.pagination
+    )
+
+
+@router.post(tags=[APITags.buyer], summary="下单")
+async def _(
+        header: Annotated[HeaderToken, Header()],
+        query: build_query({
+        }, pagination=True)
+):
+    await header.verify()

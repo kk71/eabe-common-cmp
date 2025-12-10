@@ -1,0 +1,6 @@
+.pyc
+.tmp
+__pycache__
+migrations/
+venv/
+debug-docker-env/pg-data/

@@ -1,0 +1,18 @@
+name: "eb-cmp"
+services:
+  server:
+    image: eb-cmp-backend
+    working_dir: /project
+    command: python run-prod-server.py
+    volumes:
+      - ..:/project
+    ports:
+      - "8001:8000"
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "3"
+    env_file:
+      - ../../prod.env
