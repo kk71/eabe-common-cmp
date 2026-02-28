@@ -1,165 +1,280 @@
 <template>
-  <div class="management-dashboard" v-loading="loading">
-    <!-- 页面头部 -->
-    <div class="page-header">
-      <h2>
-        <el-icon class="header-icon"><DataAnalysis /></el-icon>
-        销售数据总览
-      </h2>
-      <p class="subtitle">实时查看各产品的销售量和销售金额统计</p>
-    </div>
+  <div class="management-home" v-loading="loading">
+    <!-- 顶部大 Hero 区（参考火山引擎首页布局） -->
+    <section class="hero-section">
+      <div class="hero-bg"></div>
+      <div class="hero-top-menu">
+        <span class="menu-item active">大模型</span>
+        <span class="menu-item">产品</span>
+      </div>
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-tag">羿贝综合云服务平台</div>
+          <h1 class="hero-title">你的企业级云与 AI 中台</h1>
+          <p class="hero-subtitle">一站式管理账单、订单与钱包，实现从销售到结算的全链路数字化运营。</p>
+          <div class="hero-actions">
+            <el-button type="primary" size="large" @click="$router.push('/console/management/order')">
+              进入订单中心
+            </el-button>
+            <el-button size="large" @click="$router.push('/console/management/wallet')">查看钱包与资金</el-button>
+          </div>
+          <div class="hero-meta">
+            <span>实时销售与支付数据</span>
+            <span>预充值钱包扣费闭环</span>
+            <span>按月账单精细汇总</span>
+          </div>
+        </div>
+        <div class="hero-cards">
+          <el-card class="hero-card hero-card-main" shadow="hover">
+            <div class="hero-card-header">
+              <span>今日概览</span>
+            </div>
+            <div class="hero-card-body">
+              <div class="hero-metric">
+                <span class="label">累计销售额</span>
+                <span class="value">¥{{ totalAmount.toFixed(2) }}</span>
+              </div>
+              <div class="hero-metric">
+                <span class="label">订单总数</span>
+                <span class="value">{{ totalCount }}</span>
+              </div>
+              <div class="hero-metric">
+                <span class="label">已支付订单</span>
+                <span class="value">{{ data.payment_stats.paid_count }}</span>
+              </div>
+            </div>
+          </el-card>
+          <el-card class="hero-card hero-card-side" shadow="hover">
+            <div class="hero-card-body">
+              <div class="hero-side-item">
+                <div class="dot dot-green"></div>
+                <span>已支付金额 ¥{{ data.payment_stats.paid_amount.toFixed(2) }}</span>
+              </div>
+              <div class="hero-side-item">
+                <div class="dot dot-orange"></div>
+                <span>待支付金额 ¥{{ data.payment_stats.processing_amount.toFixed(2) }}</span>
+              </div>
+              <div class="hero-side-item">
+                <div class="dot dot-red"></div>
+                <span>支付失败金额 ¥{{ data.payment_stats.failed_amount.toFixed(2) }}</span>
+              </div>
+            </div>
+          </el-card>
+        </div>
+      </div>
+    </section>
 
-    <!-- 总体统计卡片 -->
-    <div class="summary-section">
-      <h3 class="section-title">
-        <el-icon><TrendCharts /></el-icon>
-        综合统计
-      </h3>
-      <el-row :gutter="20">
-        <el-col :xs="24" :sm="12" :md="6">
-          <el-card class="summary-card total-products" shadow="hover">
-            <div class="summary-content">
-              <div class="summary-icon">
-                <el-icon><Box /></el-icon>
-              </div>
-              <div class="summary-info">
-                <div class="summary-label">产品种类</div>
-                <div class="summary-value">{{ data.overall_stats.length }}</div>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="6">
-          <el-card class="summary-card total-sales" shadow="hover">
-            <div class="summary-content">
-              <div class="summary-icon">
-                <el-icon><ShoppingCart /></el-icon>
-              </div>
-              <div class="summary-info">
-                <div class="summary-label">总销售量</div>
-                <div class="summary-value">{{ totalCount }}</div>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="6">
-          <el-card class="summary-card total-revenue" shadow="hover">
-            <div class="summary-content">
-              <div class="summary-icon">
-                <el-icon><Coin /></el-icon>
-              </div>
-              <div class="summary-info">
-                <div class="summary-label">总销售额</div>
-                <div class="summary-value">¥{{ totalAmount.toFixed(2) }}</div>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="6">
-          <el-card class="summary-card avg-price" shadow="hover">
-            <div class="summary-content">
-              <div class="summary-icon">
-                <el-icon><Wallet /></el-icon>
-              </div>
-              <div class="summary-info">
-                <div class="summary-label">平均单价</div>
-                <div class="summary-value">¥{{ avgPrice.toFixed(2) }}</div>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
-
-    <!-- 销售量统计 -->
-    <div class="stats-section">
-      <h3 class="section-title">
-        <el-icon><Histogram /></el-icon>
-        销售量统计
-      </h3>
-      <el-row :gutter="20">
-        <el-col :xs="24" :sm="12" :lg="8" v-for="(s, index) in data.overall_stats" :key="'count-' + index">
-          <el-card class="product-stats-card" shadow="hover">
-            <template #header>
-              <div class="card-header">
-                <div class="product-badge" :style="{ background: getGradientColor(index) }">
-                  <el-icon class="product-icon">
-                    <component :is="getProductIcon(index)" />
-                  </el-icon>
-                  <span class="product-name">{{ s.product_name }}</span>
+    <!-- 楼层一：综合统计（保留原内容） -->
+    <section class="floor floor-summary">
+      <div class="floor-header">
+        <h2>综合统计</h2>
+        <p>从产品维度快速了解整体销售量与销售额概况。</p>
+      </div>
+      <div class="floor-body">
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="12" :md="6">
+            <el-card class="summary-card total-products" shadow="hover">
+              <div class="summary-content">
+                <div class="summary-icon">
+                  <el-icon><Box /></el-icon>
+                </div>
+                <div class="summary-info">
+                  <div class="summary-label">产品种类</div>
+                  <div class="summary-value">{{ data.overall_stats.length }}</div>
                 </div>
               </div>
-            </template>
-            <div class="stats-content">
-              <el-statistic :value="s.count" class="stats-number">
-                <template #suffix>
-                  <span class="stats-unit">件</span>
-                </template>
-              </el-statistic>
-              <div class="stats-footer">
-                <el-progress
-                  :percentage="getPercentage(s.count, totalCount)"
-                  :color="getProgressColor(index)"
-                  :stroke-width="8"
-                  :show-text="false"
-                />
-                <span class="percentage-text">占比 {{ getPercentage(s.count, totalCount) }}%</span>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
-
-    <!-- 销售金额统计 -->
-    <div class="stats-section">
-      <h3 class="section-title">
-        <el-icon><Money /></el-icon>
-        销售金额统计
-      </h3>
-      <el-row :gutter="20">
-        <el-col :xs="24" :sm="12" :lg="8" v-for="(s, index) in data.overall_stats" :key="'amount-' + index">
-          <el-card class="product-stats-card amount-card" shadow="hover">
-            <template #header>
-              <div class="card-header">
-                <div class="product-badge" :style="{ background: getGradientColor(index) }">
-                  <el-icon class="product-icon">
-                    <component :is="getProductIcon(index)" />
-                  </el-icon>
-                  <span class="product-name">{{ s.product_name }}</span>
+            </el-card>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="6">
+            <el-card class="summary-card total-sales" shadow="hover">
+              <div class="summary-content">
+                <div class="summary-icon">
+                  <el-icon><ShoppingCart /></el-icon>
+                </div>
+                <div class="summary-info">
+                  <div class="summary-label">总销售量</div>
+                  <div class="summary-value">{{ totalCount }}</div>
                 </div>
               </div>
-            </template>
-            <div class="stats-content">
-              <el-statistic :value="s.amount" :precision="2" class="stats-number">
-                <template #prefix>
-                  <span class="currency-symbol">¥</span>
-                </template>
-              </el-statistic>
-              <div class="stats-footer">
-                <el-progress
-                  :percentage="getPercentage(s.amount, totalAmount)"
-                  :color="getProgressColor(index)"
-                  :stroke-width="8"
-                  :show-text="false"
-                />
-                <span class="percentage-text">占比 {{ getPercentage(s.amount, totalAmount) }}%</span>
+            </el-card>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="6">
+            <el-card class="summary-card total-revenue" shadow="hover">
+              <div class="summary-content">
+                <div class="summary-icon">
+                  <el-icon><Coin /></el-icon>
+                </div>
+                <div class="summary-info">
+                  <div class="summary-label">总销售额</div>
+                  <div class="summary-value">¥{{ totalAmount.toFixed(2) }}</div>
+                </div>
               </div>
-              <div class="extra-info">
-                <span class="info-label">单价：</span>
-                <span class="info-value">¥{{ (s.amount / s.count).toFixed(2) }}</span>
+            </el-card>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="6">
+            <el-card class="summary-card avg-price" shadow="hover">
+              <div class="summary-content">
+                <div class="summary-icon">
+                  <el-icon><Wallet /></el-icon>
+                </div>
+                <div class="summary-info">
+                  <div class="summary-label">平均单价</div>
+                  <div class="summary-value">¥{{ avgPrice.toFixed(2) }}</div>
+                </div>
               </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+    </section>
+
+    <!-- 楼层二：支付结果统计（保留原内容） -->
+    <section class="floor floor-payment">
+      <div class="floor-header">
+        <h2>支付结果统计</h2>
+        <p>从支付视角透视订单履约效果，实时掌握资金回笼情况。</p>
+      </div>
+      <div class="floor-body">
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="12" :md="8">
+            <el-card class="summary-card total-revenue" shadow="hover">
+              <div class="summary-content">
+                <div class="summary-icon">
+                  <el-icon><Coin /></el-icon>
+                </div>
+                <div class="summary-info">
+                  <div class="summary-label">已支付金额</div>
+                  <div class="summary-value">¥{{ data.payment_stats.paid_amount.toFixed(2) }}</div>
+                  <div class="summary-label">已支付订单数：{{ data.payment_stats.paid_count }}</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="8">
+            <el-card class="summary-card total-sales" shadow="hover">
+              <div class="summary-content">
+                <div class="summary-icon">
+                  <el-icon><Money /></el-icon>
+                </div>
+                <div class="summary-info">
+                  <div class="summary-label">待支付金额</div>
+                  <div class="summary-value">¥{{ data.payment_stats.processing_amount.toFixed(2) }}</div>
+                  <div class="summary-label">待支付订单数：{{ data.payment_stats.processing_count }}</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="8">
+            <el-card class="summary-card total-products" shadow="hover">
+              <div class="summary-content">
+                <div class="summary-icon">
+                  <el-icon><ShoppingCart /></el-icon>
+                </div>
+                <div class="summary-info">
+                  <div class="summary-label">支付失败金额</div>
+                  <div class="summary-value">¥{{ data.payment_stats.failed_amount.toFixed(2) }}</div>
+                  <div class="summary-label">支付失败订单数：{{ data.payment_stats.failed_count }}</div>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+    </section>
+
+    <!-- 楼层三：销售量统计（保留原内容） -->
+    <section class="floor floor-count">
+      <div class="floor-header">
+        <h2>销售量统计</h2>
+        <p>按产品查看销量贡献，占比一目了然。</p>
+      </div>
+      <div class="floor-body">
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="12" :lg="8" v-for="(s, index) in data.overall_stats" :key="'count-' + index">
+            <el-card class="product-stats-card" shadow="hover">
+              <template #header>
+                <div class="card-header">
+                  <div class="product-badge" :style="{ background: getGradientColor(index) }">
+                    <el-icon class="product-icon">
+                      <component :is="getProductIcon(index)" />
+                    </el-icon>
+                    <span class="product-name">{{ s.product_name }}</span>
+                  </div>
+                </div>
+              </template>
+              <div class="stats-content">
+                <el-statistic :value="s.count" class="stats-number">
+                  <template #suffix>
+                    <span class="stats-unit">件</span>
+                  </template>
+                </el-statistic>
+                <div class="stats-footer">
+                  <el-progress
+                    :percentage="getPercentage(s.count, totalCount)"
+                    :color="getProgressColor(index)"
+                    :stroke-width="8"
+                    :show-text="false"
+                  />
+                  <span class="percentage-text">占比 {{ getPercentage(s.count, totalCount) }}%</span>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+    </section>
+
+    <!-- 楼层四：销售金额统计（保留原内容） -->
+    <section class="floor floor-amount">
+      <div class="floor-header">
+        <h2>销售金额统计</h2>
+        <p>按金额维度评估各产品线的营收价值。</p>
+      </div>
+      <div class="floor-body">
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="12" :lg="8" v-for="(s, index) in data.overall_stats" :key="'amount-' + index">
+            <el-card class="product-stats-card amount-card" shadow="hover">
+              <template #header>
+                <div class="card-header">
+                  <div class="product-badge" :style="{ background: getGradientColor(index) }">
+                    <el-icon class="product-icon">
+                      <component :is="getProductIcon(index)" />
+                    </el-icon>
+                    <span class="product-name">{{ s.product_name }}</span>
+                  </div>
+                </div>
+              </template>
+              <div class="stats-content">
+                <el-statistic :value="s.amount" :precision="2" class="stats-number">
+                  <template #prefix>
+                    <span class="currency-symbol">¥</span>
+                  </template>
+                </el-statistic>
+                <div class="stats-footer">
+                  <el-progress
+                    :percentage="getPercentage(s.amount, totalAmount)"
+                    :color="getProgressColor(index)"
+                    :stroke-width="8"
+                    :show-text="false"
+                  />
+                  <span class="percentage-text">占比 {{ getPercentage(s.amount, totalAmount) }}%</span>
+                </div>
+                <div class="extra-info">
+                  <span class="info-label">单价：</span>
+                  <span class="info-value">¥{{ (s.amount / s.count).toFixed(2) }}</span>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
   import { waitRequest } from '@/utils/http/tools';
-  import { getOverallStats } from '@/api/console';
+  import { getOverallStats, getPaymentStats } from '@/api/console';
   import {
     DataAnalysis,
     TrendCharts,
@@ -183,6 +298,14 @@
 
   const data = reactive({
     overall_stats: [],
+    payment_stats: {
+      paid_amount: 0,
+      paid_count: 0,
+      failed_amount: 0,
+      failed_count: 0,
+      processing_amount: 0,
+      processing_count: 0,
+    },
   });
 
   // 计算总销售量
@@ -235,16 +358,21 @@
   };
 
   const onLoad = async () => {
-    let resp = await waitRequest(
+    const overallResp = await waitRequest(
       loading,
       getOverallStats({
-        params: {
-          ...data.filterData,
-          ...data.p,
-        },
+        params: {},
       }),
     );
-    data.overall_stats = resp.data.data;
+    data.overall_stats = overallResp.data.data;
+
+    const paymentResp = await waitRequest(
+      loading,
+      getPaymentStats({
+        params: {},
+      }),
+    );
+    data.payment_stats = paymentResp.data.data;
   };
 
   onMounted(async () => {
@@ -254,66 +382,205 @@
 </script>
 
 <style lang="less" scoped>
-  .management-dashboard {
-    padding: 20px;
-    background: #f5f7fa;
+  .management-home {
     min-height: 100vh;
-    transition: background-color 0.3s ease;
+    background: radial-gradient(circle at top left, #1f2937 0%, #020617 45%, #020617 100%);
+    color: #e5e7eb;
+    padding-bottom: 40px;
   }
 
-  .page-header {
-    margin-bottom: 30px;
-    padding: 24px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+  .hero-section {
+    position: relative;
+    padding: 60px 40px 40px;
+    overflow: hidden;
+  }
 
-    h2 {
-      margin: 0 0 8px 0;
-      font-size: 28px;
-      color: #303133;
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.35), transparent 55%),
+      radial-gradient(circle at 80% 0%, rgba(129, 140, 248, 0.4), transparent 60%);
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .hero-top-menu {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto 16px;
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    color: #e5e7eb;
+  }
+
+  .hero-top-menu .menu-item {
+    cursor: pointer;
+    padding-bottom: 6px;
+    border-bottom: 2px solid transparent;
+    opacity: 0.8;
+  }
+
+  .hero-top-menu .menu-item.active {
+    border-color: #60a5fa;
+    opacity: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .hero-text {
+    flex: 1 1 480px;
+    max-width: 640px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    font-size: 12px;
+    color: #e5e7eb;
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 12px;
+    color: #f9fafb;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+    color: #cbd5f5;
+    max-width: 560px;
+    margin-bottom: 24px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 12px;
+    color: #9ca3af;
+
+    span {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+  }
+
+  .hero-cards {
+    flex: 1 1 320px;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hero-card {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(55, 65, 81, 0.9);
+
+    :deep(.el-card__body) {
+      padding: 16px 18px;
+    }
+  }
+
+  .hero-card-main .hero-card-header {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 8px;
+  }
+
+  .hero-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+
+    .label {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .value {
+      font-size: 18px;
       font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: color 0.3s ease;
-
-      .header-icon {
-        font-size: 32px;
-        color: #667eea;
-        transition: color 0.3s ease;
-      }
-    }
-
-    .subtitle {
-      margin: 0;
-      font-size: 14px;
-      color: #909399;
-      padding-left: 44px;
-      transition: color 0.3s ease;
+      color: #f9fafb;
     }
   }
 
-  .summary-section {
-    margin-bottom: 30px;
-  }
-
-  .section-title {
-    margin: 0 0 20px 0;
-    font-size: 20px;
-    color: #303133;
-    font-weight: 600;
+  .hero-card-side .hero-side-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: color 0.3s ease;
+    font-size: 12px;
+    color: #e5e7eb;
+    margin-bottom: 6px;
+  }
 
-    .el-icon {
-      font-size: 24px;
-      color: #667eea;
-      transition: color 0.3s ease;
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+  }
+  .dot-green {
+    background: #22c55e;
+  }
+  .dot-orange {
+    background: #f97316;
+  }
+  .dot-red {
+    background: #ef4444;
+  }
+
+  .floor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+  }
+
+  .floor-header {
+    margin-bottom: 18px;
+
+    h2 {
+      margin: 0 0 4px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #f9fafb;
     }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: #9ca3af;
+    }
+  }
+
+  .floor-body {
+    margin-bottom: 12px;
   }
 
   .summary-card {
@@ -381,10 +648,6 @@
     font-weight: 600;
     color: #303133;
     transition: color 0.3s ease;
-  }
-
-  .stats-section {
-    margin-bottom: 30px;
   }
 
   .product-stats-card {
@@ -495,83 +758,8 @@
 
   // 暗色模式适配
   html.dark {
-    .management-dashboard {
-      background: #141414;
-    }
-
-    .page-header {
-      background: #2d2d2d;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-
-      h2 {
-        color: #e5e5e5;
-
-        .header-icon {
-          color: #8b9cff;
-        }
-      }
-
-      .subtitle {
-        color: #a8a8a8;
-      }
-    }
-
-    .section-title {
-      color: #e5e5e5;
-
-      .el-icon {
-        color: #8b9cff;
-      }
-    }
-
-    .summary-label {
-      color: #a8a8a8;
-    }
-
-    .summary-value {
-      color: #e5e5e5;
-    }
-
-    .stats-content {
-      .stats-number {
-        :deep(.el-statistic__content) {
-          color: #e5e5e5;
-        }
-
-        .stats-unit {
-          color: #a8a8a8;
-        }
-
-        .currency-symbol {
-          color: #a8a8a8;
-        }
-      }
-
-      .stats-footer {
-        .percentage-text {
-          color: #b8b8b8;
-        }
-      }
-
-      .extra-info {
-        border-top-color: #3a3a3a;
-
-        .info-label {
-          color: #a8a8a8;
-        }
-
-        .info-value {
-          color: #e5e5e5;
-        }
-      }
-    }
-
-    .amount-card {
-      .stats-number {
-        :deep(.el-statistic__content) {
-          color: #ff7a8a;
-        }
-      }
+    .management-home {
+      background: radial-gradient(circle at top left, #020617 0%, #020617 40%, #000000 100%);
     }
   }
 </style>

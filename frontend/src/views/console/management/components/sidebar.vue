@@ -8,12 +8,16 @@
       <el-icon><User /></el-icon>
       <template #title>月度账单</template>
     </el-menu-item>
+    <el-menu-item index="/console/management/reconcile">
+      <el-icon><Histogram /></el-icon>
+      <template #title>对账中心</template>
+    </el-menu-item>
     <el-menu-item index="/console/management/order">
       <el-icon><User /></el-icon>
       <template #title>订单管理</template>
     </el-menu-item>
 
-    <el-menu-item @click="showTips">
+    <el-menu-item index="/console/management/wallet">
       <el-icon><Money /></el-icon>
       <template #title>财务资金管理</template>
     </el-menu-item>

@@ -24,6 +24,8 @@ class OrderStatus(StatusMachine):
     """订单状态"""
     EXPORT_FLAG = "order-status"
     processing = SMV("进行中")
+    paid = SMV("已支付")
+    pay_failed = SMV("支付失败")
 
 
 class Order(SoftDeletionModelMixin, BaseTModel):

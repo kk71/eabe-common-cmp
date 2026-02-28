@@ -41,13 +41,14 @@
       <table-column-smv label="订单类型" prop="product_type" flag="product-type" min-width="140" />
       <table-column-dt prop="order_date" label="下单日期" min-width="120" type="date" />
       <table-column-smv label="状态" prop="status" flag="order-status" min-width="140" />
-      <el-table-column prop="total_price" label="总金额" min-width="150" sortable />
-
-      <el-table-column v-if="false" label="操作" width="120" fixed="right">
+      <el-table-column label="支付状态" min-width="140">
         <template #default="{ row }">
-          <el-button type="primary" size="small" @click="gotoDetail(row)">详情</el-button>
+          <el-tag v-if="row.status === 'paid'" type="success">已支付</el-tag>
+          <el-tag v-else-if="row.status === 'pay_failed'" type="danger">支付失败</el-tag>
+          <el-tag v-else type="warning">进行中</el-tag>
         </template>
       </el-table-column>
+      <el-table-column prop="total_price" label="总金额" min-width="150" sortable />
     </el-table>
   </filterable-list-frame>
 </template>

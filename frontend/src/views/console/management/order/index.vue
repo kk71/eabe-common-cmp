@@ -41,21 +41,51 @@
       <table-column-smv label="订单类型" prop="product_type" flag="product-type" min-width="140" />
       <table-column-dt prop="order_date" label="下单日期" min-width="120" type="date" />
       <table-column-smv label="状态" prop="status" flag="order-status" min-width="140" />
+      <el-table-column label="支付状态" min-width="140">
+        <template #default="{ row }">
+          <el-tag v-if="row.status === 'paid'" type="success">已支付</el-tag>
+          <el-tag v-else-if="row.status === 'pay_failed'" type="danger">支付失败</el-tag>
+          <el-tag v-else type="warning">进行中</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="total_price" label="总金额" min-width="150" sortable />
 
-      <el-table-column v-if="false" label="操作" width="120" fixed="right">
+      <el-table-column label="操作" width="140" fixed="right">
         <template #default="{ row }">
-          <el-button type="primary" size="small" @click="gotoDetail(row)">详情</el-button>
+          <el-button
+            v-if="row.status !== 'paid'"
+            type="primary"
+            link
+            size="small"
+            @click="handleManualPay(row)"
+          >
+            重试扣费
+          </el-button>
+          <el-button type="primary" link size="small" @click="openOrderTxDialog(row)">查看流水</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog v-model="txDialog.visible" :title="`钱包流水 - 订单 ${txDialog.orderId}`" width="800px">
+      <el-table :data="txDialog.data" v-loading="loading" stripe>
+        <el-table-column prop="tx_id" label="流水编号" min-width="200" />
+        <el-table-column prop="tx_type" label="类型" min-width="80" />
+        <el-table-column prop="change_amount" label="变动金额" min-width="120" />
+        <el-table-column prop="balance_after" label="变动后余额" min-width="120" />
+        <el-table-column prop="remark" label="备注" min-width="180" />
+        <el-table-column prop="create_time" label="时间" min-width="180" />
+      </el-table>
+      <template #footer>
+        <el-button @click="txDialog.visible = false">关闭</el-button>
+      </template>
+    </el-dialog>
   </filterable-list-frame>
 </template>
 
 <script setup>
   import { waitRequest } from '@/utils/http/tools';
   import { QSValidator } from '@/utils/router';
-  import { getOrders } from '@/api/console';
+  import { getOrders, payOrderByWallet, getWalletTransactions } from '@/api/console';
 
   const emits = defineEmits(['update-title']);
 
@@ -81,6 +111,45 @@
     }),
     data: [],
   });
+
+  const txDialog = reactive({
+    visible: false,
+    orderId: '',
+    data: [],
+  });
+
+  const handleManualPay = async (row) => {
+    await waitRequest(
+      loading,
+      payOrderByWallet({
+        params: {
+          id: row.id,
+        },
+      }),
+    );
+    await onLoad();
+  };
+
+  const openOrderTxDialog = async (row) => {
+    txDialog.orderId = row.order_id;
+    txDialog.visible = true;
+    await loadOrderTransactions();
+  };
+
+  const loadOrderTransactions = async () => {
+    if (!txDialog.orderId) return;
+    let resp = await waitRequest(
+      loading,
+      getWalletTransactions({
+        params: {
+          page: 1,
+          per_page: 50,
+          keyword: txDialog.orderId,
+        },
+      }),
+    );
+    txDialog.data = resp.data.data.filter((i) => i.related_order_id === txDialog.orderId);
+  };
 
   async function onLoad() {
     let resp = await waitRequest(

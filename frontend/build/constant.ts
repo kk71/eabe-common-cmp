@@ -4,7 +4,7 @@
  */
 
 // 应用名
-export const APP_TITLE = 'live-ai-analysis';
+export const APP_TITLE = 'eabe-common-cmp';
 
 // prefix
 export const API_PREFIX = '/api';

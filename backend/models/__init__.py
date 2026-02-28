@@ -45,3 +45,4 @@ from .cart import *
 from .product import *
 from .month_bill import *
 from .order import *
+from .wallet import *

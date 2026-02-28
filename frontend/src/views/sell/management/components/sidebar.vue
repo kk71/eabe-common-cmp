@@ -12,6 +12,10 @@
       <el-icon><User /></el-icon>
       <template #title>订单管理</template>
     </el-menu-item>
+    <el-menu-item index="/sell/management/wallet">
+      <el-icon><Wallet /></el-icon>
+      <template #title>钱包中心</template>
+    </el-menu-item>
   </el-menu>
 </template>
 
