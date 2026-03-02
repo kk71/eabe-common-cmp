@@ -143,6 +143,7 @@ declare module 'vue-router/auto-routes' {
     '/sell/login': RouteRecordInfo<'/sell/login', '/sell/login', Record<never, never>, Record<never, never>>,
     '/sell/management': RouteRecordInfo<'/sell/management', '/sell/management', Record<never, never>, Record<never, never>>,
     '/sell/management/': RouteRecordInfo<'/sell/management/', '/sell/management', Record<never, never>, Record<never, never>>,
+    '/sell/management/bill-detail/': RouteRecordInfo<'/sell/management/bill-detail/', '/sell/management/bill-detail', Record<never, never>, Record<never, never>>,
     '/sell/management/components/header': RouteRecordInfo<'/sell/management/components/header', '/sell/management/components/header', Record<never, never>, Record<never, never>>,
     '/sell/management/components/sidebar': RouteRecordInfo<'/sell/management/components/sidebar', '/sell/management/components/sidebar', Record<never, never>, Record<never, never>>,
     '/sell/management/month-bill/': RouteRecordInfo<'/sell/management/month-bill/', '/sell/management/month-bill', Record<never, never>, Record<never, never>>,

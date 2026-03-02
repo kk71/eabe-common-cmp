@@ -1,14 +1,15 @@
 <template>
-  <div class="common-layout">
-    <el-container v-if="upperReady">
-      <el-aside width="180px"> <sidebar /> </el-aside>
-      <el-container>
-        <el-header> <Header :title="title" /></el-header>
-        <el-main ref="consoleFrame">
-          <router-view @update-title="onUpdateTitle" />
-        </el-main>
-      </el-container>
-    </el-container>
+  <div class="sell-console-layout" v-if="upperReady">
+    <!-- 顶部控制台头部，样式对齐火山控制台 -->
+    <Header :title="title" />
+
+    <!-- 控制台主体区域：左侧主导航 + 右侧内容 -->
+    <div class="sell-console-body">
+      <sidebar />
+      <main class="sell-console-main" ref="consoleFrame">
+        <router-view @update-title="onUpdateTitle" />
+      </main>
+    </div>
   </div>
 </template>
 
@@ -53,17 +54,29 @@
 <style lang="less" src="./management/style/main.less" />
 
 <style lang="less" scoped>
-  .common-layout {
-    height: 100%;
+  .sell-console-layout {
+    min-height: 100vh;
+    background: #f0f1f5;
+    color: #1d2129;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .el-container {
-      height: 100%;
-      background-color: var(--el-bg-color);
-    }
+  .sell-console-body {
+    display: flex;
+    min-height: calc(100vh - 52px);
+  }
 
-    .el-header {
-      padding: 0;
-      background-color: var(--el-bg-color);
+  .sell-console-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 640px) {
+    .sell-console-body {
+      flex-direction: column;
     }
   }
 </style>
