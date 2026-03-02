@@ -1,6 +1,5 @@
 <template>
   <div class="management-home" v-loading="loading">
-    <!-- 顶部大 Hero 区（参考火山引擎首页布局） -->
     <section class="hero-section">
       <div class="hero-bg"></div>
       <div class="hero-top-menu">

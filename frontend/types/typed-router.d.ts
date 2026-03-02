@@ -153,5 +153,15 @@ declare module 'vue-router/auto-routes' {
     '/sell/order/orderConfirm': RouteRecordInfo<'/sell/order/orderConfirm', '/sell/order/orderConfirm', Record<never, never>, Record<never, never>>,
     '/sell/order/orderList': RouteRecordInfo<'/sell/order/orderList', '/sell/order/orderList', Record<never, never>, Record<never, never>>,
     '/sell/order/orderPay': RouteRecordInfo<'/sell/order/orderPay', '/sell/order/orderPay', Record<never, never>, Record<never, never>>,
+    '/sell/volc/AgentSection': RouteRecordInfo<'/sell/volc/AgentSection', '/sell/volc/AgentSection', Record<never, never>, Record<never, never>>,
+    '/sell/volc/CloudProductsSection': RouteRecordInfo<'/sell/volc/CloudProductsSection', '/sell/volc/CloudProductsSection', Record<never, never>, Record<never, never>>,
+    '/sell/volc/EcosystemSection': RouteRecordInfo<'/sell/volc/EcosystemSection', '/sell/volc/EcosystemSection', Record<never, never>, Record<never, never>>,
+    '/sell/volc/FooterSection': RouteRecordInfo<'/sell/volc/FooterSection', '/sell/volc/FooterSection', Record<never, never>, Record<never, never>>,
+    '/sell/volc/HeroSection': RouteRecordInfo<'/sell/volc/HeroSection', '/sell/volc/HeroSection', Record<never, never>, Record<never, never>>,
+    '/sell/volc/ModelsSection': RouteRecordInfo<'/sell/volc/ModelsSection', '/sell/volc/ModelsSection', Record<never, never>, Record<never, never>>,
+    '/sell/volc/NavBar': RouteRecordInfo<'/sell/volc/NavBar', '/sell/volc/NavBar', Record<never, never>, Record<never, never>>,
+    '/sell/volc/ScenariosSection': RouteRecordInfo<'/sell/volc/ScenariosSection', '/sell/volc/ScenariosSection', Record<never, never>, Record<never, never>>,
+    '/sell/volc/SolutionsSection': RouteRecordInfo<'/sell/volc/SolutionsSection', '/sell/volc/SolutionsSection', Record<never, never>, Record<never, never>>,
+    '/sell/volc/SvgIcons': RouteRecordInfo<'/sell/volc/SvgIcons', '/sell/volc/SvgIcons', Record<never, never>, Record<never, never>>,
   }
 }
