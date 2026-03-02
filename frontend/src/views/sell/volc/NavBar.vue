@@ -205,8 +205,8 @@
       <div class="flex items-center gap-3">
         <a href="#" class="nav-link md-hide">文档</a>
         <a href="#" class="nav-link md-hide">备案</a>
-        <a href="#" class="nav-link md-hide">控制台</a>
-        <a href="#" class="btn-ghost">登录</a>
+        <router-link to="/sell/management" class="nav-link md-hide">控制台</router-link>
+        <router-link to="/sell/login" class="btn-ghost">登录</router-link>
         <a href="#" class="btn-primary-sm">立即注册</a>
         <button class="mobile-menu-btn lg-hide" @click="mobileOpen = !mobileOpen">
           <SvgIcon :name="mobileOpen ? 'x' : 'menu'" :size="22" />
@@ -277,7 +277,20 @@
         <a href="#" class="mobile-link">解决方案</a>
         <a href="#" class="mobile-link">定价</a>
         <a href="#" class="mobile-link">文档</a>
-        <a href="#" class="mobile-link">控制台</a>
+        <router-link
+          to="/sell/login"
+          class="mobile-link"
+          @click.native="mobileOpen = false"
+        >
+          登录
+        </router-link>
+        <router-link
+          to="/sell/management"
+          class="mobile-link"
+          @click.native="mobileOpen = false"
+        >
+          控制台
+        </router-link>
       </div>
     </transition>
 
