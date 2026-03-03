@@ -196,7 +196,7 @@ export default {
       platforms: [
         {
           id: 'ark',
-          name: '火山方舟',
+          name: '羿贝方舟',
           subtitle: '一站式大模型开发平台',
           description:
             '体验超全模型，每款豆包大语言模型提供50万Tokens免费额度，企业用户参与协作计划可获得500万Tokens免费额度。',

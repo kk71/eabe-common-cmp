@@ -138,7 +138,7 @@ export default {
                 '基于设定好的故事背景和人设，自动推演剧情，在互动或游戏中，让用户获得创作乐趣'
             }
           ],
-          products: ['豆包大模型', '扣子', '火山方舟']
+          products: ['豆包大模型', '扣子', '羿贝方舟']
         },
         hardware: {
           features: [
@@ -178,7 +178,7 @@ export default {
                 '7x24小时在线知识问答服务，覆盖全学科全学段，随时随地解答学习疑问'
             }
           ],
-          products: ['豆包大模型', '火山方舟', 'AI知识管理']
+          products: ['豆包大模型', '羿贝方舟', 'AI知识管理']
         },
         service: {
           features: [
@@ -198,7 +198,7 @@ export default {
                 'AI自动分类、派发和跟踪工单，智能预判问题升级，确保高效闭环管理'
             }
           ],
-          products: ['火山方舟', 'HiAgent', '扣子']
+          products: ['羿贝方舟', 'HiAgent', '扣子']
         },
         marketing: {
           features: [

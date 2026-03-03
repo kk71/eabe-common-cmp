@@ -67,7 +67,7 @@ export default {
           title: '产品',
           links: [
             { label: '豆包大模型' },
-            { label: '火山方舟' },
+            { label: '羿贝方舟' },
             { label: '扣子' },
             { label: 'GPU云服务器' },
             { label: '容器服务' },

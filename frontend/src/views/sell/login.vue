@@ -14,7 +14,7 @@
             <path d="M14 0L28 8v12L14 28 0 20V8L14 0z" fill="#3370FF" />
             <path d="M14 6l8 4.5v9L14 24l-8-4.5v-9L14 6z" fill="#14C9C9" />
           </svg>
-          <span class="brand-name">火山引擎</span>
+          <span class="brand-name">羿贝引擎</span>
         </router-link>
         <h1 class="brand-heading">云上增长新动力</h1>
         <p class="brand-desc">
@@ -94,7 +94,7 @@
       <div class="login-form-wrapper">
         <div class="login-form-card">
           <h2 class="form-title">账号登录</h2>
-          <p class="form-subtitle">登录火山引擎控制台</p>
+          <p class="form-subtitle">登录羿贝引擎控制台</p>
 
           <!-- Tab Switcher -->
           <div class="login-tabs">
@@ -494,7 +494,7 @@
               </div>
             </div>
             <p class="qrcode-tip">
-              请使用 <strong>火山引擎APP</strong> 扫描二维码登录
+              请使用 <strong>羿贝引擎APP</strong> 扫描二维码登录
             </p>
             <button class="refresh-qr" @click="refreshQR">
               <svg

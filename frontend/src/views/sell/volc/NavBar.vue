@@ -381,7 +381,7 @@ export default {
           bgColor: 'rgba(20,201,201,0.1)',
           items: [
             {
-              name: '火山方舟',
+              name: '羿贝方舟',
               desc: '一站式大模型开发平台',
               icon: 'layers',
               tag: 'HOT',

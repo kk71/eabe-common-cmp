@@ -1,6 +1,6 @@
 <template>
   <div class="sell-console-layout" v-if="upperReady">
-    <!-- 顶部控制台头部，样式对齐火山控制台 -->
+    <!-- 顶部控制台头部，样式对齐羿贝控制台 -->
     <Header :title="title" />
 
     <!-- 控制台主体区域：左侧主导航 + 右侧内容 -->
