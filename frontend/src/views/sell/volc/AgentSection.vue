@@ -307,7 +307,7 @@ export default {
 .platform-preview {
   width: 400px;
   flex-shrink: 0;
-  background: rgba(26, 35, 50, 0.5);
+  background: var(--bg-secondary);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
   padding: 24px;

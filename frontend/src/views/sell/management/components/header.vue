@@ -33,13 +33,6 @@
           <input type="text" placeholder="搜索产品或文档" class="search-input" />
         </div>
         <div class="header-actions">
-          <el-tooltip :content="theme === 'light' ? '切换暗黑主题' : '切换明亮主题'">
-            <button class="icon-btn" @click="toggleTheme()">
-              <el-icon :size="16">
-                <component :is="theme === 'dark' ? Sunny : Moon" />
-              </el-icon>
-            </button>
-          </el-tooltip>
           <div class="header-user" @click="toggleUserMenu">
             <div class="user-avatar">
               {{ userInitial }}
@@ -71,9 +64,7 @@
 
 <script setup>
   import { ElMessage } from 'element-plus';
-  import { useDark, useToggle } from '@vueuse/core';
   import { useAppStore } from '@/store';
-  import { Sunny, Moon } from '@element-plus/icons-vue';
   import UserPasswordDialog from '@/views/console/management/user/components/user-password-dialog.vue';
 
   const props = defineProps({
@@ -87,17 +78,6 @@
   const userPasswordDialog = useTemplateRef('userPasswordDialog');
 
   const appStore = useAppStore();
-
-  const theme = computed(() => appStore.sell_theme);
-
-  const isDark = useDark({
-    selector: 'body',
-    onChanged(dark) {
-      appStore.toggleSellTheme(dark);
-    },
-  });
-
-  const toggleTheme = useToggle(isDark);
 
   const userName = computed(() => appStore.user?.username || appStore.user?.name || '');
   const userInitial = computed(() => (userName.value ? userName.value.charAt(0) : 'U'));

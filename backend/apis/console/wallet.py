@@ -78,7 +78,7 @@ async def _(
     )
 
 
-@router.post(tags=[APITags.console], summary="钱包充值")
+@router.post(path_postfix="/recharge", tags=[APITags.console], summary="钱包充值")
 async def _(
         header: Annotated[HeaderToken, Header()],
         body: WalletRechargeBody

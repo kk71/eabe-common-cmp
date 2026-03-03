@@ -19,9 +19,9 @@
 <style lang="scss" scoped>
   .footer {
     height: 234px;
-    border-top: 4px solid #ff6600;
-    background-color: #333333;
-    color: #999999;
+    border-top: 4px solid #3370ff;
+    background-color: #ffffff;
+    color: #4e5969;
     font-size: 16px;
     text-align: center;
     .footer-logo {
@@ -35,8 +35,11 @@
     }
     .footer-link {
       a {
-        color: #999999;
+        color: #4e5969;
         display: inline-block;
+      }
+      a:hover {
+        color: #3370ff;
       }
       span {
         margin: 0 10px;
@@ -45,7 +48,7 @@
     }
     .copyright {
       .domain {
-        color: #ff6600;
+        color: #3370ff;
       }
     }
   }

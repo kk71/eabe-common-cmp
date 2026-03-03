@@ -44,8 +44,8 @@ export default {
 <style src="./volc/volc-main.css"></style>
 <style scoped>
 #volcengine-app {
-  background-color: #0a0e1a;
-  color: #f0f2f5;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
 }
 

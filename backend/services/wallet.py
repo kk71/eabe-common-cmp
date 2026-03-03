@@ -14,6 +14,14 @@ from backend.models import WalletAccount, WalletTransaction, WalletTransactionTy
 class WalletAccountService:
     """预充值钱包账户服务"""
 
+    @staticmethod
+    def _ensure_decimal(v) -> Decimal:
+        if isinstance(v, Decimal):
+            return v
+        if v is None:
+            return Decimal("0.00")
+        return Decimal(str(v))
+
     @classmethod
     async def get_or_create_account(cls, customer_code: str, customer_name: Optional[str] = None) -> WalletAccount:
         w = await WalletAccount.filter(customer_code=customer_code).first()
@@ -37,11 +45,14 @@ class WalletAccountService:
         customer_name: Optional[str] = None,
     ) -> WalletAccount:
         """充值入账"""
+        amount = cls._ensure_decimal(amount)
         if amount <= 0:
             raise Forbidden("充值金额必须大于0")
 
         async with in_transaction():
             wallet = await cls.get_or_create_account(customer_code, customer_name=customer_name)
+            wallet.balance = cls._ensure_decimal(wallet.balance)
+            wallet.total_recharge = cls._ensure_decimal(wallet.total_recharge)
             wallet.balance += amount
             wallet.total_recharge += amount
             await wallet.save()

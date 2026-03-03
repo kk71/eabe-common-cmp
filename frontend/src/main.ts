@@ -17,13 +17,6 @@ import '@devui-design/icons/icomoon/devui-icon.css';
 
 // element-plus CSS
 import 'element-plus/dist/index.css';
-import 'element-plus/theme-chalk/dark/css-vars.css';
-
-import { ThemeServiceInit, devuiDarkTheme } from 'devui-theme';
-
-const themeService = ThemeServiceInit({ devuiDarkTheme }, 'infinityTheme');
-
-themeService?.applyTheme(devuiDarkTheme);
 
 //vue3的挂载方式
 const app = createApp(App);

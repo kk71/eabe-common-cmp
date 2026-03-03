@@ -712,7 +712,7 @@
 .login-page {
   display: flex;
   min-height: 100vh;
-  background: #060a14;
+  background: #f7f8fa;
 }
 
 /* ======================== Left Branding Panel ======================== */
@@ -801,14 +801,14 @@
 .brand-name {
   font-size: 22px;
   font-weight: 700;
-  color: #f0f2f5;
+  color: #1d2129;
   letter-spacing: 1px;
 }
 
 .brand-heading {
   font-size: 40px;
   font-weight: 700;
-  color: #ffffff;
+  color: #1d2129;
   line-height: 1.3;
   margin-bottom: 16px;
   letter-spacing: -0.5px;
@@ -816,7 +816,7 @@
 
 .brand-desc {
   font-size: 15px;
-  color: #86909c;
+  color: #4e5969;
   line-height: 1.7;
   margin-bottom: 48px;
 }
@@ -832,8 +832,8 @@
   align-items: center;
   gap: 16px;
   padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e5e6eb;
   border-radius: 12px;
   transition: all 0.3s;
 }
@@ -858,13 +858,13 @@
 .feature-title {
   font-size: 15px;
   font-weight: 600;
-  color: #f0f2f5;
+  color: #1d2129;
   margin-bottom: 2px;
 }
 
 .feature-sub {
   font-size: 13px;
-  color: #86909c;
+  color: #4e5969;
 }
 
 /* ======================== Right Form Panel ======================== */
@@ -874,8 +874,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0c1020;
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  background: #ffffff;
+  border-left: 1px solid #e5e6eb;
   padding: 40px;
 }
 
@@ -895,13 +895,13 @@
 .form-title {
   font-size: 28px;
   font-weight: 700;
-  color: #f0f2f5;
+  color: #1d2129;
   margin-bottom: 6px;
 }
 
 .form-subtitle {
   font-size: 14px;
-  color: #86909c;
+  color: #4e5969;
   margin-bottom: 32px;
 }
 
@@ -910,7 +910,7 @@
   display: flex;
   gap: 0;
   margin-bottom: 28px;
-  background: rgba(255, 255, 255, 0.04);
+  background: #f2f3f5;
   border-radius: 10px;
   padding: 4px;
 }
@@ -920,7 +920,7 @@
   padding: 10px 0;
   font-size: 14px;
   font-weight: 500;
-  color: #86909c;
+  color: #4e5969;
   background: transparent;
   border: none;
   border-radius: 8px;
@@ -929,13 +929,13 @@
 }
 
 .login-tab:hover {
-  color: #c9cdd4;
+  color: #1d2129;
 }
 
 .login-tab.active {
-  color: #ffffff;
-  background: rgba(51, 112, 255, 0.15);
-  box-shadow: 0 1px 4px rgba(51, 112, 255, 0.15);
+  color: #3370ff;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 /* Form fields */
@@ -954,7 +954,7 @@
 .field-label {
   font-size: 13px;
   font-weight: 500;
-  color: #c9cdd4;
+  color: #4e5969;
 }
 
 .input-wrapper {
@@ -963,8 +963,8 @@
   gap: 10px;
   height: 46px;
   padding: 0 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid #e5e6eb;
   border-radius: 10px;
   transition: all 0.25s;
 }
@@ -995,20 +995,20 @@
   border: none;
   outline: none;
   font-size: 14px;
-  color: #f0f2f5;
+  color: #1d2129;
   font-family: inherit;
   height: 100%;
 }
 
 .form-input::placeholder {
-  color: #4e5969;
+  color: #c9cdd4;
 }
 
 .phone-prefix {
   font-size: 14px;
-  color: #c9cdd4;
+  color: #4e5969;
   padding-right: 10px;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid #e5e6eb;
   margin-right: 2px;
   white-space: nowrap;
 }
@@ -1017,14 +1017,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #4e5969;
+  color: #86909c;
   display: flex;
   padding: 2px;
   transition: color 0.2s;
 }
 
 .toggle-pwd:hover {
-  color: #c9cdd4;
+  color: #4e5969;
 }
 
 .field-error {
@@ -1080,7 +1080,7 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #86909c;
+  color: #4e5969;
   cursor: pointer;
   user-select: none;
 }
@@ -1092,7 +1092,7 @@
 .checkbox-custom {
   width: 16px;
   height: 16px;
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border: 1.5px solid #c9cdd4;
   border-radius: 4px;
   position: relative;
   transition: all 0.2s;
@@ -1199,7 +1199,7 @@
 }
 
 .qrcode-tip strong {
-  color: #c9cdd4;
+  color: #1d2129;
 }
 
 .refresh-qr {
@@ -1232,7 +1232,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.06);
+  background: #e5e6eb;
 }
 
 .divider-text {
@@ -1256,15 +1256,15 @@
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #ffffff;
+  border: 1px solid #e5e6eb;
   cursor: pointer;
   transition: all 0.25s;
 }
 
 .social-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: #f7f8fa;
+  border-color: #c9cdd4;
   transform: translateY(-2px);
 }
 
@@ -1275,7 +1275,7 @@
 }
 
 .register-text {
-  color: #86909c;
+  color: #4e5969;
 }
 
 .register-link {

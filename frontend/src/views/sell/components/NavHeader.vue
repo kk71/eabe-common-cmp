@@ -95,14 +95,18 @@
     .nav-topbar {
       height: 39px;
       line-height: 39px;
-      background-color: #333333;
-      color: #b0b0b0;
+      background-color: #ffffff;
+      color: #4e5969;
+      border-bottom: 1px solid #e5e6eb;
       .container {
         @include flex();
         a {
           display: inline-block;
-          color: #b0b0b0;
+          color: #4e5969;
           margin-right: 17px;
+        }
+        a:hover {
+          color: #3370ff;
         }
         .my-cart {
           width: 110px;

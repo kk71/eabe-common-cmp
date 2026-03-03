@@ -7,14 +7,14 @@
 }
 
 :root {
-  --bg-primary: #0a0e1a;
-  --bg-secondary: #111827;
-  --bg-card: #151d2e;
-  --bg-card-hover: #1a2540;
-  --border-color: #1e293b;
-  --border-hover: rgba(51, 112, 255, 0.3);
-  --text-primary: #f0f2f5;
-  --text-secondary: #c9cdd4;
+  --bg-primary: #f7f8fa;
+  --bg-secondary: #f2f3f5;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f7f8fa;
+  --border-color: #e5e6eb;
+  --border-hover: rgba(51, 112, 255, 0.32);
+  --text-primary: #1d2129;
+  --text-secondary: #4e5969;
   --text-muted: #86909c;
   --color-brand: #3370ff;
   --color-brand-hover: #4080ff;
@@ -249,11 +249,11 @@ img {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a3448;
+  background: #c9cdd4;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a4a60;
+  background: #a9aeb8;
 }
 
 /* Glow effects */
@@ -293,10 +293,11 @@ img {
 .tab-item:not(.active) {
   color: var(--text-muted);
   border-color: var(--border-color);
+  background: rgba(255, 255, 255, 0.65);
 }
 .tab-item:not(.active):hover {
   color: var(--text-secondary);
-  border-color: var(--border-color);
+  border-color: var(--border-hover);
 }
 
 .pill-tab {
@@ -312,11 +313,11 @@ img {
   color: #fff;
 }
 .pill-tab:not(.active) {
-  background: var(--bg-card);
+  background: var(--bg-secondary);
   color: var(--text-secondary);
 }
 .pill-tab:not(.active):hover {
-  background: var(--bg-card-hover);
+  background: #ffffff;
 }
 
 .cat-tab {
@@ -336,7 +337,7 @@ img {
 }
 .cat-tab:not(.active):hover {
   color: var(--text-secondary);
-  background: var(--bg-card);
+  background: var(--bg-secondary);
 }
 
 /* Icon box */

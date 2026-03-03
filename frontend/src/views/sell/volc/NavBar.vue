@@ -844,14 +844,14 @@ export default {
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(10, 14, 26, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid rgba(229, 230, 235, 0.6);
   transition: all 0.3s;
 }
 .navbar.scrolled {
-  background: rgba(10, 14, 26, 0.95);
+  background: rgba(255, 255, 255, 0.95);
   border-bottom-color: var(--border-color);
 }
 .nav-container {
@@ -886,7 +886,7 @@ export default {
 .nav-link:hover,
 .nav-link-active {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(51, 112, 255, 0.08);
 }
 .btn-ghost {
   padding: 6px 14px;
@@ -926,9 +926,9 @@ export default {
   top: 64px;
   left: 0;
   right: 0;
-  background: #0d1220;
+  background: #ffffff;
   border-bottom: 1px solid var(--border-color);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
   z-index: 200;
 }
 .mega-inner {
@@ -1107,7 +1107,7 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 99;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.18);
 }
 
 /* ===== Transitions ===== */
@@ -1135,7 +1135,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: rgba(10, 14, 26, 0.98);
+  background: rgba(255, 255, 255, 0.98);
   border-top: 1px solid var(--border-color);
   max-height: calc(100vh - 64px);
   overflow-y: auto;

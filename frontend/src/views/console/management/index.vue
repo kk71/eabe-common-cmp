@@ -383,8 +383,8 @@
 <style lang="less" scoped>
   .management-home {
     min-height: 100vh;
-    background: radial-gradient(circle at top left, #1f2937 0%, #020617 45%, #020617 100%);
-    color: #e5e7eb;
+    background: radial-gradient(circle at top left, #eef2ff 0%, #f7f8fa 50%, #ffffff 100%);
+    color: #1d2129;
     padding-bottom: 40px;
   }
 
@@ -411,7 +411,7 @@
     display: flex;
     gap: 16px;
     font-size: 13px;
-    color: #e5e7eb;
+    color: #4e5969;
   }
 
   .hero-top-menu .menu-item {
@@ -422,7 +422,7 @@
   }
 
   .hero-top-menu .menu-item.active {
-    border-color: #60a5fa;
+    border-color: #3370ff;
     opacity: 1;
   }
 
@@ -446,10 +446,10 @@
     align-items: center;
     padding: 4px 12px;
     border-radius: 999px;
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid rgba(148, 163, 184, 0.6);
+    background: #e8f0ff;
+    border: 1px solid #c6d4ff;
     font-size: 12px;
-    color: #e5e7eb;
+    color: #1d2129;
     margin-bottom: 16px;
   }
 
@@ -458,12 +458,12 @@
     font-weight: 700;
     line-height: 1.2;
     margin: 0 0 12px;
-    color: #f9fafb;
+    color: #1d2129;
   }
 
   .hero-subtitle {
     font-size: 14px;
-    color: #cbd5f5;
+    color: #4e5969;
     max-width: 560px;
     margin-bottom: 24px;
   }
@@ -480,13 +480,13 @@
     flex-wrap: wrap;
     gap: 12px;
     font-size: 12px;
-    color: #9ca3af;
+    color: #4e5969;
 
     span {
       padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #e5e6eb;
     }
   }
 
@@ -499,8 +499,8 @@
   }
 
   .hero-card {
-    background: rgba(15, 23, 42, 0.9);
-    border: 1px solid rgba(55, 65, 81, 0.9);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #e5e6eb;
 
     :deep(.el-card__body) {
       padding: 16px 18px;
@@ -509,7 +509,7 @@
 
   .hero-card-main .hero-card-header {
     font-size: 13px;
-    color: #9ca3af;
+    color: #86909c;
     margin-bottom: 8px;
   }
 
@@ -521,13 +521,13 @@
 
     .label {
       font-size: 12px;
-      color: #9ca3af;
+      color: #86909c;
     }
 
     .value {
       font-size: 18px;
       font-weight: 600;
-      color: #f9fafb;
+      color: #1d2129;
     }
   }
 
@@ -536,7 +536,7 @@
     align-items: center;
     gap: 8px;
     font-size: 12px;
-    color: #e5e7eb;
+    color: #1d2129;
     margin-bottom: 6px;
   }
 
@@ -568,13 +568,13 @@
       margin: 0 0 4px;
       font-size: 20px;
       font-weight: 600;
-      color: #f9fafb;
+      color: #1d2129;
     }
 
     p {
       margin: 0;
       font-size: 13px;
-      color: #9ca3af;
+      color: #4e5969;
     }
   }
 
@@ -755,10 +755,4 @@
     }
   }
 
-  // 暗色模式适配
-  html.dark {
-    .management-home {
-      background: radial-gradient(circle at top left, #020617 0%, #020617 40%, #000000 100%);
-    }
-  }
 </style>

@@ -68,16 +68,12 @@
   };
 
   const refreshColorMode = (theme: string) => {
-    if (theme == 'dark') {
-      document.body.style.setProperty('--el-menu-bg-color', 'black');
-      document.body.style.setProperty('--el-menu-text-color', 'white');
-      document.body.style.setProperty('--el-menu-active-color', 'white');
-      document.body.style.setProperty('--el-menu-hover-bg-color', '#4c4c4c');
-    } else if (theme == 'light') {
-      document.body.style.setProperty('--el-menu-bg-color', '#fef9ef');
-      document.body.style.setProperty('--el-menu-text-color', 'gray');
-      document.body.style.setProperty('--el-menu-active-color', 'black');
-      document.body.style.setProperty('--el-menu-hover-bg-color', 'orange');
+    // 统一使用浅色、简洁专业的菜单配色
+    if (theme == 'dark' || theme == 'light') {
+      document.body.style.setProperty('--el-menu-bg-color', '#ffffff');
+      document.body.style.setProperty('--el-menu-text-color', '#4e5969');
+      document.body.style.setProperty('--el-menu-active-color', '#3370ff');
+      document.body.style.setProperty('--el-menu-hover-bg-color', 'rgba(51, 112, 255, 0.08)');
     }
   };
 

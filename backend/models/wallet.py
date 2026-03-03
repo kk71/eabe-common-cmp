@@ -6,6 +6,7 @@ __all__ = [
 
 import uuid
 
+from decimal import Decimal
 from tortoise.fields import CharField, DecimalField, TextField
 
 from backend.core.status_machine import *
@@ -29,9 +30,9 @@ class WalletAccount(SoftDeletionModelMixin, BaseTModel):
     """预充值钱包账户（按客户维度）"""
     customer_code = CharField(max_length=64, unique=True, description="客户编码")
     customer_name = CharField(max_length=64, null=True, description="客户名称")
-    balance = DecimalField(max_digits=16, decimal_places=2, default=0.00, description="可用余额")
-    frozen_balance = DecimalField(max_digits=16, decimal_places=2, default=0.00, description="冻结余额")
-    total_recharge = DecimalField(max_digits=16, decimal_places=2, default=0.00, description="累计充值金额")
+    balance = DecimalField(max_digits=16, decimal_places=2, default=Decimal("0.00"), description="可用余额")
+    frozen_balance = DecimalField(max_digits=16, decimal_places=2, default=Decimal("0.00"), description="冻结余额")
+    total_recharge = DecimalField(max_digits=16, decimal_places=2, default=Decimal("0.00"), description="累计充值金额")
     currency = CharField(max_length=16, default="CNY", description="币种")
 
     Meta = build_soft_deletion_meta(

@@ -9,9 +9,9 @@ export const useAppStore = defineStore('app', {
     // 是否处于正式环境
     prod_env: false,
     // 总后台主题
-    console_theme: '',
+    console_theme: 'light',
     // 客户后台主题
-    sell_theme: '',
+    sell_theme: 'light',
     // 系统的全部权限信息
     privileges: [],
     // 当前登录所得token
@@ -40,24 +40,16 @@ export const useAppStore = defineStore('app', {
   },
 
   actions: {
-    toggleConsoleTheme(dark) {
-      if (dark) {
-        this.console_theme = 'dark';
-        document.documentElement.classList.add('dark');
-      } else {
-        this.console_theme = 'light';
-        document.documentElement.classList.remove('dark');
-      }
+    toggleConsoleTheme() {
+      this.console_theme = 'light';
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
     },
 
-    toggleSellTheme(dark) {
-      if (dark) {
-        this.sell_theme = 'dark';
-        document.documentElement.classList.add('dark');
-      } else {
-        this.sell_theme = 'light';
-        document.documentElement.classList.remove('dark');
-      }
+    toggleSellTheme() {
+      this.sell_theme = 'light';
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
     },
 
     async fetchConf() {
@@ -103,6 +95,6 @@ export const useAppStore = defineStore('app', {
 
   persist: {
     storage: localStorage,
-    pick: ['theme', 'token'],
+    pick: ['console_theme', 'sell_theme', 'token'],
   },
 });

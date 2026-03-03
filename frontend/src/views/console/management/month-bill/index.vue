@@ -242,7 +242,7 @@
 <style scoped>
   .bill-page {
     min-height: 100vh;
-    background: radial-gradient(circle at top left, #1f2937 0%, #020617 45%, #020617 100%);
+    background: radial-gradient(circle at top left, #eef2ff 0%, #f7f8fa 50%, #ffffff 100%);
     padding: 24px 32px 40px;
     box-sizing: border-box;
   }
@@ -270,7 +270,8 @@
     flex-wrap: wrap;
     gap: 24px;
     padding: 24px 28px;
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #e5e6eb;
   }
 
   .bill-hero-text {
@@ -281,9 +282,10 @@
     display: inline-flex;
     padding: 4px 12px;
     border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.7);
+    border: 1px solid #c6d4ff;
     font-size: 12px;
-    color: #e5e7eb;
+    color: #1d2129;
+    background: #e8f0ff;
     margin-bottom: 8px;
   }
 
@@ -291,13 +293,13 @@
     margin: 0 0 8px;
     font-size: 24px;
     font-weight: 600;
-    color: #f9fafb;
+    color: #1d2129;
   }
 
   .bill-hero-subtitle {
     margin: 0;
     font-size: 13px;
-    color: #cbd5f5;
+    color: #4e5969;
     max-width: 520px;
   }
 
@@ -307,8 +309,8 @@
   }
 
   .bill-hero-card {
-    background: rgba(15, 23, 42, 0.95);
-    border: 1px solid rgba(55, 65, 81, 0.9);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #e5e6eb;
 
     :deep(.el-card__body) {
       padding: 14px 16px;
@@ -317,13 +319,13 @@
 
   .bill-hero-card-title {
     font-size: 13px;
-    color: #e5e7eb;
+    color: #1d2129;
     margin-bottom: 8px;
   }
 
   .bill-hero-form {
     :deep(.el-form-item__label) {
-      color: #9ca3af;
+      color: #4e5969;
       font-size: 12px;
     }
   }
@@ -346,29 +348,29 @@
       margin: 0 0 4px;
       font-size: 18px;
       font-weight: 600;
-      color: #f9fafb;
+      color: #1d2129;
     }
 
     p {
       margin: 0;
       font-size: 13px;
-      color: #9ca3af;
+      color: #4e5969;
     }
   }
 
   .bill-table {
-    background: #020617;
+    background: #ffffff;
 
     :deep(.el-table__header-wrapper th) {
-      background: #020617;
-      color: #e5e7eb;
-      border-bottom-color: #1f2937;
+      background: #f7f8fa;
+      color: #4e5969;
+      border-bottom-color: #e5e6eb;
     }
 
     :deep(.el-table__row) td {
-      background: #020617;
-      border-bottom-color: #111827;
-      color: #e5e7eb;
+      background: #ffffff;
+      border-bottom-color: #f2f3f5;
+      color: #1d2129;
     }
   }
 
