@@ -2,3 +2,9 @@
 tortoise_orm = "backend.models.CONFIG"
 location = "./migrations"
 src_folder = "./."
+
+
+[tool.tortoise]
+tortoise_orm = "backend.models.CONFIG"
+location = "./migrations"
+src_folder = "./."

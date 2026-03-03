@@ -3,7 +3,6 @@ pydantic-settings
 tortoise-orm[asyncmy]
 tortoise-orm[accel]
 asyncmy
-aerich[toml]
 celery
 chardet
 arrow

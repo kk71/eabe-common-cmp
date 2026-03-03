@@ -13,6 +13,10 @@ from .base import *
 from .product import *
 
 
+def generate_order_id() -> str:
+    return uuid.uuid4().hex
+
+
 class OrderOrigin(StatusMachine):
     """订单区域"""
     EXPORT_FLAG = "order-origin"
@@ -30,7 +34,7 @@ class OrderStatus(StatusMachine):
 
 class Order(SoftDeletionModelMixin, BaseTModel):
     """订单"""
-    order_id = CharField(max_length=64, default=lambda: uuid.uuid4().hex, editable=False, description="订单编号")
+    order_id = CharField(max_length=64, default=generate_order_id, editable=False, description="订单编号")
     batch_code = CharField(max_length=64, null=True, description="批次")
     product_name = TextField(null=True, description="产品名")
     resource_code = TextField(null=True, description="资源编号")

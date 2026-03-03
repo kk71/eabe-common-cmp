@@ -86,7 +86,7 @@ async def _(
     )
 
 
-@router.get(tags=[APITags.console], summary="查月账单汇总（按月一张账单）", path="/console/bill/month/summary")
+@router.get("/summary", tags=[APITags.console], summary="查月账单汇总（按月一张账单）")
 async def month_bill_summary(
         header: Annotated[HeaderToken, Header()],
         query: build_query({

@@ -9,9 +9,13 @@ from tortoise.fields import TextField, CharField, BooleanField
 from .base import *
 
 
+def generate_user_id() -> str:
+    return uuid.uuid4().hex
+
+
 class User(SoftDeletionModelMixin, BaseTModel):
     """用户"""
-    id = CharField(primary_key=True, default=lambda: uuid.uuid4().hex, max_length=64, description="用户唯一id")
+    id = CharField(primary_key=True, default=generate_user_id, max_length=64, description="用户唯一id")
     name = CharField(max_length=32)
     avatar = TextField(null=True)
     email = TextField(null=True, description="邮箱")

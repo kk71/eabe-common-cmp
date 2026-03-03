@@ -12,6 +12,10 @@ from backend.core.status_machine import *
 from .base import *
 
 
+def generate_tx_id() -> str:
+    return uuid.uuid4().hex
+
+
 class WalletTransactionType(StatusMachine):
     """钱包流水类型"""
     EXPORT_FLAG = "wallet-transaction-type"
@@ -39,7 +43,7 @@ class WalletAccount(SoftDeletionModelMixin, BaseTModel):
 
 class WalletTransaction(SoftDeletionModelMixin, BaseTModel):
     """钱包账户流水"""
-    tx_id = CharField(max_length=64, default=lambda: uuid.uuid4().hex, description="流水编号")
+    tx_id = CharField(max_length=64, default=generate_tx_id, description="流水编号")
     wallet = EasyForeignKeyField("models.WalletAccount", related_name="transactions", description="关联钱包账户")
     tx_type = WalletTransactionType.build_char_enum_field(max_length=64)
     change_amount = DecimalField(max_digits=16, decimal_places=2, description="变动金额，正为入账，负为出账")

@@ -17,7 +17,7 @@ CONFIG = {
     },
     "apps": {
         'models': {
-            'models': ["aerich.models", "backend.models"],
+            'models': ["backend.models"],
             "default_connection": "default",
         },
     },
