@@ -19,6 +19,7 @@ CONFIG = {
         'models': {
             'models': ["backend.models"],
             "default_connection": "default",
+            "migrations": "migrations.models"
         },
     },
     "use_tz": False,
