@@ -34,7 +34,7 @@
             style="
               font-size: 15px;
               font-weight: 600;
-              color: var(--text-primary);
+              color: #111827;
             "
           >
             羿贝综合云服务平台
@@ -49,7 +49,7 @@
           <span class="divider">|</span>
           <span>京ICP备xxxxxxxx号-x</span>
         </div>
-        <p style="font-size: 12px; color: var(--text-muted)">
+        <p style="font-size: 12px; color: #9ca3af">
           Copyright © 2024 羿贝综合云服务平台. All rights reserved.
         </p>
       </div>
@@ -126,8 +126,9 @@ export default {
 
 <style scoped>
 .footer {
-  border-top: 1px solid var(--border-color);
-  background: rgba(17, 24, 39, 0.5);
+  border-top: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #f1f5f9 0%, #f9fafb 40%, #ffffff 100%);
+  color: #111827;
 }
 .footer-grid {
   display: grid;
@@ -138,8 +139,10 @@ export default {
 .footer-col-title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #111827;
   margin-bottom: 20px;
+  border-left: 3px solid #2563eb;
+  padding-left: 8px;
 }
 .footer-col ul {
   display: flex;
@@ -148,11 +151,11 @@ export default {
 }
 .footer-link {
   font-size: 14px;
-  color: var(--text-muted);
-  transition: color 0.2s;
+  color: #4b5563;
+  transition: color 0.16s ease;
 }
 .footer-link:hover {
-  color: var(--text-primary);
+  color: #2563eb;
 }
 .footer-bottom {
   border-top: 1px solid var(--border-color);
@@ -169,16 +172,16 @@ export default {
   align-items: center;
   gap: 16px;
   font-size: 12px;
-  color: var(--text-muted);
+  color: #6b7280;
 }
 .footer-legal a {
-  transition: color 0.2s;
+  transition: color 0.16s ease;
 }
 .footer-legal a:hover {
-  color: var(--text-primary);
+  color: #2563eb;
 }
 .divider {
-  color: var(--border-color);
+  color: #d1d5db;
 }
 
 @media (max-width: 1024px) {
