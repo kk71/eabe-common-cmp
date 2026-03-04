@@ -335,6 +335,206 @@ export default {
       <circle cx="6.5" cy="12.5" r="0.5" fill="currentColor" />
       <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" />
     </template>
+
+    <!-- AI Analysis -->
+    <template v-if="name === 'ai-analysis'">
+      <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8 12l2-2l2 2l2-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="18" cy="12" r="2" fill="currentColor"/>
+    </template>
+
+    <!-- AI Video -->
+    <template v-if="name === 'ai-video'">
+      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+      <path d="M10 8l4 2.5L10 13V8z" fill="currentColor"/>
+      <circle cx="17" cy="8" r="1" fill="currentColor"/>
+    </template>
+
+    <!-- AI Assistant -->
+    <template v-if="name === 'ai-assistant'">
+      <rect x="7" y="4" width="10" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="8" r="2" fill="currentColor"/>
+      <path d="M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M10 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </template>
+
+    <!-- AI Design -->
+    <template v-if="name === 'ai-design'">
+      <path d="M3 17h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8 17l-2-5l6-3l6 3l-2 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 4v13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </template>
+
+    <!-- AI Extract -->
+    <template v-if="name === 'ai-extract'">
+      <rect x="5" y="5" width="14" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+      <path d="M8 8l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16 8l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </template>
+
+    <!-- Stream -->
+    <template v-if="name === 'stream'">
+      <path d="M3 18l4-4l4 4l4-4l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3 12l4-4l4 4l4-4l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </template>
+
+    <!-- SMS -->
+    <template v-if="name === 'sms'">
+      <rect x="5" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+      <path d="M9 7h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M9 11h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M9 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M18 15l3-3l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </template>
+
+    <!-- ECS -->
+    <template v-if="name === 'ecs'">
+      <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+      <rect x="6" y="6" width="12" height="4" rx="1" stroke="currentColor" stroke-width="2"/>
+      <rect x="6" y="14" width="12" height="4" rx="1" stroke="currentColor" stroke-width="2"/>
+      <circle cx="8" cy="10" r="1" fill="currentColor"/>
+      <circle cx="12" cy="10" r="1" fill="currentColor"/>
+      <circle cx="16" cy="10" r="1" fill="currentColor"/>
+    </template>
+
+    <!-- GPU -->
+    <template v-if="name === 'gpu'">
+      <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+      <path d="M8 8h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8 16h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </template>
+
+    <!-- Bare Metal -->
+    <template v-if="name === 'bare-metal'">
+      <rect x="5" y="5" width="14" height="14" rx="1" stroke="currentColor" stroke-width="2"/>
+      <rect x="7" y="7" width="10" height="3" rx="0.5" fill="currentColor"/>
+      <rect x="7" y="11" width="10" height="3" rx="0.5" fill="currentColor"/>
+      <rect x="7" y="15" width="10" height="3" rx="0.5" fill="currentColor"/>
+    </template>
+
+    <!-- Cloud PC -->
+    <template v-if="name === 'cloud-pc'">
+      <rect x="3" y="5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+      <circle cx="8" cy="8" r="1" fill="currentColor"/>
+      <circle cx="12" cy="8" r="1" fill="currentColor"/>
+      <circle cx="16" cy="8" r="1" fill="currentColor"/>
+      <path d="M6 19l6-3l6 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </template>
+
+    <!-- Benefit Trial -->
+    <template v-if="name === 'benefit-trial'">
+      <rect x="5" y="7" width="14" height="10" rx="1" stroke="currentColor" stroke-width="2"/>
+      <path d="M12 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M9 10h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="13" r="2" fill="currentColor"/>
+    </template>
+
+    <!-- Benefit Price -->
+    <template v-if="name === 'benefit-price'">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+      <path d="M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M9 9l3 3l3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </template>
+
+    <!-- Benefit Combo -->
+    <template v-if="name === 'benefit-combo'">
+      <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+      <path d="M8 10h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    </template>
+
+    <!-- Benefit AI -->
+    <template v-if="name === 'benefit-ai'">
+      <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="12" r="3" fill="currentColor"/>
+      <path d="M12 7l3 3l-3 3l-3-3l3-3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </template>
+
+    <!-- Feature Advanced -->
+    <template v-if="name === 'feature-advanced'">
+      <path d="M12 2v6l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 22v-6l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2 12h6l3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22 12h-6l-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </template>
+
+    <!-- Feature Stable -->
+    <template v-if="name === 'feature-stable'">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2"/>
+      <path d="M9 12l2 2l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </template>
+
+    <!-- Feature Secure -->
+    <template v-if="name === 'feature-secure'">
+      <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+      <rect x="5" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+      <path d="M12 11V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8 15l4 4l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </template>
+
+    <!-- Feature Service -->
+    <template v-if="name === 'feature-service'">
+      <path d="M12 2v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M6 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M6 14h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="6" r="2" fill="currentColor"/>
+      <circle cx="12" cy="18" r="2" fill="currentColor"/>
+    </template>
+
+    <!-- Setting -->
+    <template v-if="name === 'setting'">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="12" r="3" fill="currentColor"/>
+      <path d="M12 6v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 16v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M6 12h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16 12h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M19.07 19.07l1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M3.51 3.51l1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M19.07 4.93l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M3.51 20.49l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </template>
+
+    <!-- 7Day -->
+    <template v-if="name === '7day'">
+      <rect x="5" y="5" width="14" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="9" r="1" fill="currentColor"/>
+      <circle cx="9" cy="12" r="1" fill="currentColor"/>
+      <circle cx="12" cy="12" r="1" fill="currentColor"/>
+      <circle cx="15" cy="12" r="1" fill="currentColor"/>
+      <circle cx="9" cy="15" r="1" fill="currentColor"/>
+      <circle cx="12" cy="15" r="1" fill="currentColor"/>
+      <circle cx="15" cy="15" r="1" fill="currentColor"/>
+    </template>
+
+    <!-- 15Day -->
+    <template v-if="name === '15day'">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="12" r="3" fill="currentColor"/>
+      <path d="M12 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 20v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M2 12h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M20 12h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16.5 7.5l1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M6.5 17.5l1.41 1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16.5 16.5l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M6.5 6.5l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </template>
+
+    <!-- Post -->
+    <template v-if="name === 'post'">
+      <rect x="5" y="5" width="14" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+      <path d="M7 9h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M7 12h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M7 15h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 5v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </template>
   </svg>
 </template>
 

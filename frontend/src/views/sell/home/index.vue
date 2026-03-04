@@ -444,7 +444,7 @@
         <div class="solutions-grid">
           <div class="solution-card" v-for="solution in data.aiSolutions" :key="solution.id">
             <div class="solution-icon">
-              <i :class="solution.icon"></i>
+              <SvgIcon :name="solution.icon" :size="24" />
             </div>
             <h3>{{ solution.title }}</h3>
             <p class="solution-desc">{{ solution.description }}</p>
@@ -475,7 +475,7 @@
         <div class="product-showcase">
           <div class="product-item" v-for="product in currentProducts" :key="product.id">
             <div class="product-icon">
-              <i :class="product.icon"></i>
+              <SvgIcon :name="product.icon" :size="28" />
             </div>
             <h4>{{ product.name }}</h4>
             <p>{{ product.description }}</p>
@@ -492,7 +492,7 @@
         <div class="advantages-grid">
           <div class="advantage-card" v-for="advantage in data.advantages" :key="advantage.id">
             <div class="advantage-icon">
-              <i :class="advantage.icon"></i>
+              <SvgIcon :name="advantage.icon" :size="32" />
             </div>
             <h3>{{ advantage.title }}</h3>
             <p class="advantage-highlight">{{ advantage.highlight }}</p>
@@ -522,7 +522,7 @@
         <div class="features-grid">
           <div class="feature-card" v-for="feature in data.whyChooseUs" :key="feature.id">
             <div class="feature-icon">
-              <i :class="feature.icon"></i>
+              <SvgIcon :name="feature.icon" :size="28" />
             </div>
             <h3>{{ feature.title }}</h3>
             <p>{{ feature.description }}</p>
@@ -557,6 +557,7 @@
 
   import ServiceBar from '../components/ServiceBar.vue';
   import Modal from '../components/Modal.vue';
+  import SvgIcon from '../volc/SvgIcons.vue';
 
   const router = useRouter();
 
@@ -569,35 +570,35 @@
     aiSolutions: [
       {
         id: 1,
-        icon: 'icon-ai-analysis',
+        icon: 'ai-analysis',
         title: '智能数据分析',
         description: '实现一键 AI 数据洞察，提供数据查询、数据解读、报告生成等核心能力',
         tags: ['数据洞察', 'AI 看板', '智能推送'],
       },
       {
         id: 2,
-        icon: 'icon-ai-video',
+        icon: 'ai-video',
         title: '智能视频服务',
         description: '零代码接入 AI 视频助手，实时拟人对话，支持多模态场景理解',
         tags: ['视频通话', '情绪识别', '低延时'],
       },
       {
         id: 3,
-        icon: 'icon-ai-assistant',
+        icon: 'ai-assistant',
         title: 'AI 智能助手',
         description: '10分钟即可构建 AI 助手，部署到网站、移动端，全天候提升用户体验',
         tags: ['0代码', '知识问答', '快速部署'],
       },
       {
         id: 4,
-        icon: 'icon-ai-design',
+        icon: 'ai-design',
         title: 'AI 创意设计',
         description: '无需编程，一键生成企业专属 Logo、海报等，节省时间成本',
         tags: ['智能生成', '定制化', '高效率'],
       },
       {
         id: 5,
-        icon: 'icon-ai-extract',
+        icon: 'ai-extract',
         title: '多模态信息提取',
         description: '一键解析文本、图片、视频数据，精准抽取关键信息',
         tags: ['批量处理', '开箱即用', '安全高效'],
@@ -613,7 +614,7 @@
       basic: [
         {
           id: 1,
-          icon: 'icon-stream',
+          icon: 'stream',
           name: '流量服务',
           description: '手机流量充值服务，支持多种套餐选择',
           link: '/sell/home/product/stream',
@@ -621,7 +622,7 @@
         },
         {
           id: 2,
-          icon: 'icon-sms',
+          icon: 'sms',
           name: '短信服务',
           description: '稳定可靠的短信发送服务，支持验证码、通知等场景',
           link: '/sell/home/product/sms',
@@ -631,7 +632,7 @@
       compute: [
         {
           id: 1,
-          icon: 'icon-ecs',
+          icon: 'ecs',
           name: '云服务器 ECS',
           description: '安全可靠、弹性可伸缩的云计算服务',
           link: '/sell/home/product/ecs',
@@ -639,7 +640,7 @@
         },
         {
           id: 2,
-          icon: 'icon-gpu',
+          icon: 'gpu',
           name: 'GPU 云服务器',
           description: '基于先进架构的弹性 GPU 算力服务',
           link: '/sell/home/product/gpu',
@@ -647,7 +648,7 @@
         },
         {
           id: 3,
-          icon: 'icon-bare-metal',
+          icon: 'bare-metal',
           name: '裸金属服务器',
           description: '可弹性伸缩的高性能计算服务，安全物理隔离',
           link: '/sell/home/product/bare-metal',
@@ -655,7 +656,7 @@
         },
         {
           id: 4,
-          icon: 'icon-cloud-pc',
+          icon: 'cloud-pc',
           name: '云电脑',
           description: '云端一体、安全高效的一站式云上办公空间',
           link: '/sell/home/product/cloud-computer',
@@ -667,28 +668,28 @@
     advantages: [
       {
         id: 1,
-        icon: 'icon-benefit-trial',
+        icon: 'benefit-trial',
         title: '免费试用',
         highlight: '140+ 云产品免费试用',
         description: '产品新用户可领取，最长试用 12 个月',
       },
       {
         id: 2,
-        icon: 'icon-benefit-price',
+        icon: 'benefit-price',
         title: '长效低价',
         highlight: '超值建站解决方案',
         description: '组合购买，聚划算更省心',
       },
       {
         id: 3,
-        icon: 'icon-benefit-combo',
+        icon: 'benefit-combo',
         title: '组合优惠',
         highlight: '覆盖 90%+ 业务场景',
         description: '专享组合折扣价',
       },
       {
         id: 4,
-        icon: 'icon-benefit-ai',
+        icon: 'benefit-ai',
         title: '智能服务',
         highlight: '加速 AI 应用落地',
         description: '开发生态完善，快速部署',
@@ -705,28 +706,28 @@
     whyChooseUs: [
       {
         id: 1,
-        icon: 'icon-feature-advanced',
+        icon: 'feature-advanced',
         title: '技术先进',
         description:
           '自主研发的云计算操作系统，编排调度百万级服务器，单集群调度规模超十万台，具备 EB 级数据存储能力，提供业界先进的计算性能。',
       },
       {
         id: 2,
-        icon: 'icon-feature-stable',
+        icon: 'feature-stable',
         title: '稳定可靠',
         description:
           '为全球多个地域的客户提供稳定可信赖的产品技术。弹性计算单实例可用性 SLA 高达 99.975%，数据存储设计可靠性高达 12 个 9。',
       },
       {
         id: 3,
-        icon: 'icon-feature-secure',
+        icon: 'feature-secure',
         title: '安全合规',
         description:
           '从基础设施安全、内核平台安全、系统服务安全、云安全产品四个层面，保障千行百业客户的业务安全在线，拥有权威认可的原生安全能力。',
       },
       {
         id: 4,
-        icon: 'icon-feature-service',
+        icon: 'feature-service',
         title: '专属服务',
         description:
           '7x24 小时为您提供专业服务，多种查询、诊断等服务工具，1v1 极速响应、专属保障的贴身服务，上云全周期的技术咨询与实施服务。',
