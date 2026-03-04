@@ -56,10 +56,13 @@
                 width: '36px',
                 height: '36px',
                 borderRadius: '10px',
-                background: product.bgColor
+                background: product.bgColor,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }"
             >
-              <SvgIcon :name="product.icon" :size="18" :color="product.color" />
+              <img :src="product.icon" alt="" style="width: 18px; height: 18px" />
             </div>
             <div class="flex items-center gap-2 min-w-0">
               <h4 class="product-name truncate">
@@ -99,6 +102,16 @@
 
 <script>
 import SvgIcon from './SvgIcons.vue'
+import IconGpu from '@/assets/icons/svg/icon-gpu.svg'
+import IconEcs from '@/assets/icons/svg/icon-ecs.svg'
+import IconBareMetal from '@/assets/icons/svg/icon-bare-metal.svg'
+import IconCloudPc from '@/assets/icons/svg/icon-cloud-pc.svg'
+import IconStream from '@/assets/icons/svg/icon-stream.svg'
+import IconPost from '@/assets/icons/svg/icon-post.svg'
+import Icon7Day from '@/assets/icons/svg/icon-7day.svg'
+import Icon15Day from '@/assets/icons/svg/icon-15day.svg'
+import IconBenefitAi from '@/assets/icons/svg/icon-benefit-ai.svg'
+import IconFeatureSecure from '@/assets/icons/svg/icon-feature-secure.svg'
 
 export default {
   name: 'CloudProductsSection',
@@ -120,7 +133,7 @@ export default {
       ],
       products: [
         {
-          icon: 'server',
+          icon: IconGpu,
           name: 'GPU云服务器',
           tag: 'HOT',
           description: '高并行、高精度计算的GPU算力',
@@ -128,7 +141,7 @@ export default {
           bgColor: 'rgba(51,112,255,0.1)'
         },
         {
-          icon: 'container',
+          icon: IconEcs,
           name: '容器服务',
           tag: 'HOT',
           description: '高性能Kubernetes容器集群管理',
@@ -136,7 +149,7 @@ export default {
           bgColor: 'rgba(20,201,201,0.1)'
         },
         {
-          icon: 'zap',
+          icon: IconBareMetal,
           name: '函数服务',
           tag: '',
           description: '无服务器函数托管计算平台',
@@ -144,7 +157,7 @@ export default {
           bgColor: 'rgba(247,186,30,0.1)'
         },
         {
-          icon: 'globe',
+          icon: IconCloudPc,
           name: '公网IP',
           tag: 'HOT',
           description: '弹性、灵活、安全可靠的公网服务',
@@ -152,7 +165,7 @@ export default {
           bgColor: 'rgba(51,112,255,0.1)'
         },
         {
-          icon: 'search',
+          icon: IconStream,
           name: '云搜索服务',
           tag: 'HOT',
           description: '全托管AI信息检索和分析平台',
@@ -160,7 +173,7 @@ export default {
           bgColor: 'rgba(20,201,201,0.1)'
         },
         {
-          icon: 'hard-drive',
+          icon: IconPost,
           name: '对象存储',
           tag: '',
           description: '10EB级数据规模，高可用的对象存储服务',
@@ -168,7 +181,7 @@ export default {
           bgColor: 'rgba(159,219,29,0.1)'
         },
         {
-          icon: 'database',
+          icon: Icon7Day,
           name: '云数据库 MySQL 版',
           tag: 'HOT',
           description: '即开即用稳定可靠的弹性MySQL服务',
@@ -176,7 +189,7 @@ export default {
           bgColor: 'rgba(247,186,30,0.1)'
         },
         {
-          icon: 'memory-stick',
+          icon: Icon15Day,
           name: '缓存数据库 Redis 版',
           tag: '',
           description: '兼具缓存的高性能与存储的持久化',
@@ -184,7 +197,7 @@ export default {
           bgColor: 'rgba(245,63,63,0.1)'
         },
         {
-          icon: 'brain',
+          icon: IconBenefitAi,
           name: 'AI数据湖服务',
           tag: '',
           description: '大模型时代 AI 数据基建',
@@ -192,7 +205,7 @@ export default {
           bgColor: 'rgba(51,112,255,0.1)'
         },
         {
-          icon: 'shield',
+          icon: IconFeatureSecure,
           name: '大模型应用防火墙',
           tag: 'NEW',
           description: '针对大语言模型推理服务的安全防护产品',

@@ -1,6 +1,6 @@
 <template>
   <svg aria-hidden="true" class="svg-icon-spin" :class="calsses">
-    <use :xlink:href="symbolId" :fill="color" />
+    <use :xlink:href="symbolId" />
   </svg>
 </template>
 
@@ -35,7 +35,6 @@
   .svg-icon-spin {
     width: v-bind('fontSize.default');
     height: v-bind('fontSize.default');
-    fill: v-bind(color);
     vertical-align: middle;
     color: v-bind(color);
 

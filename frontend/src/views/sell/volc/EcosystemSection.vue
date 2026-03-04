@@ -33,10 +33,17 @@
                 width: 48px;
                 height: 48px;
                 border-radius: 12px;
-                background: rgba(51, 112, 255, 0.1);
+                background: rgba(51, 112, 255, 0.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
               "
             >
-              <SvgIcon name="code" :size="24" color="var(--color-brand)" />
+              <img
+                :src="ecosystemIcons.devCommunity"
+                alt=""
+                style="width: 24px; height: 24px"
+              />
             </div>
             <div>
               <h3
@@ -73,10 +80,17 @@
                 width: 48px;
                 height: 48px;
                 border-radius: 12px;
-                background: rgba(20, 201, 201, 0.1);
+                background: rgba(20, 201, 201, 0.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
               "
             >
-              <SvgIcon name="users" :size="24" color="var(--color-accent)" />
+              <img
+                :src="ecosystemIcons.ecosystemPartner"
+                alt=""
+                style="width: 24px; height: 24px"
+              />
             </div>
             <div>
               <h3
@@ -123,13 +137,16 @@
                 width: 48px;
                 height: 48px;
                 border-radius: 12px;
-                background: rgba(51, 112, 255, 0.1);
+                background: rgba(51, 112, 255, 0.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
               "
             >
-              <SvgIcon
-                name="shield-check"
-                :size="24"
-                color="var(--color-brand)"
+              <img
+                :src="ecosystemIcons.securityGuard"
+                alt=""
+                style="width: 24px; height: 24px"
               />
             </div>
             <div class="flex-1">
@@ -156,13 +173,16 @@
                 width: 48px;
                 height: 48px;
                 border-radius: 12px;
-                background: rgba(20, 201, 201, 0.1);
+                background: rgba(20, 201, 201, 0.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
               "
             >
-              <SvgIcon
-                name="file-check"
-                :size="24"
-                color="var(--color-accent)"
+              <img
+                :src="ecosystemIcons.analystReport"
+                alt=""
+                style="width: 24px; height: 24px"
               />
             </div>
             <div class="flex-1">
@@ -207,15 +227,31 @@
                 width: 40px;
                 height: 40px;
                 border-radius: 10px;
-                background: rgba(51, 112, 255, 0.05);
+                background: linear-gradient(
+                  135deg,
+                  var(--color-brand),
+                  var(--color-brand-hover)
+                );
                 margin: 0 auto 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 6px 16px rgba(51, 112, 255, 0.18);
               "
             >
-              <SvgIcon
-                name="award"
-                :size="20"
-                color="rgba(51,112,255,0.6)"
-              />
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="12" cy="8" r="6" fill="#ffffff" />
+                <path
+                  d="M15.5 12.9L17 22L12 19L7 22L8.5 12.9"
+                  fill="#ffffff"
+                />
+              </svg>
             </div>
             <p
               style="
@@ -245,12 +281,22 @@
 
 <script>
 import SvgIcon from './SvgIcons.vue'
+import IconAiAnalysis from '@/assets/icons/svg/icon-ai-analysis.svg'
+import IconAiAssistant from '@/assets/icons/svg/icon-ai-assistant.svg'
+import IconFeatureSecure from '@/assets/icons/svg/icon-feature-secure.svg'
+import IconPost from '@/assets/icons/svg/icon-post.svg'
 
 export default {
   name: 'EcosystemSection',
   components: { SvgIcon },
   data() {
     return {
+      ecosystemIcons: {
+        devCommunity: IconAiAnalysis,
+        ecosystemPartner: IconAiAssistant,
+        securityGuard: IconFeatureSecure,
+        analystReport: IconPost
+      },
       certifications: [
         { name: 'ISO 27001', description: '信息安全管理体系认证' },
         { name: 'ISO 27017', description: '云服务信息安全管理体系认证' },

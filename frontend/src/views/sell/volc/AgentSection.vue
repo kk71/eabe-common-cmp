@@ -34,7 +34,7 @@
 
       <!-- Platform Content -->
       <div class="card platform-content" style="margin-bottom: 32px">
-        <div class="platform-grid">
+          <div class="platform-grid">
           <div class="flex-1">
             <div class="flex items-center gap-3" style="margin-bottom: 8px">
               <h3
@@ -84,6 +84,9 @@
                   height: '64px',
                   borderRadius: '16px',
                   margin: '0 auto 16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   background:
                     currentPlatform.id === 'ark'
                       ? 'rgba(51,112,255,0.1)'
@@ -92,13 +95,18 @@
                       : 'rgba(247,186,30,0.1)'
                 }"
               >
+                <img
+                  v-if="currentPlatform.id === 'ark'"
+                  :src="arkIcon"
+                  alt=""
+                  style="width: 32px; height: 32px"
+                />
                 <SvgIcon
+                  v-else
                   name="layers"
                   :size="32"
                   :color="
-                    currentPlatform.id === 'ark'
-                      ? 'var(--color-brand)'
-                      : currentPlatform.id === 'coze'
+                    currentPlatform.id === 'coze'
                       ? 'var(--color-accent)'
                       : 'var(--color-yellow)'
                   "
@@ -145,7 +153,7 @@
               background: agent.bgColor
             }"
           >
-            <SvgIcon :name="agent.icon" :size="20" :color="agent.color" />
+            <img :src="agent.icon" alt="" style="width: 20px; height: 20px" />
           </div>
           <h4
             style="
@@ -186,6 +194,12 @@
 
 <script>
 import SvgIcon from './SvgIcons.vue'
+import IconAiAssistant from '@/assets/icons/svg/icon-ai-assistant.svg'
+import IconAiAnalysis from '@/assets/icons/svg/icon-ai-analysis.svg'
+import IconFeatureSecure from '@/assets/icons/svg/icon-feature-secure.svg'
+import IconAiExtract from '@/assets/icons/svg/icon-ai-extract.svg'
+import IconAiVideo from '@/assets/icons/svg/icon-ai-video.svg'
+import IconBenefitAi from '@/assets/icons/svg/icon-benefit-ai.svg'
 
 export default {
   name: 'AgentSection',
@@ -235,7 +249,7 @@ export default {
       ],
       agents: [
         {
-          icon: 'bot',
+          icon: IconAiAssistant,
           name: 'AgentKit',
           description:
             '模拟各类OS环境中完成开放式任务的通用Agent解决方案，助力打造专属通用Agent',
@@ -243,7 +257,7 @@ export default {
           bgColor: 'rgba(51,112,255,0.1)'
         },
         {
-          icon: 'layers',
+          icon: IconAiAnalysis,
           name: 'Data Agent',
           description:
             '新一代企业级AI数字专家，深度理解和运用企业数据资产，持续释放数据价值',
@@ -251,7 +265,7 @@ export default {
           bgColor: 'rgba(20,201,201,0.1)'
         },
         {
-          icon: 'shield',
+          icon: IconFeatureSecure,
           name: '安全智能体',
           description:
             '7x24小时全自动威胁研判，AI智能处理全量告警，精准挖掘隐匿攻击',
@@ -259,7 +273,7 @@ export default {
           bgColor: 'rgba(245,63,63,0.1)'
         },
         {
-          icon: 'book-open',
+          icon: IconAiExtract,
           name: 'AI 知识管理',
           description:
             '多模态内容理解、可交互推理过程、个性化探索指南，你的知识管理专家',
@@ -267,14 +281,15 @@ export default {
           bgColor: 'rgba(247,186,30,0.1)'
         },
         {
-          icon: 'languages',
+          icon: IconAiVideo,
           name: 'AI 视频翻译',
           description:
             '视频点播多模态翻译解决方案，一键实现字幕、配音、人物口型翻译',
           color: 'var(--color-green)',
           bgColor: 'rgba(159,219,29,0.1)'
         }
-      ]
+      ],
+      arkIcon: IconBenefitAi
     }
   },
   computed: {

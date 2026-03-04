@@ -117,7 +117,7 @@
                     background: stat.bgColor
                   }"
                 >
-                  <SvgIcon :name="stat.icon" :size="18" :color="stat.color" />
+                  <img :src="stat.icon" alt="" style="width: 24px; height: 24px" />
                 </div>
                 <div>
                   <p
@@ -144,6 +144,10 @@
 
 <script>
 import SvgIcon from './SvgIcons.vue'
+import IconBenefitAi from '@/assets/icons/svg/icon-benefit-ai.svg'
+import IconBenefitTrial from '@/assets/icons/svg/icon-benefit-trial.svg'
+import IconBenefitPrice from '@/assets/icons/svg/icon-benefit-price.svg'
+import IconStream from '@/assets/icons/svg/icon-stream.svg'
 
 export default {
   name: 'HeroSection',
@@ -177,32 +181,28 @@ export default {
       ],
       stats: [
         {
-          icon: 'sparkles',
+          icon: IconBenefitAi,
           label: 'AI 驱动',
           sub: '智能化升级',
-          color: 'var(--color-brand)',
-          bgColor: 'rgba(51,112,255,0.1)'
+          bgColor: 'rgba(51, 112, 255, 0.12)'
         },
         {
-          icon: 'zap',
+          icon: IconBenefitTrial,
           label: '极速体验',
           sub: '低延迟响应',
-          color: 'var(--color-accent)',
-          bgColor: 'rgba(20,201,201,0.1)'
+          bgColor: 'rgba(255, 122, 69, 0.12)'
         },
         {
-          icon: 'globe',
-          label: '全球覆盖',
-          sub: '遍布全球节点',
-          color: 'var(--color-yellow)',
-          bgColor: 'rgba(247,186,30,0.1)'
+          icon: IconBenefitPrice,
+          label: '长效低价',
+          sub: '组合优惠方案',
+          bgColor: 'rgba(247, 186, 30, 0.14)'
         },
         {
-          icon: 'lock',
-          label: '安全可靠',
-          sub: '企业级安全',
-          color: 'var(--color-green)',
-          bgColor: 'rgba(159,219,29,0.1)'
+          icon: IconStream,
+          label: '灵活扩展',
+          sub: '按需弹性资源',
+          bgColor: 'rgba(65, 184, 131, 0.12)'
         }
       ]
     }

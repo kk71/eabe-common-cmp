@@ -45,7 +45,7 @@
                 background: model.bgColor
               }"
             >
-              <SvgIcon :name="model.icon" :size="22" :color="model.color" />
+          <img :src="model.icon" alt="" style="width: 22px; height: 22px" />
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2">
@@ -87,7 +87,7 @@
               flex-shrink: 0;
             "
           >
-            <SvgIcon name="brain" :size="28" color="var(--color-brand)" />
+            <img :src="models[0].icon" alt="" style="width: 28px; height: 28px" />
           </div>
           <div>
             <h3
@@ -119,6 +119,12 @@
 
 <script>
 import SvgIcon from './SvgIcons.vue'
+import IconAiAssistant from '@/assets/icons/svg/icon-ai-assistant.svg'
+import IconAiVideo from '@/assets/icons/svg/icon-ai-video.svg'
+import IconAiAnalysis from '@/assets/icons/svg/icon-ai-analysis.svg'
+import IconSms from '@/assets/icons/svg/icon-sms.svg'
+import IconAiDesign from '@/assets/icons/svg/icon-ai-design.svg'
+import IconAiExtract from '@/assets/icons/svg/icon-ai-extract.svg'
 
 export default {
   name: 'ModelsSection',
@@ -127,7 +133,7 @@ export default {
     return {
       models: [
         {
-          icon: 'brain',
+          icon: IconAiAssistant,
           name: '豆包大模型 1.6',
           tag: 'HOT',
           description:
@@ -136,7 +142,7 @@ export default {
           bgColor: 'rgba(51,112,255,0.1)'
         },
         {
-          icon: 'video',
+          icon: IconAiVideo,
           name: '豆包 · 视频生成模型',
           tag: 'NEW',
           description:
@@ -145,7 +151,7 @@ export default {
           bgColor: 'rgba(20,201,201,0.1)'
         },
         {
-          icon: 'eye',
+          icon: IconAiAnalysis,
           name: '豆包 · 视觉理解模型',
           tag: 'NEW',
           description:
@@ -154,7 +160,7 @@ export default {
           bgColor: 'rgba(247,186,30,0.1)'
         },
         {
-          icon: 'mic',
+          icon: IconSms,
           name: '豆包 · 实时语音模型',
           tag: '',
           description:
@@ -163,7 +169,7 @@ export default {
           bgColor: 'rgba(159,219,29,0.1)'
         },
         {
-          icon: 'image',
+          icon: IconAiDesign,
           name: '豆包 · 文生图模型',
           tag: '',
           description:
@@ -172,7 +178,7 @@ export default {
           bgColor: 'rgba(51,112,255,0.1)'
         },
         {
-          icon: 'audio-lines',
+          icon: IconAiExtract,
           name: '豆包 · 声音复刻模型',
           tag: '',
           description:
