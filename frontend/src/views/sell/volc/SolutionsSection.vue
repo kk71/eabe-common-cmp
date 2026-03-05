@@ -29,7 +29,7 @@
           @click="activeIndustry = tab.id"
           style="display: flex; align-items: center; gap: 8px"
         >
-          <SvgIcon :name="tab.icon" :size="16" />
+          <VolcIcon :name="tab.icon" :size="16" />
           {{ tab.label }}
         </button>
       </div>
@@ -60,7 +60,7 @@
           </p>
           <a href="#" class="link-arrow">
             了解详情
-            <SvgIcon name="arrow-right" :size="16" />
+            <VolcIcon name="arrow-right" :size="16" />
           </a>
         </div>
 
@@ -114,7 +114,7 @@
               "
             >
               查看详情
-              <SvgIcon name="arrow-right" :size="12" />
+              <VolcIcon name="arrow-right" :size="12" />
             </div>
           </a>
         </div>
@@ -124,11 +124,11 @@
 </template>
 
 <script>
-import SvgIcon from './SvgIcons.vue'
+import VolcIcon from './SvgIcons.vue'
 
 export default {
   name: 'SolutionsSection',
-  components: { SvgIcon },
+  components: { VolcIcon },
   data() {
     return {
       activeIndustry: 'auto',
