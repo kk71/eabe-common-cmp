@@ -10,10 +10,12 @@
       </div>
       <div class="login-left-content">
         <router-link to="/sell/home" class="brand-logo">
-          <svg width="40" height="40" viewBox="0 0 28 28" fill="none">
-            <path d="M14 0L28 8v12L14 28 0 20V8L14 0z" fill="#3370FF" />
-            <path d="M14 6l8 4.5v9L14 24l-8-4.5v-9L14 6z" fill="#14C9C9" />
-          </svg>
+          <img
+            src="/company-logo/LOGO2.png"
+            alt="羿贝引擎"
+            width="40"
+            height="40"
+          />
           <span class="brand-name">羿贝引擎</span>
         </router-link>
         <h1 class="brand-heading">云上增长新动力</h1>
@@ -796,6 +798,11 @@
   gap: 12px;
   text-decoration: none;
   margin-bottom: 48px;
+}
+
+.brand-logo img {
+  width: 32px;
+  height: 32px;
 }
 
 .brand-name {

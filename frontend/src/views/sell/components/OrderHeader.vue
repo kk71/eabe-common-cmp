@@ -2,7 +2,9 @@
   <div class="order-header">
     <div class="container clearfix">
       <div class="header-logo">
-        <a href="/#/index"></a>
+        <a href="/#/index">
+          <img src="/company-logo/LOGO2.png" alt="羿贝综合云服务平台" />
+        </a>
       </div>
       <div class="title">
         <h2>{{ title }}<slot name="tip"></slot></h2>

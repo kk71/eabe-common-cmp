@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <div class="footer-logo">
-      <img src="/company-logo/LOGO2.png" alt="" />
+      <img src="/company-logo/LOGO2.png" alt="羿贝综合云服务平台" />
       <p>羿贝综合云服务平台</p>
     </div>
     <div class="footer-link">
@@ -24,15 +24,15 @@
     color: #4e5969;
     font-size: 16px;
     text-align: center;
-    .footer-logo {
-      margin-top: 46px;
-      margin-bottom: 31px;
-      img {
-        width: 53px;
-        height: 36px;
-        margin-bottom: 13px;
+      .footer-logo {
+        margin-top: 46px;
+        margin-bottom: 31px;
+        img {
+          width: 80px;
+          height: 28px;
+          margin-bottom: 13px;
+        }
       }
-    }
     .footer-link {
       a {
         color: #4e5969;

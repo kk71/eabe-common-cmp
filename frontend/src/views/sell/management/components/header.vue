@@ -4,10 +4,12 @@
     <div class="console-header">
       <div class="header-left">
         <router-link to="/sell" class="console-logo">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <path d="M14 0L28 8v12L14 28 0 20V8L14 0z" fill="#3370FF" />
-            <path d="M14 6l8 4.5v9L14 24l-8-4.5v-9L14 6z" fill="#14C9C9" />
-          </svg>
+          <img
+            src="/company-logo/LOGO2.png"
+            alt="羿贝综合云服务平台"
+            width="28"
+            height="28"
+          />
           <span class="logo-text">羿贝综合云服务平台</span>
         </router-link>
         <span class="header-badge">
@@ -142,6 +144,11 @@
     gap: 8px;
     text-decoration: none;
     color: #1d2129;
+  }
+
+  .console-logo img {
+    width: 24px;
+    height: 24px;
   }
 
   .logo-text {

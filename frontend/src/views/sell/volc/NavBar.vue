@@ -4,10 +4,12 @@
       <!-- Logo -->
       <div class="flex items-center gap-6">
         <router-link to="/" class="flex items-center gap-2 logo-link">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <path d="M14 0L28 8v12L14 28 0 20V8L14 0z" fill="#3370FF" />
-            <path d="M14 6l8 4.5v9L14 24l-8-4.5v-9L14 6z" fill="#14C9C9" />
-          </svg>
+          <img
+            src="/company-logo/LOGO2.png"
+            alt="羿贝综合云服务平台"
+            width="28"
+            height="28"
+          />
           <span class="logo-text">羿贝综合云服务平台</span>
         </router-link>
 
@@ -299,6 +301,10 @@
       <div v-if="activeMenu" class="mega-backdrop" @mouseenter="closeAll"></div>
     </transition>
   </header>
+
+  <div style="padding: 16px">
+  <SvgIcon name="brain" :size="32" color="#3370ff" />
+</div>
 </template>
 
 <script>
@@ -837,6 +843,8 @@ export default {
 }
 </script>
 
+<style src="./volc-main.css"></style>
+
 <style scoped>
 .navbar {
   position: fixed;
@@ -862,6 +870,10 @@ export default {
 }
 .logo-link {
   flex-shrink: 0;
+}
+.logo-link img {
+  width: 24px;
+  height: 24px;
 }
 .logo-text {
   font-size: 18px;

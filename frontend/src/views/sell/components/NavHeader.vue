@@ -22,7 +22,7 @@
       <div class="container">
         <div class="header-logo">
           <a href="/sell">
-            <img src="/company-logo/新LOGO.png" alt="" />
+            <img src="/company-logo/LOGO2.png" alt="" />
           </a>
           <h3>羿贝综合云服务平台</h3>
         </div>

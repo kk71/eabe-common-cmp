@@ -213,7 +213,7 @@ export default {
 <style scoped>
 .hero-section {
   position: relative;
-  padding: 96px 0 64px;
+  padding: 30px 0 64px;
   overflow: hidden;
 }
 .hero-grid {
