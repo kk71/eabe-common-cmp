@@ -47,8 +47,11 @@
                       :class="{ active: activeModelCat === cat.id }"
                       @mouseenter="activeModelCat = cat.id"
                     >
-                      <div class="mega-cat-icon" :style="{ background: 'transparent' }">
-                        <VolcIcon :name="cat.icon" :size="16" color="#000" />
+                      <div
+                        class="mega-cat-icon"
+                        :style="{ background: cat.bgColor }"
+                      >
+                        <VolcIcon :name="cat.icon" :size="16" :color="cat.color" />
                       </div>
                       <div class="mega-cat-info">
                         <span class="mega-cat-name">{{ cat.name }}</span>
@@ -79,8 +82,11 @@
                         class="mega-product-card"
                         @click.native="closeAll"
                       >
-                        <div class="mega-product-icon" :style="{ background: 'transparent' }">
-                          <VolcIcon :name="item.icon" :size="16" color="#000" />
+                        <div
+                          class="mega-product-icon"
+                          :style="{ background: item.bgColor }"
+                        >
+                          <VolcIcon :name="item.icon" :size="16" :color="item.color" />
                         </div>
                         <div class="mega-product-info">
                           <div class="flex items-center gap-2">
@@ -136,8 +142,11 @@
                       :class="{ active: activeProductCat === cat.id }"
                       @mouseenter="activeProductCat = cat.id"
                     >
-                      <div class="mega-cat-icon" :style="{ background: 'transparent' }">
-                        <VolcIcon :name="cat.icon" :size="16" color="#000" />
+                      <div
+                        class="mega-cat-icon"
+                        :style="{ background: cat.bgColor }"
+                      >
+                        <VolcIcon :name="cat.icon" :size="16" :color="cat.color" />
                       </div>
                       <div class="mega-cat-info">
                         <span class="mega-cat-name">{{ cat.name }}</span>
@@ -168,8 +177,11 @@
                         class="mega-product-card"
                         @click.native="closeAll"
                       >
-                        <div class="mega-product-icon" :style="{ background: 'transparent' }">
-                          <VolcIcon :name="item.icon" :size="16" color="#000" />
+                        <div
+                          class="mega-product-icon"
+                          :style="{ background: item.bgColor }"
+                        >
+                          <VolcIcon :name="item.icon" :size="16" :color="item.color" />
                         </div>
                         <div class="mega-product-info">
                           <div class="flex items-center gap-2">
