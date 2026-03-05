@@ -29,7 +29,7 @@
           @click="activeScenario = tab.id"
           style="display: flex; align-items: center; gap: 8px"
         >
-          <SvgIcon :name="tab.icon" :size="16" />
+          <VolcIcon :name="tab.icon" :size="16" />
           {{ tab.label }}
         </button>
       </div>
@@ -96,7 +96,7 @@
           class="product-link"
         >
           {{ product }}
-          <SvgIcon name="arrow-right" :size="14" />
+          <VolcIcon name="arrow-right" :size="14" />
         </a>
       </div>
     </div>
@@ -104,11 +104,11 @@
 </template>
 
 <script>
-import SvgIcon from './SvgIcons.vue'
+import VolcIcon from './SvgIcons.vue'
 
 export default {
   name: 'ScenariosSection',
-  components: { SvgIcon },
+  components: { VolcIcon },
   data() {
     return {
       activeScenario: 'social',

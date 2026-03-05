@@ -28,7 +28,7 @@
               :class="{ 'nav-link-active': activeMenu === 'models' }"
             >
               大模型
-              <SvgIcon name="chevron-down" :size="14" />
+              <VolcIcon name="chevron-down" :size="14" />
             </router-link>
             <transition name="mega-fade">
               <div
@@ -47,14 +47,14 @@
                       :class="{ active: activeModelCat === cat.id }"
                       @mouseenter="activeModelCat = cat.id"
                     >
-                      <div class="mega-cat-icon" :style="{ background: cat.bgColor }">
-                        <SvgIcon :name="cat.icon" :size="16" :color="cat.color" />
+                      <div class="mega-cat-icon" :style="{ background: 'transparent' }">
+                        <VolcIcon :name="cat.icon" :size="16" color="#000" />
                       </div>
                       <div class="mega-cat-info">
                         <span class="mega-cat-name">{{ cat.name }}</span>
                         <span class="mega-cat-desc">{{ cat.desc }}</span>
                       </div>
-                      <SvgIcon name="chevron-right" :size="14" class="mega-cat-arrow" />
+                      <VolcIcon name="chevron-right" :size="14" class="mega-cat-arrow" />
                     </div>
                   </div>
 
@@ -68,7 +68,7 @@
                         @click.native="closeAll"
                       >
                         查看全部
-                        <SvgIcon name="arrow-right" :size="14" />
+                        <VolcIcon name="arrow-right" :size="14" />
                       </router-link>
                     </div>
                     <div class="mega-detail-grid">
@@ -79,8 +79,8 @@
                         class="mega-product-card"
                         @click.native="closeAll"
                       >
-                        <div class="mega-product-icon" :style="{ background: item.bgColor }">
-                          <SvgIcon :name="item.icon" :size="16" :color="item.color" />
+                        <div class="mega-product-icon" :style="{ background: 'transparent' }">
+                          <VolcIcon :name="item.icon" :size="16" color="#000" />
                         </div>
                         <div class="mega-product-info">
                           <div class="flex items-center gap-2">
@@ -117,7 +117,7 @@
               :class="{ 'nav-link-active': activeMenu === 'products' }"
             >
               产品
-              <SvgIcon name="chevron-down" :size="14" />
+              <VolcIcon name="chevron-down" :size="14" />
             </router-link>
             <transition name="mega-fade">
               <div
@@ -136,14 +136,14 @@
                       :class="{ active: activeProductCat === cat.id }"
                       @mouseenter="activeProductCat = cat.id"
                     >
-                      <div class="mega-cat-icon" :style="{ background: cat.bgColor }">
-                        <SvgIcon :name="cat.icon" :size="16" :color="cat.color" />
+                      <div class="mega-cat-icon" :style="{ background: 'transparent' }">
+                        <VolcIcon :name="cat.icon" :size="16" color="#000" />
                       </div>
                       <div class="mega-cat-info">
                         <span class="mega-cat-name">{{ cat.name }}</span>
                         <span class="mega-cat-desc">{{ cat.desc }}</span>
                       </div>
-                      <SvgIcon name="chevron-right" :size="14" class="mega-cat-arrow" />
+                      <VolcIcon name="chevron-right" :size="14" class="mega-cat-arrow" />
                     </div>
                   </div>
 
@@ -157,7 +157,7 @@
                         @click.native="closeAll"
                       >
                         查看全部
-                        <SvgIcon name="arrow-right" :size="14" />
+                        <VolcIcon name="arrow-right" :size="14" />
                       </router-link>
                     </div>
                     <div class="mega-detail-grid">
@@ -168,8 +168,8 @@
                         class="mega-product-card"
                         @click.native="closeAll"
                       >
-                        <div class="mega-product-icon" :style="{ background: item.bgColor }">
-                          <SvgIcon :name="item.icon" :size="16" :color="item.color" />
+                        <div class="mega-product-icon" :style="{ background: 'transparent' }">
+                          <VolcIcon :name="item.icon" :size="16" color="#000" />
                         </div>
                         <div class="mega-product-info">
                           <div class="flex items-center gap-2">
@@ -211,7 +211,7 @@
         <router-link to="/sell/login" class="btn-ghost">登录</router-link>
         <a href="#" class="btn-primary-sm">立即注册</a>
         <button class="mobile-menu-btn lg-hide" @click="mobileOpen = !mobileOpen">
-          <SvgIcon :name="mobileOpen ? 'x' : 'menu'" :size="22" />
+          <VolcIcon :name="mobileOpen ? 'x' : 'menu'" :size="22" />
         </button>
       </div>
     </div>
@@ -228,7 +228,7 @@
             @click="mobileExpand === 'models' ? (mobileExpand = '') : (mobileExpand = 'models')"
           >
             <span>大模型</span>
-            <SvgIcon
+            <VolcIcon
               :name="mobileExpand === 'models' ? 'chevron-down' : 'chevron-right'"
               :size="16"
             />
@@ -242,7 +242,7 @@
                 class="mobile-sub-link"
                 @click.native="mobileOpen = false"
               >
-                <SvgIcon :name="cat.icon" :size="16" :color="cat.color" />
+                <VolcIcon :name="cat.icon" :size="16" color="#000" />
                 {{ cat.name }}
               </router-link>
             </div>
@@ -256,7 +256,7 @@
             "
           >
             <span>产品</span>
-            <SvgIcon
+            <VolcIcon
               :name="mobileExpand === 'products' ? 'chevron-down' : 'chevron-right'"
               :size="16"
             />
@@ -270,7 +270,7 @@
                 class="mobile-sub-link"
                 @click.native="mobileOpen = false"
               >
-                <SvgIcon :name="cat.icon" :size="16" :color="cat.color" />
+                <VolcIcon :name="cat.icon" :size="16" color="#000" />
                 {{ cat.name }}
               </router-link>
             </div>
@@ -302,17 +302,14 @@
     </transition>
   </header>
 
-  <div style="padding: 16px">
-  <SvgIcon name="brain" :size="32" color="#3370ff" />
-</div>
 </template>
 
 <script>
-import SvgIcon from './SvgIcons.vue'
+import VolcIcon from './SvgIcons.vue'
 
 export default {
   name: 'NavBar',
-  components: { SvgIcon },
+  components: { VolcIcon },
   data() {
     return {
       isScrolled: false,
@@ -328,7 +325,7 @@ export default {
           name: '豆包大模型',
           desc: '更强模型、更低价格',
           icon: 'brain',
-          color: 'var(--color-brand)',
+          color: '#3370ff',
           bgColor: 'rgba(51,112,255,0.1)',
           items: [
             {
@@ -336,7 +333,7 @@ export default {
               desc: '更强推理与多模态理解能力',
               icon: 'brain',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
@@ -344,7 +341,7 @@ export default {
               desc: '高质量影视级视频生成',
               icon: 'video',
               tag: 'NEW',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
@@ -352,28 +349,28 @@ export default {
               desc: '强视觉识别与推理能力',
               icon: 'eye',
               tag: 'NEW',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             },
             {
               name: '豆包 · 实时语音',
               desc: '端到端超拟人交互语音模型',
               icon: 'mic',
-              color: 'var(--color-green)',
+              color: '#9fdb1d',
               bgColor: 'rgba(159,219,29,0.1)'
             },
             {
               name: '豆包 · 文生图',
               desc: '50余种风格快速生成精美图片',
               icon: 'image',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: '豆包 · 声音复刻',
               desc: '5秒克隆1:1高仿真音色',
               icon: 'audio-lines',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             }
           ]
@@ -383,7 +380,7 @@ export default {
           name: 'Agent 开发平台',
           desc: '全链路 Agent 开发工具',
           icon: 'bot',
-          color: 'var(--color-accent)',
+          color: '#14c9c9',
           bgColor: 'rgba(20,201,201,0.1)',
           items: [
             {
@@ -391,7 +388,7 @@ export default {
               desc: '一站式大模型开发平台',
               icon: 'layers',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
@@ -399,21 +396,21 @@ export default {
               desc: 'AI Agent 开发工具',
               icon: 'bot',
               tag: 'HOT',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
               name: 'HiAgent',
               desc: '企业 AI 中台',
               icon: 'workflow',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             },
             {
               name: 'AgentKit',
               desc: '通用Agent解决方案',
               icon: 'settings',
-              color: 'var(--color-green)',
+              color: '#9fdb1d',
               bgColor: 'rgba(159,219,29,0.1)'
             }
           ]
@@ -423,35 +420,35 @@ export default {
           name: 'AI 应用',
           desc: '企业级精选AI产品',
           icon: 'sparkles',
-          color: 'var(--color-yellow)',
+          color: '#f7ba1e',
           bgColor: 'rgba(247,186,30,0.1)',
           items: [
             {
               name: 'AI 知识管理',
               desc: '多模态内容理解知识管理专家',
               icon: 'book-open',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: 'AI 视频翻译',
               desc: '一键字幕+配音+口型翻译',
               icon: 'languages',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
               name: 'Data Agent',
               desc: '企业级AI数字专家',
               icon: 'bar-chart',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             },
             {
               name: '安全智能体',
               desc: '7x24小时全自动威胁研判',
               icon: 'shield',
-              color: 'var(--color-red)',
+              color: '#f53f3f',
               bgColor: 'rgba(245,63,63,0.1)'
             }
           ]
@@ -461,7 +458,7 @@ export default {
           name: 'AI 体验中心',
           desc: '体验前沿模型能力',
           icon: 'wand',
-          color: 'var(--color-green)',
+          color: '#9fdb1d',
           bgColor: 'rgba(159,219,29,0.1)',
           items: [
             {
@@ -469,28 +466,28 @@ export default {
               desc: '一站体验超全大模型',
               icon: 'sparkles',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: '文生图体验',
               desc: '快速生成各类风格精美图片',
               icon: 'image',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
               name: '语音对话体验',
               desc: '体验实时语音AI交互',
               icon: 'mic',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             },
             {
               name: '视频生成体验',
               desc: '文字/图片一键生成视频',
               icon: 'video',
-              color: 'var(--color-green)',
+              color: '#9fdb1d',
               bgColor: 'rgba(159,219,29,0.1)'
             }
           ]
@@ -502,7 +499,7 @@ export default {
           name: '计算',
           desc: '弹性计算与GPU算力',
           icon: 'server',
-          color: 'var(--color-brand)',
+          color: '#3370ff',
           bgColor: 'rgba(51,112,255,0.1)',
           items: [
             {
@@ -510,7 +507,7 @@ export default {
               desc: '高性能GPU计算实例',
               icon: 'cpu',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
@@ -518,28 +515,28 @@ export default {
               desc: '安全稳定弹性云服务器',
               icon: 'server',
               tag: 'HOT',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
               name: '弹性裸金属服务器',
               desc: '兼顾物理机性能与云便捷',
               icon: 'hard-drive',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             },
             {
               name: '函数服务',
               desc: '无服务器函数计算托管平台',
               icon: 'zap',
-              color: 'var(--color-green)',
+              color: '#9fdb1d',
               bgColor: 'rgba(159,219,29,0.1)'
             },
             {
               name: '弹性伸缩',
               desc: '自动伸缩计算资源',
               icon: 'bar-chart',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             }
           ]
@@ -549,7 +546,7 @@ export default {
           name: '网络与CDN',
           desc: '全球加速与网络互联',
           icon: 'globe',
-          color: 'var(--color-accent)',
+          color: '#14c9c9',
           bgColor: 'rgba(20,201,201,0.1)',
           items: [
             {
@@ -557,14 +554,14 @@ export default {
               desc: '弹性灵活安全的公网服务',
               icon: 'globe',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: '负载均衡',
               desc: '高可用流量分发服务',
               icon: 'network',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
@@ -572,14 +569,14 @@ export default {
               desc: '全球节点内容分发网络',
               icon: 'zap',
               tag: 'HOT',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             },
             {
               name: '私有网络VPC',
               desc: '逻辑隔离安全虚拟私有云',
               icon: 'lock',
-              color: 'var(--color-green)',
+              color: '#9fdb1d',
               bgColor: 'rgba(159,219,29,0.1)'
             }
           ]
@@ -589,7 +586,7 @@ export default {
           name: '存储',
           desc: '海量安全云端存储',
           icon: 'hard-drive',
-          color: 'var(--color-yellow)',
+          color: '#f7ba1e',
           bgColor: 'rgba(247,186,30,0.1)',
           items: [
             {
@@ -597,21 +594,21 @@ export default {
               desc: '10EB级高可用对象存储',
               icon: 'hard-drive',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: '文件存储NAS',
               desc: '高性能共享文件存储',
               icon: 'file-text',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
               name: '云盘',
               desc: '高可靠云硬盘块存储服务',
               icon: 'database',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             }
           ]
@@ -621,7 +618,7 @@ export default {
           name: '数据库',
           desc: '高可靠云端数据库',
           icon: 'database',
-          color: 'var(--color-green)',
+          color: '#9fdb1d',
           bgColor: 'rgba(159,219,29,0.1)',
           items: [
             {
@@ -629,14 +626,14 @@ export default {
               desc: '即开即用弹性MySQL服务',
               icon: 'database',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: '云数据库 PostgreSQL',
               desc: '高兼容性关系型数据库',
               icon: 'database',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
@@ -644,14 +641,14 @@ export default {
               desc: '兼具缓存高性能与持久化',
               icon: 'memory-stick',
               tag: 'HOT',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             },
             {
               name: '云数据库 MongoDB',
               desc: '全托管文档型NoSQL数据库',
               icon: 'database',
-              color: 'var(--color-green)',
+              color: '#9fdb1d',
               bgColor: 'rgba(159,219,29,0.1)'
             },
             {
@@ -659,7 +656,7 @@ export default {
               desc: '全托管AI信息检索分析平台',
               icon: 'search',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             }
           ]
@@ -669,7 +666,7 @@ export default {
           name: '容器与中间件',
           desc: '云原生容器服务',
           icon: 'container',
-          color: 'var(--color-brand)',
+          color: '#3370ff',
           bgColor: 'rgba(51,112,255,0.1)',
           items: [
             {
@@ -677,21 +674,21 @@ export default {
               desc: '高性能K8s容器集群管理',
               icon: 'container',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: '镜像仓库',
               desc: '安全稳定的容器镜像托管',
               icon: 'layers',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
               name: '消息队列 Kafka',
               desc: '全托管高吞吐消息队列',
               icon: 'workflow',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             }
           ]
@@ -701,7 +698,7 @@ export default {
           name: '大数据',
           desc: '一站式大数据平台',
           icon: 'bar-chart',
-          color: 'var(--color-accent)',
+          color: '#14c9c9',
           bgColor: 'rgba(20,201,201,0.1)',
           items: [
             {
@@ -709,21 +706,21 @@ export default {
               desc: '大模型时代AI数据基建',
               icon: 'brain',
               tag: 'NEW',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: 'EMR',
               desc: '全托管弹性MapReduce',
               icon: 'server',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
               name: '数据湖仓',
               desc: '湖仓一体化分析平台',
               icon: 'database',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             }
           ]
@@ -733,7 +730,7 @@ export default {
           name: '视频与通信',
           desc: '视频云与实时音视频',
           icon: 'video',
-          color: 'var(--color-yellow)',
+          color: '#f7ba1e',
           bgColor: 'rgba(247,186,30,0.1)',
           items: [
             {
@@ -741,21 +738,21 @@ export default {
               desc: '一站式音视频点播服务',
               icon: 'video',
               tag: 'HOT',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: '视频直播',
               desc: '低延时高并发直播服务',
               icon: 'monitor',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
               name: '实时音视频RTC',
               desc: '全球低延时实时通信',
               icon: 'headphones',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             }
           ]
@@ -765,7 +762,7 @@ export default {
           name: '安全',
           desc: '全方位安全防护',
           icon: 'shield',
-          color: 'var(--color-red)',
+          color: '#f53f3f',
           bgColor: 'rgba(245,63,63,0.1)',
           items: [
             {
@@ -773,21 +770,21 @@ export default {
               desc: '大语言模型推理安全防护',
               icon: 'shield',
               tag: 'NEW',
-              color: 'var(--color-brand)',
+              color: '#3370ff',
               bgColor: 'rgba(51,112,255,0.1)'
             },
             {
               name: 'DDoS防护',
               desc: 'T级DDoS流量清洗服务',
               icon: 'shield-check',
-              color: 'var(--color-accent)',
+              color: '#14c9c9',
               bgColor: 'rgba(20,201,201,0.1)'
             },
             {
               name: 'Web应用防火墙',
               desc: 'Web应用安全防护',
               icon: 'lock',
-              color: 'var(--color-yellow)',
+              color: '#f7ba1e',
               bgColor: 'rgba(247,186,30,0.1)'
             }
           ]

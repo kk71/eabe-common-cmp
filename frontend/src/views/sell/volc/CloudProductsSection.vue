@@ -25,7 +25,7 @@
         </div>
         <a href="#" class="link-arrow md-hide">
           探索更多云产品
-          <SvgIcon name="arrow-right" :size="16" />
+          <VolcIcon name="arrow-right" :size="16" />
         </a>
       </div>
 
@@ -92,7 +92,7 @@
             "
           >
             了解详情
-            <SvgIcon name="arrow-right" :size="12" />
+            <VolcIcon name="arrow-right" :size="12" />
           </div>
         </a>
       </div>
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import SvgIcon from './SvgIcons.vue'
+import VolcIcon from './SvgIcons.vue'
 import IconGpu from '@/assets/icons/svg/icon-gpu.svg'
 import IconEcs from '@/assets/icons/svg/icon-ecs.svg'
 import IconBareMetal from '@/assets/icons/svg/icon-bare-metal.svg'
@@ -115,7 +115,7 @@ import IconFeatureSecure from '@/assets/icons/svg/icon-feature-secure.svg'
 
 export default {
   name: 'CloudProductsSection',
-  components: { SvgIcon },
+  components: { VolcIcon },
   data() {
     return {
       activeCategory: 'featured',

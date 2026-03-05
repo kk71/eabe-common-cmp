@@ -23,7 +23,7 @@
         </div>
         <a href="#" class="link-arrow md-hide">
           查看全部模型
-          <SvgIcon name="arrow-right" :size="16" />
+          <VolcIcon name="arrow-right" :size="16" />
         </a>
       </div>
 
@@ -69,7 +69,7 @@
             style="margin-top: 16px; font-size: 12px"
           >
             了解更多
-            <SvgIcon name="arrow-right" :size="14" />
+            <VolcIcon name="arrow-right" :size="14" />
           </div>
         </a>
       </div>
@@ -108,7 +108,7 @@
         <div class="flex gap-3" style="flex-shrink: 0">
           <a href="#" class="btn-primary">
             立即体验
-            <SvgIcon name="arrow-right" :size="16" />
+            <VolcIcon name="arrow-right" :size="16" />
           </a>
           <a href="#" class="btn-secondary">AI 体验中心</a>
         </div>
@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import SvgIcon from './SvgIcons.vue'
+import VolcIcon from './SvgIcons.vue'
 import IconAiAssistant from '@/assets/icons/svg/icon-ai-assistant.svg'
 import IconAiVideo from '@/assets/icons/svg/icon-ai-video.svg'
 import IconAiAnalysis from '@/assets/icons/svg/icon-ai-analysis.svg'
@@ -128,7 +128,7 @@ import IconAiExtract from '@/assets/icons/svg/icon-ai-extract.svg'
 
 export default {
   name: 'ModelsSection',
-  components: { SvgIcon },
+  components: { VolcIcon },
   data() {
     return {
       models: [

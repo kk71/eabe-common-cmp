@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'SvgIcon',
+  name: 'VolcIcon',
   props: {
     name: { type: String, required: true },
     size: { type: [Number, String], default: 20 },
@@ -16,15 +16,16 @@ export default {
 
 <template>
   <svg
+    xmlns="http://www.w3.org/2000/svg"
     :width="iconSize"
     :height="iconSize"
     viewBox="0 0 24 24"
     fill="none"
-    stroke="currentColor"
+    :stroke="color || '#000'"
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    :style="{ color: color, flexShrink: 0 }"
+    style="flex-shrink: 0"
   >
     <!-- Arrow Right -->
     <template v-if="name === 'arrow-right'">

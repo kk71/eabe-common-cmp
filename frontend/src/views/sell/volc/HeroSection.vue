@@ -58,7 +58,7 @@
           ></div>
           <div style="position: relative">
             <span class="hero-badge">
-              <SvgIcon name="sparkles" :size="14" color="var(--color-brand)" />
+              <VolcIcon name="sparkles" :size="14" color="var(--color-brand)" />
               AI 创新巡展
             </span>
             <h1 class="hero-title">
@@ -72,7 +72,7 @@
           <div class="flex gap-3" style="position: relative; flex-wrap: wrap">
             <a href="#" class="btn-primary">
               立即体验
-              <SvgIcon name="arrow-right" :size="16" />
+              <VolcIcon name="arrow-right" :size="16" />
             </a>
             <a href="#" class="btn-secondary">查看详情</a>
           </div>
@@ -92,7 +92,7 @@
             <span class="promo-title">
               {{ promo.title }}
             </span>
-            <SvgIcon name="arrow-right" :size="16" color="var(--text-muted)" />
+            <VolcIcon name="arrow-right" :size="16" color="var(--text-muted)" />
           </a>
 
           <!-- Quick Stats -->
@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import SvgIcon from './SvgIcons.vue'
+import VolcIcon from './SvgIcons.vue'
 import IconBenefitAi from '@/assets/icons/svg/icon-benefit-ai.svg'
 import IconBenefitTrial from '@/assets/icons/svg/icon-benefit-trial.svg'
 import IconBenefitPrice from '@/assets/icons/svg/icon-benefit-price.svg'
@@ -151,7 +151,7 @@ import IconStream from '@/assets/icons/svg/icon-stream.svg'
 
 export default {
   name: 'HeroSection',
-  components: { SvgIcon },
+  components: { VolcIcon },
   data() {
     return {
       activeTab: 'ai',
@@ -213,7 +213,7 @@ export default {
 <style scoped>
 .hero-section {
   position: relative;
-  padding: 30px 0 64px;
+  padding: 96px 0 64px;
   overflow: hidden;
 }
 .hero-grid {
