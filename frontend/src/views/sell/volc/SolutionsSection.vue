@@ -13,7 +13,7 @@
 
     <div class="container" style="position: relative">
       <!-- Header -->
-      <div style="margin-bottom: 48px">
+      <div >
         <div class="flex items-center gap-3" style="margin-bottom: 16px">
           <div class="section-bar" style="background: var(--color-red)"></div>
           <h2 class="section-title">行业领先的场景化解决方案</h2>
@@ -21,7 +21,7 @@
       </div>
 
       <!-- Industry Tabs -->
-      <div class="tab-bar" style="margin-bottom: 40px">
+      <div class="tab-bar" style="margin-bottom: 10px">
         <button
           v-for="tab in industryTabs"
           :key="tab.id"

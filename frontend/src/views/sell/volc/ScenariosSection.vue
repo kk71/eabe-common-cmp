@@ -13,7 +13,7 @@
 
     <div class="container" style="position: relative">
       <!-- Header -->
-      <div style="margin-bottom: 48px">
+      <div>
         <div class="flex items-center gap-3" style="margin-bottom: 16px">
           <div class="section-bar" style="background: var(--color-green)"></div>
           <h2 class="section-title">多样的大模型应用场景</h2>
@@ -21,7 +21,7 @@
       </div>
 
       <!-- Scenario Tabs -->
-      <div class="tab-bar" style="margin-bottom: 40px">
+      <div class="tab-bar" style="margin-bottom: 10px">
         <button
           v-for="tab in scenarioTabs"
           :key="tab.id"
@@ -35,7 +35,7 @@
       </div>
 
       <!-- Scenario Content -->
-      <div class="features-grid" style="margin-bottom: 32px">
+      <div class="features-grid" style="margin-bottom: 10px">
         <div
           v-for="(feature, idx) in currentContent.features"
           :key="idx"

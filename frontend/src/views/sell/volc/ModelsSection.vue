@@ -13,7 +13,7 @@
 
     <div class="container" style="position: relative">
       <!-- Header -->
-      <div class="flex items-center justify-between" style="margin-bottom: 48px">
+      <div class="flex items-center justify-between" >
         <div>
           <div class="flex items-center gap-3" style="margin-bottom: 16px">
             <div class="section-bar" style="background: var(--color-brand)"></div>

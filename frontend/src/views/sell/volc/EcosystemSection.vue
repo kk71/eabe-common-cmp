@@ -14,7 +14,7 @@
 
     <div class="container" style="position: relative">
       <!-- Ecosystem Header -->
-      <div style="margin-bottom: 48px">
+      <div >
         <div class="flex items-center gap-3" style="margin-bottom: 16px">
           <div class="section-bar" style="background: var(--color-brand)"></div>
           <h2 class="section-title">
@@ -123,13 +123,13 @@
 
       <!-- Security Section -->
       <div>
-        <div class="flex items-center gap-3" style="margin-bottom: 32px">
+        <div class="flex items-center gap-3" style="margin-bottom: 10px">
           <div class="section-bar" style="background: var(--color-accent)"></div>
           <h2 class="section-title">安全合规 透明可信</h2>
         </div>
 
         <!-- Security Cards -->
-        <div class="eco-grid" style="margin-bottom: 32px">
+        <div class="eco-grid" style="margin-bottom: 10px">
           <a href="#" class="card security-card">
             <div
               class="icon-box"

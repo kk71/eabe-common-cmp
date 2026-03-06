@@ -253,7 +253,7 @@ export default {
   color: var(--text-muted);
   max-width: 500px;
   line-height: 1.7;
-  margin-bottom: 32px;
+  margin-bottom: 10px;
 }
 .hero-right {
   display: flex;

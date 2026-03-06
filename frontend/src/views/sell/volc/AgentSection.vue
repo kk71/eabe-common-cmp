@@ -13,7 +13,7 @@
 
     <div class="container" style="position: relative">
       <!-- Header -->
-      <div style="margin-bottom: 48px">
+      <div>
         <div class="flex items-center gap-3" style="margin-bottom: 16px">
           <div class="section-bar" style="background: var(--color-accent)"></div>
           <h2 class="section-title">Agent 开发平台与精选 AI 应用</h2>
@@ -21,7 +21,7 @@
       </div>
 
       <!-- Platform Tabs -->
-      <div class="tab-bar" style="margin-bottom: 32px">
+      <div class="tab-bar" style="margin-bottom: 10px">
         <button
           v-for="p in platforms"
           :key="p.id"
@@ -33,7 +33,7 @@
       </div>
 
       <!-- Platform Content -->
-      <div class="card platform-content" style="margin-bottom: 32px">
+      <div class="card platform-content" style="margin-bottom: 10px">
           <div class="platform-grid">
           <div class="flex-1">
             <div class="flex items-center gap-3" style="margin-bottom: 8px">
@@ -61,7 +61,7 @@
             >
               {{ currentPlatform.description }}
             </p>
-            <div class="flex flex-wrap gap-2" style="margin-bottom: 32px">
+            <div class="flex flex-wrap gap-2" style="margin-bottom: 10px">
               <span
                 v-for="(f, i) in currentPlatform.features"
                 :key="i"
