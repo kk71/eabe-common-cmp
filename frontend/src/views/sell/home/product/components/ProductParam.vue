@@ -23,8 +23,8 @@
   @import '@/views/sell/scss/config.scss';
   @import '@/views/sell/scss/mixin.scss';
   .nav-bar {
-    height: 70px;
-    line-height: 70px;
+    height: 56px;
+    line-height: 56px;
     border-top: 1px solid $colorH;
     background-color: $colorG;
     z-index: 10;
@@ -48,6 +48,50 @@
         }
         a {
           color: $colorC;
+        }
+      }
+    }
+  }
+
+  /* 产品详情页（旧版 product/*.vue）整体缩小区块高度与上下间距 */
+  .detail {
+    .wrapper {
+      padding-top: 10px;
+
+      .container {
+        padding-top: 6px;
+        padding-bottom: 6px;
+      }
+
+      .container .swiper {
+        height: 520px;
+        margin-top: 0;
+      }
+
+      .container .content {
+        height: auto;
+        min-height: 680px;
+
+        .item-title {
+          padding-top: 18px;
+          padding-bottom: 10px;
+        }
+
+        .item-info {
+          height: auto;
+          line-height: 1.4;
+        }
+
+        .line {
+          margin-top: 16px;
+          margin-bottom: 18px;
+        }
+
+        .item-total {
+          height: auto;
+          padding: 18px 24px;
+          margin-top: 24px;
+          margin-bottom: 18px;
         }
       }
     }

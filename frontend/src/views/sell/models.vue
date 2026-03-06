@@ -376,7 +376,7 @@ export default {
 
 .page-hero {
   position: relative;
-  padding: 80px 0 56px;
+  padding: 72px 0 48px;
   overflow: hidden;
   border-bottom: 1px solid var(--border-color);
 }
@@ -445,7 +445,7 @@ export default {
 .hero-actions {
   display: flex;
   gap: 12px;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 
 .btn-primary-lg {
@@ -514,7 +514,7 @@ export default {
 }
 
 .filter-section {
-  padding: 20px 0;
+  padding: 16px 0;
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 64px;
@@ -562,22 +562,22 @@ export default {
 }
 
 .models-showcase {
-  padding: 48px 0 80px;
+  padding: 40px 0 64px;
 }
 
 .featured-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  padding: 48px;
-  margin-bottom: 48px;
+  padding: 40px;
+  margin-bottom: 36px;
   overflow: hidden;
   position: relative;
 }
 
 .featured-grid {
   display: flex;
-  gap: 48px;
+  gap: 40px;
   align-items: center;
 }
 
@@ -621,7 +621,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .ability-item {
@@ -716,7 +716,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .models-grid-title h3 {
@@ -737,14 +737,14 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-bottom: 64px;
+  margin-bottom: 48px;
 }
 
 .model-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 20px;
   transition: all 0.25s;
   display: flex;
   flex-direction: column;
@@ -760,7 +760,7 @@ export default {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .model-icon {
@@ -816,14 +816,14 @@ export default {
   font-size: 13px;
   color: var(--text-muted);
   line-height: 1.7;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .model-highlights {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .highlight-chip {
@@ -841,7 +841,7 @@ export default {
   gap: 6px;
   font-size: 12px;
   color: var(--color-yellow);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   padding: 8px 12px;
   background: rgba(247, 186, 30, 0.08);
   border-radius: 8px;
@@ -851,7 +851,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid var(--border-color);
   margin-top: auto;
 }
@@ -885,11 +885,11 @@ export default {
 }
 
 .platform-section {
-  margin-bottom: 64px;
+  margin-bottom: 48px;
 }
 
 .platform-header {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .platform-title {
@@ -914,7 +914,7 @@ export default {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 24px;
   transition: all 0.25s;
 }
 
@@ -926,7 +926,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .platform-icon {
@@ -967,7 +967,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .platform-feature-chip {
@@ -997,11 +997,11 @@ export default {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  padding: 48px;
+  padding: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 32px;
+  gap: 24px;
   position: relative;
   overflow: hidden;
 }
@@ -1054,7 +1054,7 @@ export default {
     grid-template-columns: 1fr;
   }
   .featured-card {
-    padding: 24px;
+    padding: 20px;
   }
   .featured-title {
     font-size: 24px;
@@ -1068,14 +1068,14 @@ export default {
   }
   .cta-banner {
     flex-direction: column;
-    padding: 32px;
+    padding: 28px;
     align-items: flex-start;
   }
   .hero-actions {
     flex-direction: column;
   }
   .page-hero {
-    padding: 56px 0 40px;
+    padding: 52px 0 32px;
   }
   .filter-section {
     top: 0;

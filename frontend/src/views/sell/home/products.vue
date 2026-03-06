@@ -180,7 +180,7 @@ export default {
 
 .page-hero {
   position: relative;
-  padding: 80px 0 48px;
+  padding: 64px 0 32px;
   overflow: hidden;
   border-bottom: 1px solid var(--border-color);
 }
@@ -266,7 +266,7 @@ export default {
 }
 
 .products-body {
-  padding: 40px 0 80px;
+  padding: 28px 0 56px;
 }
 
 .products-layout {
@@ -291,7 +291,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
@@ -344,7 +344,7 @@ export default {
 }
 
 .cat-section {
-  margin-bottom: 56px;
+  margin-bottom: 40px;
   scroll-margin-top: 104px;
 }
 
@@ -352,8 +352,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -392,14 +392,14 @@ export default {
 .cat-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
 .product-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 18px;
   transition: all 0.25s;
   display: flex;
   flex-direction: column;
@@ -415,7 +415,7 @@ export default {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .product-icon {
@@ -470,7 +470,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .feature-chip {
@@ -487,7 +487,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
-  padding-top: 16px;
+  padding-top: 12px;
   border-top: 1px solid var(--border-color);
 }
 

@@ -380,7 +380,7 @@ export default {
 
 .detail-hero {
   position: relative;
-  padding: 64px 0 72px;
+  padding: 52px 0 56px;
   overflow: hidden;
   border-bottom: 1px solid var(--border-color);
 }
@@ -410,7 +410,7 @@ export default {
 .hero-inner {
   position: relative;
   display: flex;
-  gap: 64px;
+  gap: 48px;
   align-items: center;
 }
 
@@ -473,7 +473,7 @@ export default {
   font-size: 15px;
   color: var(--text-muted);
   line-height: 1.8;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   max-width: 600px;
 }
 
@@ -492,12 +492,12 @@ export default {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
-  padding: 48px 32px;
+  padding: 36px 24px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 20px;
 }
 
 .visual-icon-wrap {
@@ -598,7 +598,7 @@ export default {
 }
 
 .section {
-  padding: 80px 0;
+  padding: 56px 0;
 }
 
 .section-alt {
@@ -616,7 +616,7 @@ export default {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
 
 .section-title {
@@ -641,7 +641,7 @@ export default {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 32px;
+  padding: 24px;
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
@@ -702,7 +702,7 @@ export default {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 24px;
+  padding: 18px;
   transition: all 0.2s;
 }
 
@@ -749,7 +749,7 @@ export default {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   transition: all 0.3s;
@@ -761,7 +761,7 @@ export default {
 }
 
 .scenario-num-bar {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .scenario-num {
@@ -788,7 +788,7 @@ export default {
   color: var(--text-muted);
   line-height: 1.7;
   flex: 1;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .scenario-link {
@@ -817,7 +817,7 @@ export default {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 20px 24px;
+  padding: 16px 18px;
   transition: all 0.2s;
 }
 
@@ -889,7 +889,7 @@ export default {
 
 .cta-section {
   position: relative;
-  padding: 80px 0;
+  padding: 56px 0;
   overflow: hidden;
   text-align: center;
   border-top: 1px solid var(--border-color);
@@ -922,7 +922,7 @@ export default {
 .cta-desc {
   font-size: 15px;
   color: var(--text-muted);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   max-width: 520px;
   margin-left: auto;
   margin-right: auto;
@@ -997,10 +997,10 @@ export default {
     grid-template-columns: 1fr;
   }
   .section {
-    padding: 48px 0;
+    padding: 40px 0;
   }
   .detail-hero {
-    padding: 40px 0 48px;
+    padding: 32px 0 40px;
   }
   .section-title {
     font-size: 22px;
