@@ -256,6 +256,12 @@ import { findProductBySlug } from '../../volc/data/products.js'
 
 export default {
   name: 'ProductDetailPage',
+  props: {
+    slug: {
+      type: String,
+      default: ''
+    }
+  },
   components: { NavBar, FooterSection, VolcIcon },
   data() {
     return {
@@ -279,6 +285,9 @@ export default {
     }
   },
   computed: {
+    currentSlug() {
+      return this.slug || this.$route.params.slug
+    },
     glowColor() {
       if (!this.product) return 'rgba(51,112,255,0.1)'
       if (this.product.color.indexOf('brand') > -1) return 'rgba(51,112,255,0.12)'
@@ -290,7 +299,7 @@ export default {
     }
   },
   watch: {
-    '$route.params.slug': {
+    currentSlug: {
       immediate: true,
       handler(slug) {
         this.loadProduct(slug)
@@ -380,7 +389,7 @@ export default {
 
 .detail-hero {
   position: relative;
-  padding: 52px 0 56px;
+  padding: 32px 0 36px;
   overflow: hidden;
   border-bottom: 1px solid var(--border-color);
 }
@@ -598,7 +607,7 @@ export default {
 }
 
 .section {
-  padding: 56px 0;
+  padding: 32px 0;
 }
 
 .section-alt {
@@ -889,7 +898,7 @@ export default {
 
 .cta-section {
   position: relative;
-  padding: 56px 0;
+  padding: 32px 0;
   overflow: hidden;
   text-align: center;
   border-top: 1px solid var(--border-color);
@@ -997,10 +1006,13 @@ export default {
     grid-template-columns: 1fr;
   }
   .section {
-    padding: 40px 0;
+    padding: 20px 0;
   }
   .detail-hero {
-    padding: 32px 0 40px;
+    padding: 18px 0 24px;
+  }
+  .cta-section {
+    padding: 24px 0;
   }
   .section-title {
     font-size: 22px;
