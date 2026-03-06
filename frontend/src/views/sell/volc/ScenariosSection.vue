@@ -233,7 +233,7 @@ export default {
 
 <style scoped>
 .section {
-  padding: 80px 0;
+  padding: 20px 0;
   position: relative;
   overflow: hidden;
 }

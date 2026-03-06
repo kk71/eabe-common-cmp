@@ -12,7 +12,7 @@
 
     <div class="container" style="position: relative">
       <!-- Tabs -->
-      <div class="tab-bar" style="margin-bottom: 32px">
+      <div class="tab-bar" >
         <button
           v-for="tab in tabs"
           :key="tab.id"
@@ -210,12 +210,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .hero-section {
   position: relative;
-  padding: 96px 0 64px;
+  padding: 80px 0 20px;
   overflow: hidden;
+  .tab-bar {
+    margin-bottom: 10px;
+  }
 }
+
 .hero-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
