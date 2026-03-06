@@ -1,56 +1,18 @@
 <template>
-  <div id="volcengine-app">
-    <NavBar />
-    <main>
-      <HeroSection />
-      <ModelsSection />
-      <AgentSection />
-      <CloudProductsSection />
-      <ScenariosSection />
-      <SolutionsSection />
-      <EcosystemSection />
-    </main>
-    <FooterSection />
-  </div>
+  <!-- 父布局：必须包含 RouterView 才能渲染子路由（index.vue、products.vue 等） -->
+  <RouterView />
 </template>
 
 <script>
-import NavBar from './volc/NavBar.vue';
-import HeroSection from './volc/HeroSection.vue';
-import ModelsSection from './volc/ModelsSection.vue';
-import AgentSection from './volc/AgentSection.vue';
-import CloudProductsSection from './volc/CloudProductsSection.vue';
-import ScenariosSection from './volc/ScenariosSection.vue';
-import SolutionsSection from './volc/SolutionsSection.vue';
-import EcosystemSection from './volc/EcosystemSection.vue';
-import FooterSection from './volc/FooterSection.vue';
-
+/**
+ * home.vue 作为 /sell/home 的父布局，必须提供 RouterView 供子路由渲染。
+ * 当存在 home.vue 和 home/ 目录时，unplugin-vue-router 会创建嵌套路由：
+ * - /sell/home -> home/index.vue
+ * - /sell/home/products -> home/products.vue
+ * 若缺少 RouterView，子路由内容无法显示，/sell/home/products 会错误地显示首页内容。
+ */
 export default {
-  name: 'nav-home',
-  components: {
-    NavBar,
-    HeroSection,
-    ModelsSection,
-    AgentSection,
-    CloudProductsSection,
-    ScenariosSection,
-    SolutionsSection,
-    EcosystemSection,
-    FooterSection,
-  },
+  name: 'HomeLayout',
 };
 </script>
-
-<style src="./volc/volc-main.css"></style>
-<style scoped>
-#volcengine-app {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-}
-
-#volcengine-app main {
-  background: transparent;
-}
-</style>
 

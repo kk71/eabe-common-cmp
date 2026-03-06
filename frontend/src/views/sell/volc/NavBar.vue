@@ -23,7 +23,7 @@
             @mouseleave="startClose('models')"
           >
             <router-link
-              to="/models"
+              to="/sell/models"
               class="nav-link flex items-center gap-1"
               :class="{ 'nav-link-active': activeMenu === 'models' }"
             >
@@ -66,7 +66,7 @@
                     <div class="mega-detail-header">
                       <h4 class="mega-detail-title">{{ currentModelCat.name }}</h4>
                       <router-link
-                        to="/models"
+                        to="/sell/models"
                         class="mega-detail-link"
                         @click.native="closeAll"
                       >
@@ -78,7 +78,7 @@
                       <router-link
                         v-for="(item, idx) in currentModelCat.items"
                         :key="idx"
-                        to="/models"
+                        to="/sell/models"
                         class="mega-product-card"
                         @click.native="closeAll"
                       >
@@ -118,7 +118,7 @@
             @mouseleave="startClose('products')"
           >
             <router-link
-              to="/products"
+              to="/sell/home/products"
               class="nav-link flex items-center gap-1"
               :class="{ 'nav-link-active': activeMenu === 'products' }"
             >
@@ -161,7 +161,7 @@
                     <div class="mega-detail-header">
                       <h4 class="mega-detail-title">{{ currentProductCat.name }}</h4>
                       <router-link
-                        to="/products"
+                        to="/sell/home/products"
                         class="mega-detail-link"
                         @click.native="closeAll"
                       >
@@ -173,7 +173,7 @@
                       <router-link
                         v-for="(item, idx) in currentProductCat.items"
                         :key="idx"
-                        to="/products"
+                        :to="'/sell/home/product/' + item.slug"
                         class="mega-product-card"
                         @click.native="closeAll"
                       >
@@ -250,7 +250,7 @@
               <router-link
                 v-for="cat in modelCategories"
                 :key="cat.id"
-                to="/models"
+                to="/sell/models"
                 class="mobile-sub-link"
                 @click.native="mobileOpen = false"
               >
@@ -278,7 +278,7 @@
               <router-link
                 v-for="cat in productCategories"
                 :key="cat.id"
-                to="/products"
+                to="/sell/home/products"
                 class="mobile-sub-link"
                 @click.native="mobileOpen = false"
               >
@@ -514,43 +514,11 @@ export default {
           color: '#3370ff',
           bgColor: 'rgba(51,112,255,0.1)',
           items: [
-            {
-              name: 'GPU云服务器',
-              desc: '高性能GPU计算实例',
-              icon: 'cpu',
-              tag: 'HOT',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            },
-            {
-              name: '云服务器ECS',
-              desc: '安全稳定弹性云服务器',
-              icon: 'server',
-              tag: 'HOT',
-              color: '#14c9c9',
-              bgColor: 'rgba(20,201,201,0.1)'
-            },
-            {
-              name: '弹性裸金属服务器',
-              desc: '兼顾物理机性能与云便捷',
-              icon: 'hard-drive',
-              color: '#f7ba1e',
-              bgColor: 'rgba(247,186,30,0.1)'
-            },
-            {
-              name: '函数服务',
-              desc: '无服务器函数计算托管平台',
-              icon: 'zap',
-              color: '#9fdb1d',
-              bgColor: 'rgba(159,219,29,0.1)'
-            },
-            {
-              name: '弹性伸缩',
-              desc: '自动伸缩计算资源',
-              icon: 'bar-chart',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            }
+            { slug: 'gpu-server', name: 'GPU云服务器', desc: '高性能GPU计算实例', icon: 'cpu', tag: 'HOT', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' },
+            { slug: 'ecs', name: '云服务器ECS', desc: '安全稳定弹性云服务器', icon: 'server', tag: 'HOT', color: '#14c9c9', bgColor: 'rgba(20,201,201,0.1)' },
+            { slug: 'bare-metal', name: '弹性裸金属服务器', desc: '兼顾物理机性能与云便捷', icon: 'hard-drive', color: '#f7ba1e', bgColor: 'rgba(247,186,30,0.1)' },
+            { slug: 'serverless-function', name: '函数服务', desc: '无服务器函数计算托管平台', icon: 'zap', color: '#9fdb1d', bgColor: 'rgba(159,219,29,0.1)' },
+            { slug: 'auto-scaling', name: '弹性伸缩', desc: '自动伸缩计算资源', icon: 'bar-chart', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' }
           ]
         },
         {
@@ -561,36 +529,10 @@ export default {
           color: '#14c9c9',
           bgColor: 'rgba(20,201,201,0.1)',
           items: [
-            {
-              name: '公网IP',
-              desc: '弹性灵活安全的公网服务',
-              icon: 'globe',
-              tag: 'HOT',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            },
-            {
-              name: '负载均衡',
-              desc: '高可用流量分发服务',
-              icon: 'network',
-              color: '#14c9c9',
-              bgColor: 'rgba(20,201,201,0.1)'
-            },
-            {
-              name: 'CDN加速',
-              desc: '全球节点内容分发网络',
-              icon: 'zap',
-              tag: 'HOT',
-              color: '#f7ba1e',
-              bgColor: 'rgba(247,186,30,0.1)'
-            },
-            {
-              name: '私有网络VPC',
-              desc: '逻辑隔离安全虚拟私有云',
-              icon: 'lock',
-              color: '#9fdb1d',
-              bgColor: 'rgba(159,219,29,0.1)'
-            }
+            { slug: 'eip', name: '公网IP', desc: '弹性灵活安全的公网服务', icon: 'globe', tag: 'HOT', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' },
+            { slug: 'clb', name: '负载均衡', desc: '高可用流量分发服务', icon: 'network', color: '#14c9c9', bgColor: 'rgba(20,201,201,0.1)' },
+            { slug: 'cdn', name: 'CDN加速', desc: '全球节点内容分发网络', icon: 'zap', tag: 'HOT', color: '#f7ba1e', bgColor: 'rgba(247,186,30,0.1)' },
+            { slug: 'vpc', name: '私有网络VPC', desc: '逻辑隔离安全虚拟私有云', icon: 'lock', color: '#9fdb1d', bgColor: 'rgba(159,219,29,0.1)' }
           ]
         },
         {
@@ -601,28 +543,9 @@ export default {
           color: '#f7ba1e',
           bgColor: 'rgba(247,186,30,0.1)',
           items: [
-            {
-              name: '对象存储',
-              desc: '10EB级高可用对象存储',
-              icon: 'hard-drive',
-              tag: 'HOT',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            },
-            {
-              name: '文件存储NAS',
-              desc: '高性能共享文件存储',
-              icon: 'file-text',
-              color: '#14c9c9',
-              bgColor: 'rgba(20,201,201,0.1)'
-            },
-            {
-              name: '云盘',
-              desc: '高可靠云硬盘块存储服务',
-              icon: 'database',
-              color: '#f7ba1e',
-              bgColor: 'rgba(247,186,30,0.1)'
-            }
+            { slug: 'tos', name: '对象存储', desc: '10EB级高可用对象存储', icon: 'hard-drive', tag: 'HOT', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' },
+            { slug: 'nas', name: '文件存储NAS', desc: '高性能共享文件存储', icon: 'file-text', color: '#14c9c9', bgColor: 'rgba(20,201,201,0.1)' },
+            { slug: 'evs', name: '云盘', desc: '高可靠云硬盘块存储服务', icon: 'database', color: '#f7ba1e', bgColor: 'rgba(247,186,30,0.1)' }
           ]
         },
         {
@@ -633,44 +556,11 @@ export default {
           color: '#9fdb1d',
           bgColor: 'rgba(159,219,29,0.1)',
           items: [
-            {
-              name: '云数据库 MySQL',
-              desc: '即开即用弹性MySQL服务',
-              icon: 'database',
-              tag: 'HOT',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            },
-            {
-              name: '云数据库 PostgreSQL',
-              desc: '高兼容性关系型数据库',
-              icon: 'database',
-              color: '#14c9c9',
-              bgColor: 'rgba(20,201,201,0.1)'
-            },
-            {
-              name: '缓存数据库 Redis',
-              desc: '兼具缓存高性能与持久化',
-              icon: 'memory-stick',
-              tag: 'HOT',
-              color: '#f7ba1e',
-              bgColor: 'rgba(247,186,30,0.1)'
-            },
-            {
-              name: '云数据库 MongoDB',
-              desc: '全托管文档型NoSQL数据库',
-              icon: 'database',
-              color: '#9fdb1d',
-              bgColor: 'rgba(159,219,29,0.1)'
-            },
-            {
-              name: '云搜索服务',
-              desc: '全托管AI信息检索分析平台',
-              icon: 'search',
-              tag: 'HOT',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            }
+            { slug: 'mysql', name: '云数据库 MySQL', desc: '即开即用弹性MySQL服务', icon: 'database', tag: 'HOT', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' },
+            { slug: 'postgresql', name: '云数据库 PostgreSQL', desc: '高兼容性关系型数据库', icon: 'database', color: '#14c9c9', bgColor: 'rgba(20,201,201,0.1)' },
+            { slug: 'redis', name: '缓存数据库 Redis', desc: '兼具缓存高性能与持久化', icon: 'memory-stick', tag: 'HOT', color: '#f7ba1e', bgColor: 'rgba(247,186,30,0.1)' },
+            { slug: 'mongodb', name: '云数据库 MongoDB', desc: '全托管文档型NoSQL数据库', icon: 'database', color: '#9fdb1d', bgColor: 'rgba(159,219,29,0.1)' },
+            { slug: 'es', name: '云搜索服务', desc: '全托管AI信息检索分析平台', icon: 'search', tag: 'HOT', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' }
           ]
         },
         {
@@ -681,28 +571,9 @@ export default {
           color: '#3370ff',
           bgColor: 'rgba(51,112,255,0.1)',
           items: [
-            {
-              name: '容器服务 VKE',
-              desc: '高性能K8s容器集群管理',
-              icon: 'container',
-              tag: 'HOT',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            },
-            {
-              name: '镜像仓库',
-              desc: '安全稳定的容器镜像托管',
-              icon: 'layers',
-              color: '#14c9c9',
-              bgColor: 'rgba(20,201,201,0.1)'
-            },
-            {
-              name: '消息队列 Kafka',
-              desc: '全托管高吞吐消息队列',
-              icon: 'workflow',
-              color: '#f7ba1e',
-              bgColor: 'rgba(247,186,30,0.1)'
-            }
+            { slug: 'vke', name: '容器服务 VKE', desc: '高性能K8s容器集群管理', icon: 'container', tag: 'HOT', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' },
+            { slug: 'cr', name: '镜像仓库', desc: '安全稳定的容器镜像托管', icon: 'layers', color: '#14c9c9', bgColor: 'rgba(20,201,201,0.1)' },
+            { slug: 'kafka', name: '消息队列 Kafka', desc: '全托管高吞吐消息队列', icon: 'workflow', color: '#f7ba1e', bgColor: 'rgba(247,186,30,0.1)' }
           ]
         },
         {
@@ -713,28 +584,9 @@ export default {
           color: '#14c9c9',
           bgColor: 'rgba(20,201,201,0.1)',
           items: [
-            {
-              name: 'AI数据湖服务',
-              desc: '大模型时代AI数据基建',
-              icon: 'brain',
-              tag: 'NEW',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            },
-            {
-              name: 'EMR',
-              desc: '全托管弹性MapReduce',
-              icon: 'server',
-              color: '#14c9c9',
-              bgColor: 'rgba(20,201,201,0.1)'
-            },
-            {
-              name: '数据湖仓',
-              desc: '湖仓一体化分析平台',
-              icon: 'database',
-              color: '#f7ba1e',
-              bgColor: 'rgba(247,186,30,0.1)'
-            }
+            { slug: 'ai-datalake', name: 'AI数据湖服务', desc: '大模型时代AI数据基建', icon: 'brain', tag: 'NEW', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' },
+            { slug: 'emr', name: 'EMR', desc: '全托管弹性MapReduce', icon: 'server', color: '#14c9c9', bgColor: 'rgba(20,201,201,0.1)' },
+            { slug: 'lakehouse', name: '数据湖仓', desc: '湖仓一体化分析平台', icon: 'database', color: '#f7ba1e', bgColor: 'rgba(247,186,30,0.1)' }
           ]
         },
         {
@@ -745,28 +597,9 @@ export default {
           color: '#f7ba1e',
           bgColor: 'rgba(247,186,30,0.1)',
           items: [
-            {
-              name: '视频点播',
-              desc: '一站式音视频点播服务',
-              icon: 'video',
-              tag: 'HOT',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            },
-            {
-              name: '视频直播',
-              desc: '低延时高并发直播服务',
-              icon: 'monitor',
-              color: '#14c9c9',
-              bgColor: 'rgba(20,201,201,0.1)'
-            },
-            {
-              name: '实时音视频RTC',
-              desc: '全球低延时实时通信',
-              icon: 'headphones',
-              color: '#f7ba1e',
-              bgColor: 'rgba(247,186,30,0.1)'
-            }
+            { slug: 'vod', name: '视频点播', desc: '一站式音视频点播服务', icon: 'video', tag: 'HOT', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' },
+            { slug: 'live', name: '视频直播', desc: '低延时高并发直播服务', icon: 'monitor', color: '#14c9c9', bgColor: 'rgba(20,201,201,0.1)' },
+            { slug: 'rtc', name: '实时音视频RTC', desc: '全球低延时实时通信', icon: 'headphones', color: '#f7ba1e', bgColor: 'rgba(247,186,30,0.1)' }
           ]
         },
         {
@@ -777,28 +610,9 @@ export default {
           color: '#f53f3f',
           bgColor: 'rgba(245,63,63,0.1)',
           items: [
-            {
-              name: '大模型应用防火墙',
-              desc: '大语言模型推理安全防护',
-              icon: 'shield',
-              tag: 'NEW',
-              color: '#3370ff',
-              bgColor: 'rgba(51,112,255,0.1)'
-            },
-            {
-              name: 'DDoS防护',
-              desc: 'T级DDoS流量清洗服务',
-              icon: 'shield-check',
-              color: '#14c9c9',
-              bgColor: 'rgba(20,201,201,0.1)'
-            },
-            {
-              name: 'Web应用防火墙',
-              desc: 'Web应用安全防护',
-              icon: 'lock',
-              color: '#f7ba1e',
-              bgColor: 'rgba(247,186,30,0.1)'
-            }
+            { slug: 'llm-firewall', name: '大模型应用防火墙', desc: '大语言模型推理安全防护', icon: 'shield', tag: 'NEW', color: '#3370ff', bgColor: 'rgba(51,112,255,0.1)' },
+            { slug: 'ddos', name: 'DDoS防护', desc: 'T级DDoS流量清洗服务', icon: 'shield-check', color: '#14c9c9', bgColor: 'rgba(20,201,201,0.1)' },
+            { slug: 'waf', name: 'Web应用防火墙', desc: 'Web应用安全防护', icon: 'lock', color: '#f7ba1e', bgColor: 'rgba(247,186,30,0.1)' }
           ]
         }
       ]
