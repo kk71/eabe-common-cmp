@@ -9,7 +9,7 @@
         <div class="container" style="position: relative">
           <h1 class="page-title">全栈云产品</h1>
           <p class="page-subtitle">
-            从计算、存储、网络到数据库、大数据、安全，火山引擎提供全栈基础云服务，为业务增长保驾护航
+            从计算、存储、网络到数据库、大数据、安全，羿贝引擎提供全栈基础云服务，为业务增长保驾护航
           </p>
           <div class="search-bar">
             <VolcIcon name="search" :size="18" color="var(--text-muted)" />

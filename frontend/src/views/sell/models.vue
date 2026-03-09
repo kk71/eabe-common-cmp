@@ -320,7 +320,7 @@ export default {
       ],
       platforms: [
         {
-          name: '火山方舟',
+          name: '羿贝方舟',
           subtitle: '一站式大模型开发平台',
           icon: 'layers',
           color: 'var(--color-brand)',
