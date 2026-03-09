@@ -21,6 +21,10 @@
     padding: 33px 0;
     color: #666666;
     font-size: 16px;
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+    }
     li {
       display: inline-block;
       width: 24.9%;
@@ -44,6 +48,27 @@
       }
       .icon-post {
         @include bgImg(20px, 20px, '/imgs/icon-post.png');
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .service {
+      padding: 20px 0;
+      font-size: 14px;
+
+      li {
+        width: 50%;
+        padding: 10px 0;
+        border-right: none;
+      }
+    }
+  }
+
+  @media (max-width: 360px) {
+    .service {
+      li {
+        width: 100%;
       }
     }
   }

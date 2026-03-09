@@ -90,4 +90,33 @@
       }
     }
   }
+
+  @media (max-width: 768px) {
+    .scan {
+      .item-wrap {
+        width: calc(100vw - 32px);
+        max-width: 670px;
+        flex-direction: column;
+      }
+
+      .img-scan {
+        display: none;
+      }
+
+      .img-pay {
+        width: 100%;
+        height: auto;
+
+        .qrcode {
+          padding: 24px 0 18px;
+
+          img {
+            width: min(72vw, 240px);
+            height: auto;
+            aspect-ratio: 1 / 1;
+          }
+        }
+      }
+    }
+  }
 </style>

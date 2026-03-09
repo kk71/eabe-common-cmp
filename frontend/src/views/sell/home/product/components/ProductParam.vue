@@ -96,4 +96,71 @@
       }
     }
   }
+
+  @media (max-width: 768px) {
+    .nav-bar {
+      height: auto;
+      line-height: 1.4;
+      padding: 10px 0;
+
+      .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .pro-param {
+        width: 100%;
+        font-size: 12px;
+        word-break: break-word;
+
+        span {
+          margin: 0 6px;
+        }
+      }
+    }
+
+    /* 旧版产品详情页：移动端改为上下布局，避免固定宽溢出 */
+    .detail {
+      .wrapper {
+        .swiper,
+        .content {
+          float: none !important;
+          width: 100% !important;
+          height: auto !important;
+        }
+
+        .swiper {
+          margin-top: 0 !important;
+
+          img {
+            height: auto;
+          }
+        }
+
+        .content {
+          .item-title,
+          .item-info {
+            height: auto !important;
+          }
+
+          .item-title {
+            padding-top: 18px !important;
+          }
+
+          .line {
+            margin-top: 16px !important;
+            margin-bottom: 16px !important;
+          }
+
+          .item-total {
+            height: auto !important;
+            margin-top: 18px !important;
+            margin-bottom: 16px !important;
+            padding: 16px !important;
+          }
+        }
+      }
+    }
+  }
 </style>

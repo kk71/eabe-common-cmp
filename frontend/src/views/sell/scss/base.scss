@@ -1,11 +1,15 @@
 @import "./mixin.scss";
 @import "./config.scss";
 
-.container {
+#app .container {
     position: relative;
-    width: 1226px;
+    width: 100%;
+    max-width: $min-width;
     margin-right: auto;
     margin-left: auto;
+    padding-right: 24px;
+    padding-left: 24px;
+    box-sizing: border-box;
 }
 a {
     img {
@@ -44,5 +48,12 @@ input {
     img {
         width: 40px;
         height: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    #app .container {
+        padding-right: 16px;
+        padding-left: 16px;
     }
 }
