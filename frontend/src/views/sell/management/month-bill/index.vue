@@ -58,61 +58,60 @@
           <div class="bill-rows">
             <div class="bill-row">
               <span class="bill-row-label link-blue">应付金额</span>
-              <span class="bill-row-value">¥ 0.00</span>
+              <span class="bill-row-value">¥ {{ summaryCard.payable }}</span>
             </div>
             <div class="bill-row">
               <span class="bill-row-label link-blue">已还款金额</span>
-              <span class="bill-row-value">¥ 0.00</span>
+              <span class="bill-row-value">¥ {{ summaryCard.paid }}</span>
             </div>
             <div class="bill-row indent">
               <span class="bill-row-label muted">现金支付</span>
-              <span class="bill-row-value muted">¥ 0.00</span>
+              <span class="bill-row-value muted">¥ {{ summaryCard.cashPay }}</span>
             </div>
             <div class="bill-row indent">
               <span class="bill-row-label muted">信控额度退款抵扣</span>
-              <span class="bill-row-value muted">¥ 0.00</span>
+              <span class="bill-row-value muted">¥ {{ summaryCard.creditDeduct }}</span>
             </div>
             <div class="bill-row">
               <span class="bill-row-label">欠费金额</span>
               <span class="bill-row-value">
                 <router-link to="/sell/management/wallet" class="link-blue">充值</router-link>
-                ¥ 0.00
+                ¥ {{ summaryCard.arrears }}
               </span>
             </div>
           </div>
           <div class="bill-card-footer">
             <div class="footer-left">
-              <span class="footer-label">历史累计欠费金额 ¥ 0.00</span>
+              <span class="footer-label">历史累计欠费金额 ¥ {{ summaryCard.historyArrears }}</span>
               <span class="footer-note">* 示例数据，实际以后台账单为准</span>
             </div>
             <router-link to="/sell/management/bill-detail" class="link-blue">查看账单详情 &gt;</router-link>
           </div>
         </div>
 
-        <!-- 右侧：费用趋势示意 -->
+        <!-- 右侧：费用趋势 -->
         <div class="card trend-card">
           <div class="trend-head">
             <span class="trend-title">费用趋势</span>
             <a href="javascript:;" class="link-blue">费用分析 &gt;</a>
           </div>
           <div class="trend-chart-area">
-            <svg class="trend-chart" viewBox="0 0 600 200" preserveAspectRatio="none">
+            <svg class="trend-chart" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid meet">
               <line x1="40" y1="10" x2="40" y2="170" stroke="#e5e6eb" stroke-width="1" />
               <line x1="40" y1="170" x2="580" y2="170" stroke="#e5e6eb" stroke-width="1" />
               <line x1="40" y1="40" x2="580" y2="40" stroke="#f2f3f5" stroke-width="1" stroke-dasharray="4" />
               <line x1="40" y1="90" x2="580" y2="90" stroke="#f2f3f5" stroke-width="1" stroke-dasharray="4" />
               <line x1="40" y1="140" x2="580" y2="140" stroke="#f2f3f5" stroke-width="1" stroke-dasharray="4" />
-              <line x1="60" y1="168" x2="560" y2="168" stroke="#3370ff" stroke-width="2" />
-              <circle v-for="(m, idx) in trendMonths" :key="m" :cx="60 + idx * 80" cy="168" r="3" fill="#3370ff" />
-              <text x="35" y="172" text-anchor="end" fill="#86909c" font-size="10">¥ 0</text>
+              <polyline fill="none" stroke="#3370ff" stroke-width="2" :points="trendPolylinePoints" />
+              <circle v-for="(pt, idx) in trendPoints" :key="idx" :cx="pt.x" :cy="pt.y" r="3" fill="#3370ff" />
+              <text x="35" y="172" text-anchor="end" fill="#86909c">¥ 0</text>
               <text
                 v-for="(m, idx) in trendMonths"
                 :key="`label-${m}`"
-                :x="60 + idx * 80"
+                :x="trendPoints[idx]?.x ?? (60 + idx * 80)"
                 y="188"
                 text-anchor="middle"
                 fill="#86909c"
-                font-size="10"
               >
                 {{ m }}
               </text>
@@ -139,7 +138,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr v-if="loading"><td colspan="6" class="td-loading">加载中...</td></tr>
+              <tr v-else-if="!monthBillList.length">
                 <td colspan="6">
                   <div class="empty-state">
                     <div class="empty-icon-block">
@@ -150,9 +150,17 @@
                         <text x="46" y="24" font-size="10" fill="#86909c" font-weight="600">EMPTY</text>
                       </svg>
                     </div>
-                    <span class="empty-text">暂无账单数据，后续可接入真实接口</span>
+                    <span class="empty-text">暂无账单数据</span>
                   </div>
                 </td>
+              </tr>
+              <tr v-else v-for="row in monthBillList" :key="row.payer + row.period">
+                <td>{{ row.payer }}</td>
+                <td>{{ row.period }}</td>
+                <td>¥ {{ row.payAmount }}</td>
+                <td>¥ {{ row.cashPay }}</td>
+                <td>¥ {{ row.arrears }}</td>
+                <td>{{ row.statusText }}</td>
               </tr>
             </tbody>
           </table>
@@ -163,14 +171,50 @@
 </template>
 
 <script setup>
+  import { inject, watch } from 'vue';
+  import { waitRequest } from '@/utils/http/tools';
+  import { getMonthBillSummary, getCostFeeTrend } from '@/api/sell';
+
   const emits = defineEmits(['update-title']);
+  const loading = inject('loading');
 
   const filter = reactive({
     period: '',
     payer: '',
   });
 
-  const trendMonths = ref(['2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03']);
+  const trendData = ref([]);
+  const trendMonths = computed(() => trendData.value.map((x) => x.period));
+  const trendAmounts = computed(() => trendData.value.map((x) => Number(x.amount || 0)));
+
+  const trendPoints = computed(() => {
+    const n = trendAmounts.value.length || 1;
+    const x0 = 60;
+    const x1 = 560;
+    const yBottom = 168;
+    const yTop = 20;
+    const maxV = Math.max(0, ...trendAmounts.value);
+    const denom = maxV > 0 ? maxV : 1;
+    const step = n === 1 ? 0 : (x1 - x0) / (n - 1);
+    return trendAmounts.value.map((v, i) => {
+      const x = x0 + step * i;
+      const y = yBottom - ((yBottom - yTop) * (v / denom));
+      return { x, y };
+    });
+  });
+
+  const trendPolylinePoints = computed(() => trendPoints.value.map((p) => `${p.x},${p.y}`).join(' '));
+
+  const summaryCard = reactive({
+    payable: '0.00',
+    paid: '0.00',
+    cashPay: '0.00',
+    creditDeduct: '0.00',
+    arrears: '0.00',
+    historyArrears: '0.00',
+  });
+
+  const monthBillList = ref([]);
 
   const displayPeriod = computed(() => {
     const period = filter.period;
@@ -184,8 +228,59 @@
     }
   });
 
-  onMounted(() => {
+  function fmtNum(n) {
+    if (n == null || Number.isNaN(n)) return '0.00';
+    return Number(n).toFixed(2);
+  }
+
+  async function loadSummary() {
+    const [y, m] = displayPeriod.value.split('-').map(Number);
+    const resp = await waitRequest(
+      loading,
+      getMonthBillSummary({ params: { year: y, month: m } })
+    );
+    const list = resp.data?.data ?? [];
+    const total = list.reduce((s, x) => s + (x.total_amount || 0), 0);
+    summaryCard.payable = fmtNum(total);
+    summaryCard.paid = fmtNum(0);
+    summaryCard.cashPay = fmtNum(total);
+    summaryCard.creditDeduct = fmtNum(0);
+    summaryCard.arrears = fmtNum(0);
+    summaryCard.historyArrears = fmtNum(0);
+    let rows = list.map((s) => ({
+      payer: s.customer_code || s.customer_name || '-',
+      period: `${s.year}-${String(s.month).padStart(2, '0')}`,
+      payAmount: fmtNum(s.total_amount),
+      cashPay: fmtNum(s.total_amount),
+      arrears: fmtNum(0),
+      statusText: '出账中',
+    }));
+    if (filter.payer && String(filter.payer).trim()) {
+      const q = String(filter.payer).trim().toLowerCase();
+      rows = rows.filter((r) => String(r.payer || '').toLowerCase().includes(q));
+    }
+    monthBillList.value = rows;
+  }
+
+  async function loadTrend() {
+    const resp = await waitRequest(loading, getCostFeeTrend({ params: { months: 6 } }));
+    trendData.value = resp.data?.data ?? [];
+  }
+
+  watch(
+    () => [filter.period, filter.payer],
+    () => loadSummary(),
+    { immediate: false }
+  );
+
+  onMounted(async () => {
     emits('update-title', '账单概览');
+    if (!filter.period) {
+      const d = new Date();
+      filter.period = new Date(d.getFullYear(), d.getMonth(), 1);
+    }
+    await loadSummary();
+    await loadTrend();
   });
 </script>
 
@@ -382,6 +477,15 @@
   .trend-chart {
     width: 100%;
     min-height: 160px;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+  }
+  .trend-chart text {
+    font-family: inherit;
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-rendering: geometricPrecision;
   }
 
   .table-card {
@@ -430,6 +534,11 @@
   }
   .empty-text {
     font-size: 13px;
+    color: #86909c;
+  }
+  .td-loading {
+    padding: 24px;
+    text-align: center;
     color: #86909c;
   }
 

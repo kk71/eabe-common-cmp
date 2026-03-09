@@ -65,12 +65,16 @@ def classify_fee_type(bill: MonthBill) -> str:
 async def _(
         header: Annotated[HeaderToken, Header()],
         query: build_query({
+            "year": opt_query(int),
+            "month": opt_query(int),
+            "customer_code": opt_query(str),
             "product_type": opt_query(ProductType.str_enum()),
             "settlement_type": opt_query(MonthBillSettlementType.str_enum()),
         }, pagination=True, keyword=True)
 ) -> PaginationJsonResp[list[MonthBillGetter]]:
     await header.verify()
-    bills = MonthBill.filter(**query.model_dump())
+    d = {k: v for k, v in query.model_dump().items() if v is not None}
+    bills = MonthBill.filter(**d)
     bills = query.query_keyword(
         bills, "product_name", "customer_name", "customer_code", "account_code", "resource_code")
     bills = await query.paginate(bills)
@@ -86,6 +90,7 @@ async def month_bill_summary(
         query: build_query({
             "year": opt_query(int),
             "month": opt_query(int),
+            "customer_code": opt_query(str),
         }, keyword=False)
 ) -> JsonResp[list[MonthBillSummary]]:
     """

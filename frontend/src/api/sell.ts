@@ -8,6 +8,9 @@ export const calcProductInfo = (conf: any) => post({ ...conf, url: '/sell/produc
 // 统计
 export const getOverallStats = (conf: any) => get({ ...conf, url: '/sell/stats/overall' });
 
+// 趋势
+export const getCostFeeTrend = (conf: any) => get({ ...conf, url: '/sell/stats/trend' });
+
 // 账单
 export const getMonthBills = (conf: any) => get({ ...conf, url: '/sell/bill/month' });
 export const getMonthBillSummary = (conf: any) => get({ ...conf, url: '/sell/bill/month/summary' });

@@ -86,12 +86,12 @@
       </div>
     </section>
 
-    <!-- 成本趋势（静态示意图） -->
+    <!-- 成本趋势 -->
     <section class="card">
       <div class="card-header">
         <div class="trend-header-left">
           <h3 class="card-title">成本趋势</h3>
-          <span class="text-muted-sm">数据仅为示意，可与后台对接真实数据</span>
+          <span class="text-muted-sm">近 {{ trendMonths.length }} 月</span>
         </div>
         <a href="javascript:;" class="link-blue">前往费用分析 &gt;</a>
       </div>
@@ -102,26 +102,33 @@
         </div>
       </div>
       <div class="chart-container">
-        <svg class="trend-chart" viewBox="0 0 900 200" preserveAspectRatio="none">
+        <svg class="trend-chart" viewBox="0 0 900 200" preserveAspectRatio="xMidYMid meet">
           <line x1="0" y1="0" x2="900" y2="0" stroke="#f2f3f5" stroke-width="1" />
           <line x1="0" y1="66" x2="900" y2="66" stroke="#f2f3f5" stroke-width="1" />
           <line x1="0" y1="133" x2="900" y2="133" stroke="#f2f3f5" stroke-width="1" />
           <line x1="0" y1="199" x2="900" y2="199" stroke="#f2f3f5" stroke-width="1" />
-          <text x="0" y="12" fill="#86909c" font-size="11">¥ 81</text>
-          <text x="0" y="78" fill="#86909c" font-size="11">¥ 40.5</text>
-          <text x="0" y="145" fill="#86909c" font-size="11">¥ 0</text>
+          <text x="0" y="12" fill="#86909c">¥ {{ yAxisLabels[0] }}</text>
+          <text x="0" y="78" fill="#86909c">¥ {{ yAxisLabels[1] }}</text>
+          <text x="0" y="145" fill="#86909c">¥ {{ yAxisLabels[2] }}</text>
           <polyline
             fill="none"
             stroke="#3370ff"
             stroke-width="2"
-            points="80,199 200,199 320,199 440,199 560,199 680,199 800,199"
+            :points="trendPolylinePoints"
           />
           <g v-for="(m, i) in trendMonths" :key="m">
-            <text :x="80 + i * 120" y="195" fill="#86909c" font-size="10" text-anchor="middle">
+            <text :x="80 + i * 120" y="195" fill="#86909c" text-anchor="middle">
               {{ m }}
             </text>
           </g>
-          <circle cx="800" cy="199" r="4" fill="#3370ff" />
+          <circle
+            v-for="(pt, i) in trendPoints"
+            :key="`${pt.x}-${pt.y}`"
+            :cx="pt.x"
+            :cy="pt.y"
+            r="4"
+            fill="#3370ff"
+          />
         </svg>
       </div>
     </section>
@@ -129,7 +136,12 @@
 </template>
 
 <script setup>
+  import { inject } from 'vue';
+  import { waitRequest } from '@/utils/http/tools';
+  import { getCostFeeTrend } from '@/api/sell';
+
   const emits = defineEmits(['update-title']);
+  const loading = inject('loading');
 
   const bills = ref([
     { period: '2026-03', status: '出账中', statusClass: 'dot-blue' },
@@ -137,10 +149,43 @@
     { period: '2026-01', status: '已结清', statusClass: 'dot-green' },
   ]);
 
-  const trendMonths = ref(['2025-10', '2025-11', '2025-12', '2026-01', '2026-02', '2026-03']);
+  const trendData = ref([]);
+  const trendMonths = computed(() => trendData.value.map((x) => x.period));
+  const trendAmounts = computed(() => trendData.value.map((x) => Number(x.amount || 0)));
 
-  onMounted(() => {
+  const yAxisLabels = computed(() => {
+    const maxV = Math.max(0, ...trendAmounts.value);
+    const top = maxV <= 0 ? 0 : Math.ceil(maxV);
+    const mid = top / 2;
+    return [top.toFixed(0), mid.toFixed(0), '0'];
+  });
+
+  const trendPoints = computed(() => {
+    const n = trendAmounts.value.length || 1;
+    const x0 = 80;
+    const x1 = 800;
+    const yBottom = 199;
+    const yTop = 20;
+    const maxV = Math.max(0, ...trendAmounts.value);
+    const denom = maxV > 0 ? maxV : 1;
+    const step = n === 1 ? 0 : (x1 - x0) / (n - 1);
+    return trendAmounts.value.map((v, i) => {
+      const x = x0 + step * i;
+      const y = yBottom - ((yBottom - yTop) * (v / denom));
+      return { x, y };
+    });
+  });
+
+  const trendPolylinePoints = computed(() => trendPoints.value.map((p) => `${p.x},${p.y}`).join(' '));
+
+  async function loadTrend() {
+    const resp = await waitRequest(loading, getCostFeeTrend({ params: { months: 6 } }));
+    trendData.value = resp.data?.data ?? [];
+  }
+
+  onMounted(async () => {
     emits('update-title', '账户总览');
+    await loadTrend();
   });
 </script>
 
@@ -405,6 +450,15 @@
   .trend-chart {
     width: 100%;
     height: 200px;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+  }
+  .trend-chart text {
+    font-family: inherit;
+    font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-rendering: geometricPrecision;
   }
 
   @media (max-width: 960px) {
