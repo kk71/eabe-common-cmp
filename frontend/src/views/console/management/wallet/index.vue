@@ -23,6 +23,7 @@
     <el-space style="margin-bottom: 10px">
       <el-button type="primary" @click="openRechargeDialog">充值</el-button>
       <el-button @click="openSetBalanceDialog">设置余额</el-button>
+      <el-button @click="importDialog.visible = true">导入扣费记录</el-button>
     </el-space>
 
     <el-table ref="listTable" :data="data.data" stripe v-loading="loading">
@@ -100,13 +101,48 @@
         <el-button @click="txDialog.visible = false">关闭</el-button>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="importDialog.visible" title="导入扣费记录（CSV / Excel）" width="760px">
+      <el-alert type="info" show-icon :closable="false" style="margin-bottom: 10px">
+        <template #title>
+          支持流量/短信/token 费用扣费记录导入。建议字段顺序：time, customer_code, customer_name, cost_type, amount, remark
+        </template>
+      </el-alert>
+      <el-form :model="importDialog.form" label-width="140px" style="margin-bottom: 10px">
+        <el-form-item label="同步更新钱包余额">
+          <el-switch v-model="importDialog.form.apply_to_balance" />
+        </el-form-item>
+        <el-form-item v-if="importDialog.form.apply_to_balance" label="允许余额为负">
+          <el-switch v-model="importDialog.form.allow_negative_balance" />
+        </el-form-item>
+      </el-form>
+      <el-upload
+        drag
+        :auto-upload="false"
+        :limit="1"
+        accept=".csv,.xlsx"
+        :on-change="onImportFileChange"
+        :on-remove="onImportFileRemove"
+      >
+        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+        <div class="el-upload__text">拖拽文件到此处，或 <em>点击选择</em></div>
+        <template #tip>
+          <div class="el-upload__tip">支持 .csv / .xlsx，首行表头会自动跳过</div>
+        </template>
+      </el-upload>
+      <template #footer>
+        <el-button @click="importDialog.visible = false">取消</el-button>
+        <el-button type="primary" :disabled="!importDialog.file" @click="doImportTx">导入</el-button>
+      </template>
+    </el-dialog>
   </filterable-list-frame>
 </template>
 
 <script setup>
   import { waitRequest } from '@/utils/http/tools';
   import { QSValidator } from '@/utils/router';
-  import { getWalletAccounts, getWalletTransactions, rechargeWallet, setWalletBalance } from '@/api/console';
+  import { getWalletAccounts, getWalletTransactions, rechargeWallet, setWalletBalance, importWalletTransactionsFile } from '@/api/console';
+  import { UploadFilled } from '@element-plus/icons-vue';
 
   const emits = defineEmits(['update-title']);
 
@@ -152,6 +188,15 @@
     customerLabel: '',
     customer_code: '',
     data: [],
+  });
+
+  const importDialog = reactive({
+    visible: false,
+    file: null,
+    form: {
+      apply_to_balance: false,
+      allow_negative_balance: true,
+    },
   });
 
   const openRechargeDialog = () => {
@@ -233,6 +278,32 @@
     );
     setBalanceDialog.visible = false;
     await onLoad();
+  };
+
+  const doImportTx = async () => {
+    if (!importDialog.file) return;
+    const fd = new FormData();
+    fd.append('file', importDialog.file);
+    fd.append('skip_header', 'true');
+    fd.append('apply_to_balance', String(importDialog.form.apply_to_balance));
+    fd.append('allow_negative_balance', String(importDialog.form.allow_negative_balance));
+    await waitRequest(
+      loading,
+      importWalletTransactionsFile({
+        data: fd,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }),
+    );
+    importDialog.visible = false;
+    importDialog.file = null;
+    await onLoad();
+  };
+
+  const onImportFileChange = (uploadFile) => {
+    importDialog.file = uploadFile?.raw || null;
+  };
+  const onImportFileRemove = () => {
+    importDialog.file = null;
   };
 
   onMounted(async () => {

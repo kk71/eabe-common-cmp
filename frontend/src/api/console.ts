@@ -23,6 +23,7 @@ export const importOrders = (conf: any) => post({ ...conf, url: '/console/import
 export const importMonthBills = (conf: any) => post({ ...conf, url: '/console/imports/month-bills' });
 export const importOrdersFile = (conf: any) => post({ ...conf, url: '/console/imports/orders/file' });
 export const importMonthBillsFile = (conf: any) => post({ ...conf, url: '/console/imports/month-bills/file' });
+export const importWalletTransactionsFile = (conf: any) => post({ ...conf, url: '/console/imports/wallet-transactions/file' });
 
 // 月账单扣费记录
 export const getMonthBillChargeRecords = (conf: any) => get({ ...conf, url: '/console/bill/charge' });

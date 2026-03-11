@@ -6,7 +6,7 @@ from io import BytesIO
 import csv
 
 import arrow
-from fastapi import Header, UploadFile, File, Form
+from fastapi import Header, UploadFile, File, Form, Query
 from pydantic import BaseModel, Field
 import chardet
 
@@ -20,6 +20,9 @@ from backend.models import (
     OrderOrigin,
     OrderStatus,
     ProductType,
+    WalletAccount,
+    WalletTransaction,
+    WalletTransactionType,
 )
 
 
@@ -238,6 +241,141 @@ async def _import_month_bills_from_rows(rows: Iterable[list[str]], skip_header: 
     return result
 
 
+def _parse_bool(v) -> bool:
+    if v is None:
+        return False
+    s = str(v).strip().lower()
+    return s in ("1", "true", "yes", "y", "on", "是")
+
+
+def _normalize_cost_type(v: str) -> str:
+    s = (v or "").strip().lower()
+    if s in ("流量", "traffic", "stream"):
+        return "stream"
+    if s in ("短信", "sms", "短信服务"):
+        return "sms"
+    if s in ("token", "tokens"):
+        return "token"
+    return s or "unknown"
+
+
+def _build_cost_remark(cost_type: str, remark: str | None) -> str | None:
+    base = (remark or "").strip()
+    ct = _normalize_cost_type(cost_type)
+    prefix = {"stream": "[stream]", "sms": "[sms]", "token": "[token]"}.get(ct, f"[{ct}]")
+    if not base:
+        return prefix
+    if base.startswith("["):
+        return base
+    return f"{prefix} {base}"
+
+
+async def _get_or_create_wallet(customer_code: str, customer_name: str | None = None) -> WalletAccount:
+    w = await WalletAccount.filter(customer_code=customer_code).first()
+    if w:
+        if customer_name and w.customer_name != customer_name:
+            w.customer_name = customer_name
+            await w.save()
+        return w
+    return await WalletAccount.create(customer_code=customer_code, customer_name=customer_name)
+
+
+async def _import_wallet_transactions_from_rows(
+    rows: Iterable[list[str]],
+    skip_header: bool,
+    apply_to_balance: bool,
+    allow_negative_balance: bool,
+) -> ImportResult:
+    """
+    导入扣费流水（钱包流水：consume）。
+
+    列顺序（推荐）：
+    1) time: 扣费时间（如 2026-03-01 12:30:00）
+    2) customer_code
+    3) customer_name（可选）
+    4) cost_type: stream/sms/token（或中文“流量/短信/token”）
+    5) amount: 扣费金额（正数）
+    6) remark（可选）
+    7) related_bill_id（可选）
+    8) related_order_id（可选）
+    9) tx_id（可选；用于幂等，存在则跳过）
+    """
+    result = ImportResult()
+    idx = 0
+    for cols in rows:
+        if skip_header and idx == 0:
+            idx += 1
+            continue
+        idx += 1
+        cols = [c.strip() for c in cols if c is not None]
+        if len(cols) < 5:
+            result.failed += 1
+            continue
+
+        (
+            time_s,
+            customer_code,
+            customer_name,
+            cost_type,
+            amount,
+            *rest,
+        ) = cols
+
+        remark = rest[0] if len(rest) >= 1 else None
+        related_bill_id = rest[1] if len(rest) >= 2 else None
+        related_order_id = rest[2] if len(rest) >= 3 else None
+        tx_id = rest[3] if len(rest) >= 4 else None
+
+        try:
+            dt = arrow.get(time_s).naive
+            amount_v = Decimal(str(amount))
+            if amount_v <= 0:
+                raise ValueError("amount must be > 0")
+        except Exception:
+            result.failed += 1
+            continue
+
+        try:
+            wallet = await _get_or_create_wallet(customer_code=customer_code, customer_name=customer_name or None)
+            if tx_id:
+                exist = await WalletTransaction.filter(tx_id=tx_id).first()
+                if exist:
+                    result.skipped += 1
+                    continue
+
+            wallet.balance = Decimal(str(wallet.balance or 0))
+            change_amount = -amount_v
+            if apply_to_balance:
+                target_balance = wallet.balance + change_amount
+                if (not allow_negative_balance) and target_balance < 0:
+                    raise BadRequest("导入会导致余额为负，已拒绝（可勾选允许负余额或关闭同步余额）")
+                wallet.balance = target_balance
+                await wallet.save()
+                balance_after = wallet.balance
+            else:
+                balance_after = wallet.balance
+
+            create_kwargs = dict(
+                wallet=wallet,
+                tx_type=WalletTransactionType.consume.value,
+                change_amount=change_amount,
+                balance_after=balance_after,
+                related_order_id=related_order_id or None,
+                related_bill_id=related_bill_id or None,
+                remark=_build_cost_remark(cost_type, remark),
+                create_time=dt,
+            )
+            if tx_id:
+                create_kwargs["tx_id"] = tx_id
+            await WalletTransaction.create(**create_kwargs)
+            result.created += 1
+        except Exception:
+            result.failed += 1
+            continue
+
+    return result
+
+
 @router.post(path_postfix="/orders", tags=[APITags.console], summary="导入订单（仅导入入库，不立即扣费）")
 async def _(
     header: Annotated[HeaderToken, Header()],
@@ -281,5 +419,42 @@ async def _(
     await header.verify(Privileges.system_control)
     rows = await _iter_rows_from_upload(file)
     result = await _import_month_bills_from_rows(rows, skip_header=skip_header)
+    return JsonResp(data=result)
+
+
+@router.post(path_postfix="/wallet-transactions", tags=[APITags.console], summary="导入扣费记录（TSV 文本）")
+async def _(
+    header: Annotated[HeaderToken, Header()],
+    body: ImportTextBody,
+    apply_to_balance: bool = Query(default=False),
+    allow_negative_balance: bool = Query(default=True),
+) -> JsonResp[ImportResult]:
+    await header.verify(Privileges.system_control)
+    rows = [[c.strip() for c in raw.split("\t")] for raw in _lines(body.text)]
+    result = await _import_wallet_transactions_from_rows(
+        rows,
+        skip_header=body.skip_header,
+        apply_to_balance=apply_to_balance,
+        allow_negative_balance=allow_negative_balance,
+    )
+    return JsonResp(data=result)
+
+
+@router.post(path_postfix="/wallet-transactions/file", tags=[APITags.console], summary="上传导入扣费记录（CSV / Excel）")
+async def _(
+    header: Annotated[HeaderToken, Header()],
+    file: UploadFile = File(...),
+    skip_header: bool = Form(default=True),
+    apply_to_balance: bool = Form(default=False),
+    allow_negative_balance: bool = Form(default=True),
+) -> JsonResp[ImportResult]:
+    await header.verify(Privileges.system_control)
+    rows = await _iter_rows_from_upload(file)
+    result = await _import_wallet_transactions_from_rows(
+        rows,
+        skip_header=skip_header,
+        apply_to_balance=apply_to_balance,
+        allow_negative_balance=allow_negative_balance,
+    )
     return JsonResp(data=result)
 
