@@ -2,7 +2,6 @@ fastapi[standard]
 pydantic-settings
 tortoise-orm[asyncmy]
 tortoise-orm[accel]
-tortoise-orm==1.1.5
 asyncmy
 celery
 chardet
