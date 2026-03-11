@@ -45,5 +45,7 @@ from .user_role import *
 from .cart import *
 from .product import *
 from .month_bill import *
+from .month_bill_charge import *
 from .order import *
 from .wallet import *
+from .random_consumption import *

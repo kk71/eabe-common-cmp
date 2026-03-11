@@ -30,6 +30,10 @@
       </el-row>
     </el-form>
 
+    <el-space style="margin-bottom: 10px">
+      <el-button type="primary" @click="importDialog.visible = true">导入订单</el-button>
+    </el-space>
+
     <el-table ref="listTable" :data="data.data" stripe v-loading="loading">
       <el-table-column type="selection" width="50" />
       <el-table-column prop="order_id" label="订单编号" min-width="200" />
@@ -79,13 +83,38 @@
         <el-button @click="txDialog.visible = false">关闭</el-button>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="importDialog.visible" title="导入订单（CSV / Excel）" width="760px">
+      <el-alert type="info" show-icon :closable="false" style="margin-bottom: 10px">
+        <template #title>选择 CSV 或 Excel(xlsx) 上传，后台仅导入入库，扣费由定时任务到期执行</template>
+      </el-alert>
+      <el-upload
+        drag
+        :auto-upload="false"
+        :limit="1"
+        accept=".csv,.xlsx"
+        :on-change="onImportFileChange"
+        :on-remove="onImportFileRemove"
+      >
+        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+        <div class="el-upload__text">拖拽文件到此处，或 <em>点击选择</em></div>
+        <template #tip>
+          <div class="el-upload__tip">支持 .csv / .xlsx，首行表头会自动跳过</div>
+        </template>
+      </el-upload>
+      <template #footer>
+        <el-button @click="importDialog.visible = false">取消</el-button>
+        <el-button type="primary" :disabled="!importDialog.file" @click="doImportOrders">导入</el-button>
+      </template>
+    </el-dialog>
   </filterable-list-frame>
 </template>
 
 <script setup>
   import { waitRequest } from '@/utils/http/tools';
   import { QSValidator } from '@/utils/router';
-  import { getOrders, payOrderByWallet, getWalletTransactions } from '@/api/console';
+  import { getOrders, payOrderByWallet, getWalletTransactions, importOrdersFile } from '@/api/console';
+  import { UploadFilled } from '@element-plus/icons-vue';
 
   const emits = defineEmits(['update-title']);
 
@@ -116,6 +145,11 @@
     visible: false,
     orderId: '',
     data: [],
+  });
+
+  const importDialog = reactive({
+    visible: false,
+    file: null,
   });
 
   const handleManualPay = async (row) => {
@@ -164,6 +198,30 @@
     data.p = resp.data.pagination;
     data.data = resp.data.data;
   }
+
+  const doImportOrders = async () => {
+    if (!importDialog.file) return;
+    const fd = new FormData();
+    fd.append('file', importDialog.file);
+    fd.append('skip_header', 'true');
+    await waitRequest(
+      loading,
+      importOrdersFile({
+        data: fd,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }),
+    );
+    importDialog.visible = false;
+    importDialog.file = null;
+    await onLoad();
+  };
+
+  const onImportFileChange = (uploadFile) => {
+    importDialog.file = uploadFile?.raw || null;
+  };
+  const onImportFileRemove = () => {
+    importDialog.file = null;
+  };
 
   onMounted(async () => {
     emits('update-title', '订单管理');

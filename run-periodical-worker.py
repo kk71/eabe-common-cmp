@@ -11,6 +11,7 @@ from tortoise import Tortoise, connections
 from backend.celery import BaseCeleryTask
 from backend.core.import_utils import *
 recursively_import_packages("backend.services")
+recursively_import_packages("backend.celery.tasks")
 from backend.celery.task import all_tasks
 from celery import current_app
 from backend.celery import conf

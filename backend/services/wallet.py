@@ -66,6 +66,47 @@ class WalletAccountService:
             return wallet
 
     @classmethod
+    async def set_balance(
+        cls,
+        customer_code: str,
+        target_balance: Decimal,
+        remark: str | None = None,
+        customer_name: Optional[str] = None,
+    ) -> WalletAccount:
+        """
+        设置钱包余额到指定值，并生成一条流水：
+        - target_balance > current_balance：生成「充值」流水（入账差额）
+        - target_balance < current_balance：生成「调整」流水（出账差额，负数）
+        """
+        target_balance = cls._ensure_decimal(target_balance)
+        if target_balance < 0:
+            raise Forbidden("余额不能小于0")
+
+        async with in_transaction():
+            wallet = await cls.get_or_create_account(customer_code, customer_name=customer_name)
+            wallet.balance = cls._ensure_decimal(wallet.balance)
+            wallet.total_recharge = cls._ensure_decimal(wallet.total_recharge)
+
+            delta = target_balance - wallet.balance
+            if delta == 0:
+                return wallet
+
+            wallet.balance = target_balance
+            if delta > 0:
+                wallet.total_recharge += delta
+            await wallet.save()
+
+            tx_type = WalletTransactionType.recharge.value if delta > 0 else WalletTransactionType.adjust.value
+            await WalletTransaction.create(
+                wallet=wallet,
+                tx_type=tx_type,
+                change_amount=delta,
+                balance_after=wallet.balance,
+                remark=remark or "管理后台设置余额",
+            )
+            return wallet
+
+    @classmethod
     async def consume(
         cls,
         customer_code: str,

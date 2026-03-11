@@ -40,6 +40,7 @@
               <div class="bill-hero-actions">
                 <el-button type="primary" size="small" @click="onLoad">查询账单</el-button>
                 <el-button size="small" @click="exportSummaryCsv">导出汇总</el-button>
+                <el-button size="small" @click="importDialog.visible = true">导入账单</el-button>
               </div>
             </div>
           </el-card>
@@ -103,13 +104,38 @@
         <el-button @click="detailDialog.visible = false">关闭</el-button>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="importDialog.visible" title="导入月度账单（CSV / Excel）" width="820px">
+      <el-alert type="info" show-icon :closable="false" style="margin-bottom: 10px">
+        <template #title>选择 CSV 或 Excel(xlsx) 上传，用于生成账单与后续按月扣费</template>
+      </el-alert>
+      <el-upload
+        drag
+        :auto-upload="false"
+        :limit="1"
+        accept=".csv,.xlsx"
+        :on-change="onImportFileChange"
+        :on-remove="onImportFileRemove"
+      >
+        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+        <div class="el-upload__text">拖拽文件到此处，或 <em>点击选择</em></div>
+        <template #tip>
+          <div class="el-upload__tip">支持 .csv / .xlsx，首行表头会自动跳过</div>
+        </template>
+      </el-upload>
+      <template #footer>
+        <el-button @click="importDialog.visible = false">取消</el-button>
+        <el-button type="primary" :disabled="!importDialog.file" @click="doImportMonthBills">导入</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
   import { waitRequest } from '@/utils/http/tools';
   import { QSValidator } from '@/utils/router';
-  import { getMonthBillSummary, getWalletTransactions } from '@/api/console';
+  import { getMonthBillSummary, getWalletTransactions, importMonthBillsFile } from '@/api/console';
+  import { UploadFilled } from '@element-plus/icons-vue';
 
   const emits = defineEmits(['update-title']);
 
@@ -141,6 +167,11 @@
     wallet_paid_amount: 0,
   });
 
+  const importDialog = reactive({
+    visible: false,
+    file: null,
+  });
+
   async function onLoad() {
     let resp = await waitRequest(
       loading,
@@ -152,6 +183,30 @@
     );
     data.data = resp.data.data;
   }
+
+  const doImportMonthBills = async () => {
+    if (!importDialog.file) return;
+    const fd = new FormData();
+    fd.append('file', importDialog.file);
+    fd.append('skip_header', 'true');
+    await waitRequest(
+      loading,
+      importMonthBillsFile({
+        data: fd,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }),
+    );
+    importDialog.visible = false;
+    importDialog.file = null;
+    await onLoad();
+  };
+
+  const onImportFileChange = (uploadFile) => {
+    importDialog.file = uploadFile?.raw || null;
+  };
+  const onImportFileRemove = () => {
+    importDialog.file = null;
+  };
 
   const openDetail = async (row) => {
     detailDialog.title = `${row.year}-${String(row.month).padStart(2, '0')} / ${row.customer_name || row.customer_code}`;

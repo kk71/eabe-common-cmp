@@ -11,6 +11,7 @@ from backend.celery.task import (
 from backend.models import Order, OrderStatus
 from backend.services import WalletAccountService
 from backend.core.http import Forbidden
+from utils import dt_utils
 
 
 @register_celery_task
@@ -25,9 +26,10 @@ class OrderWalletChargeTask(BaseCeleryTask):
 
     @classmethod
     async def task(cls, task_record_id: int | None = None, **kwargs):
-        # 扣费目标：所有状态为「进行中」的订单
-        orders = await Order.filter(status=OrderStatus.processing.value)
-        logger.info(f"OrderWalletChargeTask: found {len(orders)} processing orders to handle.")
+        # 扣费目标：所有状态为「进行中」且到期（order_date <= today）的订单
+        today = dt_utils.dt_now().date()
+        orders = await Order.filter(status=OrderStatus.processing.value, order_date__lte=today)
+        logger.info(f"OrderWalletChargeTask: found {len(orders)} due processing orders to handle (today={today}).")
 
         for o in orders:
             # 这里约定使用 order_guanxi_id 作为钱包账户标识

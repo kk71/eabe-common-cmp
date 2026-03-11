@@ -16,3 +16,18 @@ services:
         max-file: "3"
     env_file:
       - ../../prod.env
+
+  periodical-task:
+    image: eb-cmp-task
+    working_dir: /project
+    command: python run-periodical-worker.py
+    volumes:
+      - ..:/project
+    restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "3"
+    env_file:
+      - ../../prod.env

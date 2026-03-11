@@ -22,6 +22,7 @@
 
     <el-space style="margin-bottom: 10px">
       <el-button type="primary" @click="openRechargeDialog">充值</el-button>
+      <el-button @click="openSetBalanceDialog">设置余额</el-button>
     </el-space>
 
     <el-table ref="listTable" :data="data.data" stripe v-loading="loading">
@@ -61,6 +62,30 @@
       </template>
     </el-dialog>
 
+    <el-dialog v-model="setBalanceDialog.visible" title="设置钱包余额" width="420px">
+      <el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px">
+        <template #title>该操作会自动生成一条“充值/调整”流水用于对账</template>
+      </el-alert>
+      <el-form :model="setBalanceDialog.form" label-width="90px">
+        <el-form-item label="客户编码">
+          <plain-text v-model="setBalanceDialog.form.customer_code" clearable />
+        </el-form-item>
+        <el-form-item label="客户名称">
+          <plain-text v-model="setBalanceDialog.form.customer_name" clearable />
+        </el-form-item>
+        <el-form-item label="目标余额">
+          <el-input-number v-model="setBalanceDialog.form.balance" :min="0" :step="0.01" :precision="2" />
+        </el-form-item>
+        <el-form-item label="备注">
+          <plain-text v-model="setBalanceDialog.form.remark" type="textarea" clearable />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="setBalanceDialog.visible = false">取消</el-button>
+        <el-button type="primary" @click="doSetBalance">确定</el-button>
+      </template>
+    </el-dialog>
+
     <el-dialog v-model="txDialog.visible" :title="`钱包流水 - ${txDialog.customerLabel}`" width="800px">
       <el-table :data="txDialog.data" v-loading="loading" stripe>
         <el-table-column prop="tx_id" label="流水编号" min-width="200" />
@@ -81,7 +106,7 @@
 <script setup>
   import { waitRequest } from '@/utils/http/tools';
   import { QSValidator } from '@/utils/router';
-  import { getWalletAccounts, getWalletTransactions, rechargeWallet } from '@/api/console';
+  import { getWalletAccounts, getWalletTransactions, rechargeWallet, setWalletBalance } from '@/api/console';
 
   const emits = defineEmits(['update-title']);
 
@@ -112,6 +137,16 @@
     },
   });
 
+  const setBalanceDialog = reactive({
+    visible: false,
+    form: {
+      customer_code: '',
+      customer_name: '',
+      balance: 0,
+      remark: '',
+    },
+  });
+
   const txDialog = reactive({
     visible: false,
     customerLabel: '',
@@ -126,6 +161,16 @@
       rechargeDialog.form.customer_name = selection[0].customer_name || '';
     }
     rechargeDialog.visible = true;
+  };
+
+  const openSetBalanceDialog = () => {
+    const selection = listTable.value?.getSelectionRows?.() || [];
+    if (selection.length === 1) {
+      setBalanceDialog.form.customer_code = selection[0].customer_code;
+      setBalanceDialog.form.customer_name = selection[0].customer_name || '';
+      setBalanceDialog.form.balance = Number(selection[0].balance || 0);
+    }
+    setBalanceDialog.visible = true;
   };
 
   const openTxDialog = async (row) => {
@@ -174,6 +219,19 @@
       }),
     );
     rechargeDialog.visible = false;
+    await onLoad();
+  };
+
+  const doSetBalance = async () => {
+    await waitRequest(
+      loading,
+      setWalletBalance({
+        data: {
+          ...setBalanceDialog.form,
+        },
+      }),
+    );
+    setBalanceDialog.visible = false;
     await onLoad();
   };
 

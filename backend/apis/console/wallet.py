@@ -30,6 +30,13 @@ class WalletRechargeBody(BaseModel):
     amount: Decimal = Field(description="充值金额，>0")
     remark: str | None = Field(default=None, description="备注")
 
+class WalletSetBalanceBody(BaseModel):
+    """设置余额请求体（会自动生成充值/调整流水）"""
+    customer_code: str = Field(description="客户编码")
+    customer_name: str | None = Field(default=None, description="客户名称（可选，用于初始化或更新钱包账户名称）")
+    balance: Decimal = Field(description="目标余额，>=0")
+    remark: str | None = Field(default=None, description="备注")
+
 
 @router.get(tags=[APITags.console], summary="查询钱包账户列表")
 async def _(
@@ -48,7 +55,7 @@ async def _(
     )
 
 
-@router.get(tags=[APITags.console], summary="查询钱包流水")
+@router.get(path_postfix="/tx", tags=[APITags.console], summary="查询钱包流水")
 async def _(
         header: Annotated[HeaderToken, Header()],
         query: build_query({
@@ -92,3 +99,17 @@ async def _(
     )
     return JsonResp(data=await WalletAccountGetter.parse_record(wallet))
 
+
+@router.post(path_postfix="/set-balance", tags=[APITags.console], summary="设置钱包余额（自动生成充值/调整记录）")
+async def _(
+        header: Annotated[HeaderToken, Header()],
+        body: WalletSetBalanceBody
+) -> JsonResp[WalletAccountGetter]:
+    await header.verify(Privileges.system_control)
+    wallet = await WalletAccountService.set_balance(
+        customer_code=body.customer_code,
+        customer_name=body.customer_name,
+        target_balance=body.balance,
+        remark=body.remark,
+    )
+    return JsonResp(data=await WalletAccountGetter.parse_record(wallet))

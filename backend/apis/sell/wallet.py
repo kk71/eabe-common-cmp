@@ -37,7 +37,7 @@ async def _(
     )
 
 
-@router.get(tags=[APITags.buyer], summary="查询钱包流水（客户侧）")
+@router.get(path_postfix="/tx", tags=[APITags.buyer], summary="查询钱包流水（客户侧）")
 async def _(
         header: Annotated[HeaderToken, Header()],
         query: build_query({

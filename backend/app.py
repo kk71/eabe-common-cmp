@@ -14,6 +14,7 @@ from celery import current_app
 current_app.config_from_object(conf)
 from backend.core.import_utils import *
 recursively_import_packages("backend.services")
+recursively_import_packages("backend.celery.tasks")
 
 from fastapi import FastAPI
 from backend.apis import router
