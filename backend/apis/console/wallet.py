@@ -71,6 +71,7 @@ async def _(
     wallets = await wallet_qs
     wallet_ids = [w.id for w in wallets]
     if customer_code and not wallet_ids:
+        await query.paginate([])
         return PaginationJsonResp(data=[], pagination=query.pagination)
 
     if wallet_ids and "wallet_id" not in d:
