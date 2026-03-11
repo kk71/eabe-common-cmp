@@ -10,8 +10,15 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (_to, _from, next) => {
+router.beforeEach(async (to, _from, next) => {
   NProgress.start();
+
+  // 兼容尾部斜杠：让 /console/ 与 /console 行为一致（保留 query/hash）
+  if (to.path === '/console/') {
+    next({ path: '/console', query: to.query, hash: to.hash, replace: true });
+    return;
+  }
+
   next();
 });
 
