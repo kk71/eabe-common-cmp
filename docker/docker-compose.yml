@@ -18,7 +18,7 @@ services:
       - ../../prod.env
 
   periodical-task:
-    image: eb-cmp-task
+    image: eb-cmp-backend
     working_dir: /project
     command: python run-periodical-worker.py
     volumes:
