@@ -220,7 +220,26 @@
         <a href="#" class="nav-link md-hide">文档</a>
         <a href="#" class="nav-link md-hide">备案</a>
         <router-link to="/sell/management" class="nav-link md-hide">控制台</router-link>
-        <router-link to="/sell/login" class="btn-ghost">登录</router-link>
+        <div v-if="isLoggedIn" class="header-user md-hide" @click="toggleUserMenu">
+          <div class="user-avatar">
+            {{ userInitial }}
+          </div>
+          <div v-if="showUserMenu" class="user-dropdown">
+            <div class="dropdown-header">
+              <div class="dropdown-avatar">
+                {{ userInitial }}
+              </div>
+              <div>
+                <div class="dropdown-name">{{ userName || '已登录用户' }}</div>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item dropdown-logout" @click.stop="logout">
+              退出登录
+            </button>
+          </div>
+        </div>
+        <router-link v-if="!isLoggedIn" to="/sell/login" class="btn-ghost">登录</router-link>
         <a href="#" class="btn-primary-sm">立即注册</a>
         <button class="mobile-menu-btn lg-hide" @click="mobileOpen = !mobileOpen">
           <VolcIcon :name="mobileOpen ? 'x' : 'menu'" :size="22" />
@@ -292,6 +311,7 @@
         <a href="#" class="mobile-link">定价</a>
         <a href="#" class="mobile-link">文档</a>
         <router-link
+          v-if="!isLoggedIn"
           to="/sell/login"
           class="mobile-link"
           @click.native="mobileOpen = false"
@@ -318,17 +338,22 @@
 
 <script>
 import VolcIcon from './SvgIcons.vue'
+import { useAppStore } from '@/store/modules/app'
+import { ElMessage } from 'element-plus'
 
 export default {
   name: 'NavBar',
   components: { VolcIcon },
   data() {
     return {
+      appStore: useAppStore(),
       isScrolled: false,
       mobileOpen: false,
       mobileExpand: '',
       activeMenu: null,
       closeTimer: null,
+      showUserMenu: false,
+      onDocClick: null,
       activeModelCat: 'doubao',
       activeProductCat: 'compute',
       modelCategories: [
@@ -619,6 +644,16 @@ export default {
     }
   },
   computed: {
+    isLoggedIn() {
+      return Boolean(this.appStore?.token)
+    },
+    userName() {
+      const u = this.appStore?.user
+      return u?.username || u?.name || u?.login_name || ''
+    },
+    userInitial() {
+      return this.userName ? String(this.userName).charAt(0) : 'U'
+    },
     currentModelCat() {
       const id = this.activeModelCat
       const found = this.modelCategories.find((c) => c.id === id)
@@ -632,13 +667,29 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll)
+    this.onDocClick = (e) => {
+      if (this.showUserMenu && !(e.target.closest && e.target.closest('.header-user'))) {
+        this.showUserMenu = false
+      }
+    }
+    document.addEventListener('click', this.onDocClick)
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
+    if (this.onDocClick) document.removeEventListener('click', this.onDocClick)
   },
   methods: {
     handleScroll() {
       this.isScrolled = window.scrollY > 10
+    },
+    toggleUserMenu() {
+      this.showUserMenu = !this.showUserMenu
+    },
+    logout() {
+      this.appStore?.clearToken?.()
+      this.showUserMenu = false
+      this.$router.push('/sell/login')
+      ElMessage({ message: '请重新登录。', type: 'success' })
     },
     openMenu(menu) {
       if (this.closeTimer) {
@@ -1050,6 +1101,96 @@ export default {
   .mobile-menu {
     display: none !important;
   }
+}
+
+/* ===== User Menu (match sell/management style) ===== */
+.header-user {
+  position: relative;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.header-user:hover {
+  background: #f2f3f5;
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #3370ff;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  width: 220px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e5e6eb;
+  z-index: 200;
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+}
+
+.dropdown-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #3370ff;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.dropdown-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d2129;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #e5e6eb;
+}
+
+.dropdown-item {
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #4e5969;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dropdown-item:hover {
+  background: #f2f3f5;
+}
+
+.dropdown-logout {
+  color: #f53f3f;
 }
 </style>
 

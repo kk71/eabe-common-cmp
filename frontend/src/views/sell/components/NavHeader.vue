@@ -8,11 +8,11 @@
           <a href="javascript:;">协议规则</a>
         </div>
         <div class="topbar-user">
-          <a href="javascript:;" v-if="userName">{{ userName }}</a>
-          <a href="javascript:;" v-if="!userName" @click="login">登录</a>
-          <a href="javascript:;" v-if="userName" @click="logout">退出</a>
+          <a href="javascript:;" v-if="isLoggedIn">{{ userName || '已登录' }}</a>
+          <a href="javascript:;" v-if="!isLoggedIn" @click="login">登录</a>
+          <a href="javascript:;" v-if="isLoggedIn" @click="logout">退出</a>
           <a href="/sell/management">控制台</a>
-          <a href="javascript:;" v-if="userName" class="my-cart" @click="goToCart"
+          <a href="javascript:;" v-if="isLoggedIn" class="my-cart" @click="goToCart"
             ><span class="icon-cart"></span>购物车({{ cartCount }})</a
           >
         </div>
@@ -31,14 +31,27 @@
   </div>
 </template>
 <script>
+  import { useAppStore } from '@/store/modules/app';
   export default {
     name: 'nav-header',
     data() {
       return {
+        appStore: useAppStore(),
         phoneList: [],
       };
     },
-    computed: {},
+    computed: {
+      isLoggedIn() {
+        return Boolean(this.appStore?.token) || Boolean(localStorage.getItem('Authorization'));
+      },
+      userName() {
+        const u = this.appStore?.user;
+        return u?.name || u?.username || u?.login_name || '';
+      },
+      cartCount() {
+        return this.$store?.state?.cartCount ?? 0;
+      },
+    },
     filters: {
       currency(val) {
         if (!val) return '0.00';
@@ -77,8 +90,9 @@
         this.axios.post('/api/user/logout').then(() => {
           this.$message.success('退出成功');
           localStorage.removeItem('Authorization');
-          this.$store.dispatch('saveUserName', '');
-          this.$store.dispatch('saveCartCount', '0');
+          this.appStore?.clearToken?.();
+          this.$store?.dispatch?.('saveUserName', '');
+          this.$store?.dispatch?.('saveCartCount', '0');
         });
       },
       goToCart() {
