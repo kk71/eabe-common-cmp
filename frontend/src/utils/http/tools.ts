@@ -7,7 +7,7 @@ export const waitRequest = async <T = any>(injection: Ref<boolean>, pms: Promise
   // if (injection.value) throw new Error('another load request is running, cancelled.');
   injection.value = true;
   try {
-    let respData = await pms;
+    const respData = await pms;
     injection.value = false;
     return respData;
   } catch (e) {
@@ -48,7 +48,7 @@ export class SortedBatchGet {
     // 拉取更多数据并排序
     if (!this.pendingIds.length) return;
     const toLoad = this.pendingIds.splice(0, this.batchSize);
-    let req = this.request({
+    const req = this.request({
       params: {
         page: 1,
         per_page: 99,

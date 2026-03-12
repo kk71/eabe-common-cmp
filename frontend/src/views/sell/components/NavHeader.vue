@@ -11,7 +11,7 @@
           <a href="javascript:;" v-if="isLoggedIn">{{ userName || '已登录' }}</a>
           <a href="javascript:;" v-if="!isLoggedIn" @click="login">登录</a>
           <a href="javascript:;" v-if="isLoggedIn" @click="logout">退出</a>
-          <a href="/sell/management">控制台</a>
+          <a v-if="!isAdmin" href="/sell/management">控制台</a>
           <a href="javascript:;" v-if="isLoggedIn" class="my-cart" @click="goToCart"
             ><span class="icon-cart"></span>购物车({{ cartCount }})</a
           >
@@ -33,7 +33,13 @@
 <script>
   import { useAppStore } from '@/store/modules/app';
   export default {
-    name: 'nav-header',
+    name: 'NavHeader',
+    filters: {
+      currency(val) {
+        if (!val) return '0.00';
+        return '￥' + val.toFixed(2) + '元';
+      },
+    },
     data() {
       return {
         appStore: useAppStore(),
@@ -44,6 +50,9 @@
       isLoggedIn() {
         return Boolean(this.appStore?.token) || Boolean(localStorage.getItem('Authorization'));
       },
+      isAdmin() {
+        return Boolean(this.appStore?.user?.is_admin);
+      },
       userName() {
         const u = this.appStore?.user;
         return u?.name || u?.username || u?.login_name || '';
@@ -52,15 +61,9 @@
         return this.$store?.state?.cartCount ?? 0;
       },
     },
-    filters: {
-      currency(val) {
-        if (!val) return '0.00';
-        return '￥' + val.toFixed(2) + '元';
-      },
-    },
     mounted() {
       this.getProductList();
-      let params = this.$route.params;
+      const params = this.$route.params;
       if (params && params.from == 'login') {
         this.getCartCount();
       }

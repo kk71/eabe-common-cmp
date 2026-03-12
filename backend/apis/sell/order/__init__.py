@@ -7,6 +7,7 @@ from backend.apis import *
 from backend.models import *
 from backend.services.auth import *
 from backend.apis.auth.base import *
+from backend.apis.sell.auth import verify_sell_user
 
 
 @init_t_pdm
@@ -26,7 +27,7 @@ async def _(
             "origin": opt_query(OrderOrigin.str_enum()),
         }, pagination=True, keyword=True)
 ) -> PaginationJsonResp[list[OrderGetter]]:
-    await header.verify()
+    await verify_sell_user(header)
     orders = Order.filter(**query.model_dump())
     orders = query.query_keyword(orders, "order_id", "batch_code", "product_name", "resource_code")
     orders = await query.paginate(orders)

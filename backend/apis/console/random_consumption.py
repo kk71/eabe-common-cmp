@@ -6,8 +6,9 @@ from decimal import Decimal
 
 from backend.core.tpdm import *
 from backend.apis import *
-from backend.models import RandomConsumptionRule, ProductType
+from backend.models import Customer, RandomConsumptionRule, ProductType
 from backend.apis.auth.base import *
+from backend.services import Privileges
 
 
 @init_t_pdm
@@ -35,6 +36,13 @@ def _parse_product_type(v: str) -> str:
     if smv:
         return smv.value
     raise BadRequest(f"未知 product_type: {v}")
+
+async def _require_customer_by_code(customer_code: str) -> None:
+    code = (customer_code or "").strip()
+    if not code:
+        raise BadRequest("customer_code 不能为空")
+    if not await Customer.filter(existed=True, code=code).exists():
+        raise BadRequest(f"客户不存在（客户编号={code}），请先在【客户支持-客户】中创建并配置客户编号")
 
 
 @router.get(tags=[APITags.console], summary="查询随机消费规则")
@@ -66,6 +74,7 @@ async def _(
     body: RandomConsumptionRuleBody,
 ) -> JsonResp[RandomConsumptionRuleGetter]:
     await header.verify(Privileges.system_control)
+    await _require_customer_by_code(body.customer_code)
     product_type_v = _parse_product_type(body.product_type)
 
     rule = await RandomConsumptionRule.create(
@@ -92,6 +101,7 @@ async def _(
     if not rule:
         raise NotFound("规则不存在")
 
+    await _require_customer_by_code(body.customer_code)
     product_type_v = _parse_product_type(body.product_type)
     rule.enabled = body.enabled
     rule.customer_code = body.customer_code

@@ -39,6 +39,7 @@ del backend_conf
 
 from .base import *
 from .celery_task import *
+from .customer import *
 from .user import *
 from .role import *
 from .user_role import *

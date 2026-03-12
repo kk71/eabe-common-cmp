@@ -8,6 +8,7 @@ from backend.core.tpdm import *
 from backend.apis import *
 from backend.models import *
 from backend.apis.auth.base import *
+from backend.apis.sell.auth import verify_sell_user
 
 
 @init_t_pdm
@@ -72,7 +73,7 @@ async def _(
             "settlement_type": opt_query(MonthBillSettlementType.str_enum()),
         }, pagination=True, keyword=True)
 ) -> PaginationJsonResp[list[MonthBillGetter]]:
-    await header.verify()
+    await verify_sell_user(header)
     d = {k: v for k, v in query.model_dump().items() if v is not None}
     bills = MonthBill.filter(**d)
     bills = query.query_keyword(
@@ -97,7 +98,7 @@ async def month_bill_summary(
     为客户侧提供“每月一张账单”的视图，
     并按【月租费 / Token 使用费 / 其他一次性费用】拆分金额。
     """
-    await header.verify()
+    await verify_sell_user(header)
     filters = query.model_dump()
     bills_qs = MonthBill.filter(**{k: v for k, v in filters.items() if v is not None})
     bills = await bills_qs

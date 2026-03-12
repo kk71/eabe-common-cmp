@@ -93,8 +93,8 @@ async def month_bill_summary(
             "year": opt_query(int),
             "month": opt_query(int),
             "customer_code": opt_query(str),
-        }, keyword=False)
-) -> JsonResp[list[MonthBillSummary]]:
+        }, keyword=False, pagination=True)
+) -> PaginationJsonResp[list[MonthBillSummary]]:
     """
     根据月度账单记录汇总出“每月一张账单”的视图，
     并按【月租费 / Token 使用费 / 其他一次性费用】拆分金额。
@@ -152,5 +152,6 @@ async def month_bill_summary(
 
     # 转为列表并按时间倒序排序
     results = sorted(grouped.values(), key=lambda x: (x.year, x.month, x.customer_code), reverse=True)
-    return JsonResp(data=results)
+    items = await query.paginate(results)
+    return PaginationJsonResp(data=items, pagination=query.pagination)
 

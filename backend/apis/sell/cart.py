@@ -6,6 +6,7 @@ from backend.core.tpdm import *
 from backend.apis import *
 from backend.models import *
 from backend.apis.auth.base import *
+from backend.apis.sell.auth import verify_sell_user
 
 
 @init_t_pdm
@@ -18,7 +19,7 @@ class CartGetter(TGetter):
 async def _(
         header: Annotated[HeaderToken, Header()],
 ) -> JsonResp[CartGetter]:
-    await header.verify()
+    await verify_sell_user(header)
     the_cart = await Cart.filter(user_id=header.user.id).first()
     if not the_cart:
         the_cart = Cart(user=header.user)
@@ -40,7 +41,7 @@ async def _(
         header: Annotated[HeaderToken, Header()],
         body: dict
 ):
-    await header.verify()
+    await verify_sell_user(header)
     the_cart = await Cart.filter(user_id=header.user.id).first()
     if not the_cart:
         the_cart = Cart(user=header.user)
@@ -58,7 +59,7 @@ async def _(
         header: Annotated[HeaderToken, Header()],
         body: CartDeleteProductBody
 ):
-    await header.verify()
+    await verify_sell_user(header)
     the_cart = await Cart.filter(user_id=header.user.id).first()
     new_detail = []
     for p in the_cart.detail:

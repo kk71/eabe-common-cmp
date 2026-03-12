@@ -92,7 +92,7 @@
   };
 
   const onLoad = async () => {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getCeleryTaskRecord({
         params: {

@@ -86,7 +86,7 @@
   };
 
   async function onLoad() {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getWalletAccounts({
         params: {
@@ -101,7 +101,7 @@
 
   async function loadTransactions() {
     if (!txDialog.customer_code) return;
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getWalletTransactions({
         params: {

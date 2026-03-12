@@ -1,7 +1,7 @@
 <template>
   <div class="order-list">
     <order-header title="订单列表">
-      <template v-slot:tip>
+      <template #tip>
         <span>请谨防钓鱼链接或诈骗电话，了解更多></span>
       </template>
     </order-header>
@@ -71,7 +71,7 @@
   import NoData from '../components/NoData.vue';
 
   export default {
-    name: 'order-list',
+    name: 'OrderList',
     components: {
       OrderHeader,
       Loading,

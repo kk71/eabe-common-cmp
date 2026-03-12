@@ -149,7 +149,7 @@
     if (isDate.value) {
       innerModelValue.value = dToStr(new Date());
     } else if (isDatetime.value) {
-      let d = new Date();
+      const d = new Date();
       d.setHours(props.defaultTime.getHours());
       d.setMinutes(props.defaultTime.getMinutes());
       d.setSeconds(props.defaultTime.getSeconds());

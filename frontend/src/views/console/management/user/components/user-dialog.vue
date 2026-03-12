@@ -73,7 +73,7 @@
   const show = async (user_id) => {
     if (!user_id) throw Error('user_id is null');
     data.shown = true;
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getUser({
         params: {
@@ -97,7 +97,7 @@
       return ElMessage({ message: '请完善后重新提交。', type: 'warning' });
     }
     if (isNewAdding.value) {
-      let resp = await addUser({ data: data.form });
+      const resp = await addUser({ data: data.form });
       ElMessage({ message: '已保存', type: 'success' });
       data.cb(resp.data.data.id);
     } else {

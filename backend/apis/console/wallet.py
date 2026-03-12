@@ -37,6 +37,13 @@ class WalletSetBalanceBody(BaseModel):
     balance: Decimal = Field(description="目标余额，>=0")
     remark: str | None = Field(default=None, description="备注")
 
+async def _require_customer_by_code(customer_code: str) -> None:
+    code = (customer_code or "").strip()
+    if not code:
+        raise BadRequest("customer_code 不能为空")
+    if not await Customer.filter(existed=True, code=code).exists():
+        raise BadRequest(f"客户不存在（客户编号={code}），请先在【客户支持-客户】中创建并配置客户编号")
+
 
 @router.get(tags=[APITags.console], summary="查询钱包账户列表")
 async def _(
@@ -92,6 +99,7 @@ async def _(
         body: WalletRechargeBody
 ) -> JsonResp[WalletAccountGetter]:
     await header.verify(Privileges.system_control)
+    await _require_customer_by_code(body.customer_code)
     wallet = await WalletAccountService.recharge(
         customer_code=body.customer_code,
         customer_name=body.customer_name,
@@ -107,6 +115,7 @@ async def _(
         body: WalletSetBalanceBody
 ) -> JsonResp[WalletAccountGetter]:
     await header.verify(Privileges.system_control)
+    await _require_customer_by_code(body.customer_code)
     wallet = await WalletAccountService.set_balance(
         customer_code=body.customer_code,
         customer_name=body.customer_name,

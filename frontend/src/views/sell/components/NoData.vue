@@ -6,7 +6,7 @@
 </template>
 <script>
   export default {
-    name: 'no-data',
+    name: 'NoData',
   };
 </script>
 <style lang="scss">

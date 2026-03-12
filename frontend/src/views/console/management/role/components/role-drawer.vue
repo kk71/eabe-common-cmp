@@ -100,7 +100,7 @@
 
   const getCheckedPrivilegeNames = () => {
     const keys = privilegeTree.value.getCheckedKeys();
-    let names = [];
+    const names = [];
     for (const k of keys) {
       for (const i in data.privilegesMapping) {
         if (data.privilegesMapping[i].includes(k)) names.push(i);

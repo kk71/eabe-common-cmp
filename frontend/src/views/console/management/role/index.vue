@@ -1,5 +1,10 @@
 <template>
-  <filterable-list-frame v-model:filterData="data.filterData" :filter-data-typing="data.filterDataTyping" @filter-changed="onLoad">
+  <filterable-list-frame
+    v-model:filterData="data.filterData"
+    v-model:pagination="data.p"
+    :filter-data-typing="data.filterDataTyping"
+    @filter-changed="onLoad"
+  >
     <el-form ref="form" :model="data.filterData" class="filter-box" label-position="right" label-width="70px">
       <el-row class="button-bar">
         <el-button plain type="primary" @click="gotoAdd">创建</el-button>
@@ -22,8 +27,12 @@
       <el-table-column prop="name" label="名称" min-width="200" />
       <el-table-column label="操作" width="220" fixed="right">
         <template #default="{ row }">
-          <el-button type="success" :icon="Edit" size="small" @click="gotoDetail(row)" />
-          <el-button type="danger" :icon="Delete" size="small" @click="gotoDelete(row)" />
+          <el-tooltip content="编辑" placement="top" effect="light">
+            <el-button type="success" :icon="Edit" size="small" @click="gotoDetail(row)" />
+          </el-tooltip>
+          <el-tooltip content="删除" placement="top" effect="light">
+            <el-button type="danger" :icon="Delete" size="small" @click="gotoDelete(row)" />
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -50,10 +59,13 @@
   const router = useRouter();
 
   const data = reactive({
+    p: { page: 1, per_page: 20, pages: 0, total: 0 },
     filterData: {
       keyword: '',
     },
     filterDataTyping: new QSValidator({
+      page: Number,
+      per_page: Number,
       keyword: String,
     }),
     data: [],
@@ -61,11 +73,12 @@
   });
 
   const onLoad = async () => {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getRole({
         params: {
           ...data.filterData,
+          ...data.p,
         },
       }),
     );

@@ -6,6 +6,7 @@ from backend.core.tpdm import *
 from backend.apis import *
 from backend.models import *
 from backend.apis.auth.base import *
+from backend.apis.sell.auth import verify_sell_user
 
 
 @init_t_pdm
@@ -27,7 +28,7 @@ async def _(
             "customer_code": opt_query(str),
         }, pagination=True, keyword=True)
 ) -> PaginationJsonResp[list[WalletAccountGetter]]:
-    await header.verify()
+    await verify_sell_user(header)
     wallets = WalletAccount.filter(**query.model_dump())
     wallets = query.query_keyword(wallets, "customer_code", "customer_name")
     wallets = await query.paginate(wallets)
@@ -46,7 +47,7 @@ async def _(
             "tx_type": opt_query(WalletTransactionType.str_enum()),
         }, pagination=True, keyword=True)
 ) -> PaginationJsonResp[list[WalletTransactionGetter]]:
-    await header.verify()
+    await verify_sell_user(header)
     d = query.model_dump()
     customer_code = d.pop("customer_code", None)
     wallet_qs = WalletAccount.filter(customer_code=customer_code) if customer_code else WalletAccount.all()

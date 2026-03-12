@@ -172,7 +172,7 @@
 
   const loadOrderTransactions = async () => {
     if (!txDialog.orderId) return;
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getWalletTransactions({
         params: {
@@ -186,7 +186,7 @@
   };
 
   async function onLoad() {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getOrders({
         params: {

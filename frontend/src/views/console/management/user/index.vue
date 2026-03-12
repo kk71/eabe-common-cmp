@@ -51,9 +51,13 @@
       <table-column-boolean prop="disabled" label="禁用" width="100" />
       <el-table-column label="操作" width="220" fixed="right">
         <template #default="{ row }">
-          <el-button type="success" :icon="Edit" size="small" @click="gotoDetail(row)" />
+          <el-tooltip content="编辑" placement="top" effect="light">
+            <el-button type="success" :icon="Edit" size="small" @click="gotoDetail(row)" />
+          </el-tooltip>
           <el-button type="warning" size="small" @click="gotoChangePassword(row)">修改密码</el-button>
-          <el-button type="danger" :icon="Delete" size="small" @click="gotoDelete(row)" />
+          <el-tooltip content="删除" placement="top" effect="light">
+            <el-button type="danger" :icon="Delete" size="small" @click="gotoDelete(row)" />
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -97,7 +101,7 @@
   });
 
   const onLoad = async () => {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getUser({
         params: {

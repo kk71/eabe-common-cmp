@@ -7,7 +7,7 @@ export const initializeStatusMachines = async () => {
   // 请注意，通用状态机的值不在这里获取
   // 该方法会在frame初始化之前被调用，但是某些界面展示需要更高的优先级，初始化这类界面的时候，frame方法调用的数据可能还没有返回
   // 这种情况下，可以手动在用到该数据之前的地方await本方法，确保一定可以拿到数据
-  let resp = await getAllStatusMachineValues();
+  const resp = await getAllStatusMachineValues();
   commonStatusMachines = resp.data.data;
 };
 

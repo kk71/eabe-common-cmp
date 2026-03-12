@@ -9,16 +9,16 @@
   import ServiceBar from '../components/ServiceBar.vue';
   import NavFooter from '../components/NavFooter.vue';
   export default {
-    name: 'order',
+    name: 'Order',
+    components: {
+      ServiceBar,
+      NavFooter,
+    },
     data() {
       return {
         title: '',
         tip: '',
       };
-    },
-    components: {
-      ServiceBar,
-      NavFooter,
     },
   };
 </script>

@@ -103,7 +103,7 @@
 </template>
 <script>
   export default {
-    name: 'product',
+    name: 'Product',
 
     data() {
       return {
@@ -395,13 +395,13 @@
     },
     methods: {
       getProductInfo() {
-        let id = this.$route.params.id;
+        const id = this.$route.params.id;
         this.axios.get(`/api/product/${id}`).then((res) => {
           this.product = res;
         });
       },
       buy() {
-        let id = this.$route.params.id;
+        const id = this.$route.params.id;
         this.$router.push(`/detail/${id}`);
       },
       closeVideo() {

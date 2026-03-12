@@ -12,7 +12,7 @@
 </template>
 <script>
   export default {
-    name: 'service-bar',
+    name: 'ServiceBar',
   };
 </script>
 <style lang="scss">

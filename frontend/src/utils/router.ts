@@ -31,10 +31,10 @@ export class QSValidator {
    * @memberof QSValidator
    */
   from_qs(original_data: object) {
-    let validated = {};
+    const validated = {};
     for (const k in original_data) {
-      let v = original_data[k];
-      let typing = this.definition[k];
+      const v = original_data[k];
+      const typing = this.definition[k];
       if (typing == undefined || typing == String) {
         validated[k] = v;
       } else if (typing == Number) {
@@ -51,7 +51,7 @@ export class QSValidator {
         if (v.constructor == String) {
           validated[k] = [];
           for (const i of v.split(',')) {
-            let parsed = Number.parseInt(i);
+            const parsed = Number.parseInt(i);
             if (!isNaN(parsed)) validated[k].push(parsed);
           }
         } else validated[k] = v;
@@ -69,9 +69,9 @@ export class QSValidator {
    * @memberof QSValidator
    */
   to_qs(target: object) {
-    let validated = Object.assign({}, target);
+    const validated = Object.assign({}, target);
     for (const k in this.definition) {
-      let typing = this.definition[k];
+      const typing = this.definition[k];
       if (typing == Array || QSValidator.arrayEqual(typing, [Array, Number]) || QSValidator.arrayEqual(typing, [Array, String])) {
         if (validated[k]) validated[k] = validated[k].toString();
         else validated[k] = '';
@@ -86,7 +86,7 @@ export const updateToQuery = (o: any) => {
   // update the querystring of current page and push it to vue-router
 
   const currentQS = Object.assign({}, router.currentRoute.value.query);
-  let to_update = {};
+  const to_update = {};
   for (const k in o) {
     // 如果当前querystring没有指明参数的值（即使用缺省值）那么如果赋值为空文本或者null意即等同于不赋值
     // 为了减少router无意义跳转的次数，这种赋值需要被拦截
@@ -108,16 +108,16 @@ export const updateToQuery = (o: any) => {
 
 export const updateFilterDataFromQuery = (filterData) => {
   // 更新除了分页之外的其他字段到filterData
-  let q = router.currentRoute.value.query;
-  let to_update = {};
+  const q = router.currentRoute.value.query;
+  const to_update = {};
   for (const k in q) if (!['page', 'per_page'].includes(k)) to_update[k] = q[k];
   Object.assign(filterData, to_update);
 };
 
 export const updatePaginationFromQuery = (p) => {
   // 更新分页信息到p
-  let q: object = router.currentRoute.value.query;
-  let to_update = {};
+  const q: object = router.currentRoute.value.query;
+  const to_update = {};
   for (const k in q) if (['page', 'per_page'].includes(k)) to_update[k] = parseInt(q[k]);
   Object.assign(p, to_update);
 };

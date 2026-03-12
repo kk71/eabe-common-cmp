@@ -1,7 +1,7 @@
 <template>
   <div class="order-pay">
     <order-header title="订单支付">
-      <template v-slot:tip>
+      <template #tip>
         <span>请谨防钓鱼链接或诈骗电话，了解更多</span>
       </template>
     </order-header>
@@ -66,7 +66,7 @@
       @cancel="showPayModal = false"
       @submit="goOrderList"
     >
-      <template v-slot:body>
+      <template #body>
         <p>您确认是否完成支付？</p>
       </template>
     </modal>
@@ -77,7 +77,12 @@
   import ScanPayCode from '../components/ScanPayCode.vue';
   import Modal from '../components/Modal.vue';
   export default {
-    name: 'order-pay',
+    name: 'OrderPay',
+    components: {
+      OrderHeader,
+      ScanPayCode,
+      Modal,
+    },
     data() {
       return {
         orderNo: this.$route.query.orderNo,
@@ -91,11 +96,6 @@
         payment: 0, //订单总金额
         T: '', //定时器ID
       };
-    },
-    components: {
-      OrderHeader,
-      ScanPayCode,
-      Modal,
     },
     mounted() {
       this.getOrderDetail();

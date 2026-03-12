@@ -42,8 +42,8 @@
   });
 
   const buildChart = async (bar) => {
-    let xItems = [];
-    let yItems = [];
+    const xItems = [];
+    const yItems = [];
     for (const i of props.data) {
       xItems.push(i[props.xKey]);
       yItems.push(i[props.yKey]);

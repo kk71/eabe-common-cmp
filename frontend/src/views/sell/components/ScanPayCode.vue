@@ -16,7 +16,7 @@
 </template>
 <script>
   export default{
-    name:'scan-pay-code',
+    name:'ScanPayCode',
     props:['img'],
     methods:{
       close(){

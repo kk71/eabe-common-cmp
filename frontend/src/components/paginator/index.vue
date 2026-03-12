@@ -3,8 +3,7 @@
     class="paginator"
     v-model:current-page="page"
     v-model:page-size="perPage"
-    :page-count="props.modelValue.pages"
-    :total="props.modelValue.total"
+    :total="total"
     :page-sizes="[10, 20, 30, 40, 50, 100, 200, 300]"
     background
     hide-on-single-page
@@ -42,7 +41,7 @@
 
   const page = computed({
     get() {
-      return props.modelValue.page;
+      return Number(props.modelValue?.page ?? 1);
     },
     set(v) {
       const d = { page: v };
@@ -56,7 +55,7 @@
 
   const perPage = computed({
     get() {
-      return props.modelValue.per_page;
+      return Number(props.modelValue?.per_page ?? 10);
     },
     set(v) {
       const d = { per_page: v };
@@ -67,6 +66,8 @@
       if (props.scrollTop) consoleFrame.value.$el.scrollTo(0, 0);
     },
   });
+
+  const total = computed(() => Number(props.modelValue?.total ?? 0));
 
   onMounted(async () => {});
 </script>

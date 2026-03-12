@@ -17,7 +17,7 @@
 </template>
 <script>
   export default {
-    name: 'order-header',
+    name: 'OrderHeader',
     props: {
       title: String,
     },

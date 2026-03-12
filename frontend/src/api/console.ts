@@ -1,4 +1,4 @@
-import { get, post, patch } from '@/utils/http/axios/console';
+import { get, post, patch, del } from '@/utils/http/axios/console';
 
 // 统计
 export const getOverallStats = (conf: any) => get({ ...conf, url: '/console/stats/overall' });
@@ -32,3 +32,10 @@ export const getMonthBillChargeRecords = (conf: any) => get({ ...conf, url: '/co
 export const getRandomConsumptionRules = (conf: any) => get({ ...conf, url: '/console/random_consumption' });
 export const createRandomConsumptionRule = (conf: any) => post({ ...conf, url: '/console/random_consumption' });
 export const updateRandomConsumptionRule = (conf: any) => patch({ ...conf, url: '/console/random_consumption' });
+
+// 客户
+export const getCustomers = (conf: any) => get({ ...conf, url: '/console/customer' });
+export const getCustomerDetail = (conf: any) => get({ ...conf, url: '/console/customer/detail' });
+export const createCustomer = (conf: any) => post({ ...conf, url: '/console/customer' });
+export const updateCustomer = (conf: any) => patch({ ...conf, url: '/console/customer' });
+export const deleteCustomer = (conf: any) => del({ ...conf, url: '/console/customer' });

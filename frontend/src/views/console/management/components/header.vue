@@ -12,7 +12,7 @@
             <div class="relative items-center hidden ml-auto lg:flex">
               <div class="flex items-center pl-6">
                 <el-dropdown>
-                  <el-button :shape="'circle'" type="info" plain :icon="User" circle size="small" />
+                    <el-button :shape="'circle'" type="info" plain :icon="User" circle size="small" />
                   <template #dropdown>
                     <el-dropdown-menu>
                       <el-dropdown-item :icon="Setting" @click="gotoUserDetail">个人信息</el-dropdown-item>

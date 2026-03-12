@@ -43,14 +43,11 @@
     </el-table>
 
     <el-dialog v-model="rechargeDialog.visible" title="钱包充值" width="400px">
-      <el-form :model="rechargeDialog.form" label-width="80px">
-        <el-form-item label="客户编码">
-          <plain-text v-model="rechargeDialog.form.customer_code" clearable />
+      <el-form ref="rechargeFormRef" :model="rechargeDialog.form" :rules="rechargeDialog.rules" label-width="80px">
+        <el-form-item label="客户" prop="customer_code">
+          <customer-selector v-model="rechargeDialog.form.customer_code" v-model:customerName="rechargeDialog.form.customer_name" />
         </el-form-item>
-        <el-form-item label="客户名称">
-          <plain-text v-model="rechargeDialog.form.customer_name" clearable />
-        </el-form-item>
-        <el-form-item label="金额">
+        <el-form-item label="金额" prop="amount">
           <el-input-number v-model="rechargeDialog.form.amount" :min="0.01" :step="0.01" :precision="2" />
         </el-form-item>
         <el-form-item label="备注">
@@ -67,14 +64,11 @@
       <el-alert type="warning" show-icon :closable="false" style="margin-bottom: 10px">
         <template #title>该操作会自动生成一条“充值/调整”流水用于对账</template>
       </el-alert>
-      <el-form :model="setBalanceDialog.form" label-width="90px">
-        <el-form-item label="客户编码">
-          <plain-text v-model="setBalanceDialog.form.customer_code" clearable />
+      <el-form ref="setBalanceFormRef" :model="setBalanceDialog.form" :rules="setBalanceDialog.rules" label-width="90px">
+        <el-form-item label="客户" prop="customer_code">
+          <customer-selector v-model="setBalanceDialog.form.customer_code" v-model:customerName="setBalanceDialog.form.customer_name" />
         </el-form-item>
-        <el-form-item label="客户名称">
-          <plain-text v-model="setBalanceDialog.form.customer_name" clearable />
-        </el-form-item>
-        <el-form-item label="目标余额">
+        <el-form-item label="目标余额" prop="balance">
           <el-input-number v-model="setBalanceDialog.form.balance" :min="0" :step="0.01" :precision="2" />
         </el-form-item>
         <el-form-item label="备注">
@@ -143,12 +137,15 @@
   import { QSValidator } from '@/utils/router';
   import { getWalletAccounts, getWalletTransactions, rechargeWallet, setWalletBalance, importWalletTransactionsFile } from '@/api/console';
   import { UploadFilled } from '@element-plus/icons-vue';
+  import CustomerSelector from '@/views/console/components/customer-selector.vue';
 
   const emits = defineEmits(['update-title']);
 
   const loading = inject('loading');
 
   const listTable = ref(null);
+  const rechargeFormRef = ref(null);
+  const setBalanceFormRef = ref(null);
 
   const data = reactive({
     p: { page: 1, per_page: 20, pages: 0 },
@@ -171,6 +168,10 @@
       amount: 0,
       remark: '',
     },
+    rules: {
+      customer_code: [{ required: true, message: '请选择客户', trigger: 'change' }],
+      amount: [{ required: true, message: '请输入金额', trigger: 'change' }],
+    },
   });
 
   const setBalanceDialog = reactive({
@@ -180,6 +181,10 @@
       customer_name: '',
       balance: 0,
       remark: '',
+    },
+    rules: {
+      customer_code: [{ required: true, message: '请选择客户', trigger: 'change' }],
+      balance: [{ required: true, message: '请输入目标余额', trigger: 'change' }],
     },
   });
 
@@ -226,7 +231,7 @@
   };
 
   async function onLoad() {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getWalletAccounts({
         params: {
@@ -241,7 +246,7 @@
 
   async function loadTransactions() {
     if (!txDialog.customer_code) return;
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getWalletTransactions({
         params: {
@@ -255,6 +260,8 @@
   }
 
   const doRecharge = async () => {
+    const ok = await rechargeFormRef.value?.validate?.().catch(() => false);
+    if (!ok) return;
     await waitRequest(
       loading,
       rechargeWallet({
@@ -268,6 +275,8 @@
   };
 
   const doSetBalance = async () => {
+    const ok = await setBalanceFormRef.value?.validate?.().catch(() => false);
+    if (!ok) return;
     await waitRequest(
       loading,
       setWalletBalance({

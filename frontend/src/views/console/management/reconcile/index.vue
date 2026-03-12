@@ -23,11 +23,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-    </el-form>
 
-    <div class="toolbar">
-      <el-button size="small" :loading="reconciling" @click="reconcileAll">计算对账</el-button>
-    </div>
+      <el-row class="button-bar">
+        <el-button plain type="primary" :loading="reconciling" @click="reconcileAll">计算对账</el-button>
+      </el-row>
+    </el-form>
 
     <el-table :data="data.data" stripe v-loading="loading">
       <el-table-column prop="year" label="年" width="80" />
@@ -71,14 +71,16 @@
   const reconciling = ref(false);
 
   async function onLoad() {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getMonthBillSummary({
         params: {
           ...data.filterData,
+          ...data.p,
         },
       }),
     );
+    data.p = resp.data.pagination;
     data.data = (resp.data.data || []).map((r) => ({
       ...r,
       wallet_paid_amount: 0,
@@ -98,7 +100,7 @@
   };
 
   const reconcileRow = async (row) => {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getWalletTransactions({
         params: {
@@ -134,10 +136,5 @@
   });
 </script>
 
-<style scoped>
-  .toolbar {
-    margin: 0 0 10px;
-    text-align: right;
-  }
-</style>
+<style scoped></style>
 

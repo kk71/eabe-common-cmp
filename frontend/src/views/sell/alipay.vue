@@ -7,7 +7,7 @@
 <script>
   import Loading from './components/Loading.vue';
   export default {
-    name: 'alipay',
+    name: 'Alipay',
     components: {
       Loading,
     },

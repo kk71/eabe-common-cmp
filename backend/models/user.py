@@ -24,6 +24,7 @@ class User(SoftDeletionModelMixin, BaseTModel):
     login_name = CharField(max_length=32, null=True, db_index=True, description="用于密码登录的用户名")
     password = TextField(null=True, description="密码密文")
     douyin_unique_id = CharField(max_length=32, null=True, description="抖音号（见个人页面）")
+    customer = EasyForeignKeyField("models.Customer", related_name="users", null=True, description="所属客户（仅非管理员用户可绑定）")
 
     Meta = build_soft_deletion_meta(
         table="user",

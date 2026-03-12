@@ -1,7 +1,7 @@
 <template>
   <div class="order-confirm">
     <order-header title="订单确认">
-      <template v-slot:tip>
+      <template #tip>
         <span>请认真填写收货地址</span>
       </template>
     </order-header>
@@ -136,7 +136,7 @@
       </div>
     </div>
     <modal title="新增确认" btnType="1" :showModal="showEditModal" @cancel="showEditModal = false" @submit="submitAddress">
-      <template v-slot:body>
+      <template #body>
         <div class="edit-wrap">
           <div class="item">
             <input type="text" class="input" placeholder="姓名" v-model="checkedItem.receiveName" />
@@ -172,7 +172,7 @@
       </template>
     </modal>
     <modal title="删除确认" btnType="1" :showModal="showDelModal" @cancel="showDelModal = false" @submit="submitAddress">
-      <template v-slot:body>
+      <template #body>
         <p>您确认要删除此地址吗？</p>
       </template>
     </modal>
@@ -182,7 +182,11 @@
   import OrderHeader from '../components/OrderHeader.vue';
   import Modal from '../components/Modal.vue';
   export default {
-    name: 'order-confirm',
+    name: 'OrderConfirm',
+    components: {
+      OrderHeader,
+      Modal,
+    },
     data() {
       return {
         list: [], //收货地址列表
@@ -195,10 +199,6 @@
         showEditModal: false, //是否显示新增或者编辑弹框
         checkIndex: 0, //当前收货地址选中索引
       };
-    },
-    components: {
-      OrderHeader,
-      Modal,
     },
     mounted() {
       this.getAddressList();
@@ -235,7 +235,7 @@
       },
       // 地址删除、编辑、新增功能
       submitAddress() {
-        let { checkedItem, userAction } = this;
+        const { checkedItem, userAction } = this;
         let method,
           url,
           params = {};
@@ -247,7 +247,7 @@
           ((method = 'delete'), (url = `/api/address/${checkedItem.addressId}`));
         }
         if (userAction == 0 || userAction == 1) {
-          let {
+          const {
             receiveName,
             receivePhone,
             province,
@@ -304,7 +304,7 @@
       },
       getCartList() {
         this.axios.get('/api/cart/list').then((res) => {
-          let list = res; //获取购物车中所有商品数据
+          const list = res; //获取购物车中所有商品数据
           console.log(list);
           this.cartTotalPrice = res.cartTotalPrice; //商品总金额
           this.cartList = list.filter((item) => item.selected);
@@ -315,7 +315,7 @@
       },
       // 订单提交
       orderSubmit() {
-        let item = this.list[this.checkIndex];
+        const item = this.list[this.checkIndex];
         if (!item) {
           this.$message.error('请选择一个收货地址');
           return;

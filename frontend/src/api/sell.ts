@@ -21,3 +21,7 @@ export const getWalletTransactions = (conf: any) => get({ ...conf, url: '/sell/w
 
 // 订单
 export const getOrders = (conf: any) => get({ ...conf, url: '/sell/order' });
+
+// 客户信息（当前用户所属客户；不含备注）
+export const getMyCustomer = (conf: any) => get({ ...conf, url: '/sell/customer' });
+export const updateMyCustomer = (conf: any) => patch({ ...conf, url: '/sell/customer' });

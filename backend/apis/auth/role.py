@@ -27,12 +27,15 @@ async def _(
         header: Annotated[HeaderToken, Header()],
         query: build_query({
             "id": opt_query(str),
-        })
-) -> JsonResp[list[RoleGetter]]:
+        }, keyword=True, pagination=True)
+) -> PaginationJsonResp[list[RoleGetter]]:
     await header.verify()
-    r = await Role.filter(**query.model_dump())
-    return JsonResp(
-        data=[await RoleGetter.parse_record(i) for i in r],
+    qs = Role.filter(**query.model_dump())
+    qs = query.query_keyword(qs, "name")
+    items = await query.paginate(qs)
+    return PaginationJsonResp(
+        data=[await RoleGetter.parse_record(i) for i in items],
+        pagination=query.pagination,
     )
 
 

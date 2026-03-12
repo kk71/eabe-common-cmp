@@ -256,13 +256,13 @@ import { findProductBySlug } from '../../volc/data/products.js'
 
 export default {
   name: 'ProductDetailPage',
+  components: { NavBar, FooterSection, VolcIcon },
   props: {
     slug: {
       type: String,
       default: ''
     }
   },
-  components: { NavBar, FooterSection, VolcIcon },
   data() {
     return {
       product: null,

@@ -46,6 +46,7 @@
                 </div>
                 <div>
                   <div class="dropdown-name">{{ userName || '未登录用户' }}</div>
+                  <div v-if="customerName" class="dropdown-customer">客户：{{ customerName }}</div>
                 </div>
               </div>
               <div class="dropdown-divider"></div>
@@ -82,6 +83,7 @@
   const appStore = useAppStore();
 
   const userName = computed(() => appStore.user?.username || appStore.user?.name || '');
+  const customerName = computed(() => appStore.user?.customer_name || '');
   const userInitial = computed(() => (userName.value ? userName.value.charAt(0) : 'U'));
 
   const showUserMenu = ref(false);
@@ -292,6 +294,12 @@
     font-size: 14px;
     font-weight: 600;
     color: #1d2129;
+  }
+
+  .dropdown-customer {
+    margin-top: 2px;
+    font-size: 12px;
+    color: #86909c;
   }
 
   .dropdown-divider {

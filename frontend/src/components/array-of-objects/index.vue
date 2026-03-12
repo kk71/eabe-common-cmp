@@ -39,7 +39,7 @@
 
   const onAdd = async () => {
     // 添加
-    let toAdd = JSON.parse(JSON.stringify(props.defaultObject));
+    const toAdd = JSON.parse(JSON.stringify(props.defaultObject));
     innerModelValue.value.splice(0, 0, toAdd);
     await emit('add', toAdd);
   };

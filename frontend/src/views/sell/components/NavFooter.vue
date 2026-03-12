@@ -13,7 +13,7 @@
 </template>
 <script>
   export default {
-    name: 'nav-footer',
+    name: 'NavFooter',
   };
 </script>
 <style lang="scss" scoped>

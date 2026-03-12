@@ -49,7 +49,7 @@
 
   const isToday = computed(() => {
     // 日期是今日
-    let now = new Date();
+    const now = new Date();
     let v = props.value;
     if (!v || v === null || v === undefined || v == '') return false;
     if ([String, Number].includes(v.constructor)) v = new Date(v);
@@ -58,7 +58,7 @@
 
   const display = computed(() => {
     // 用于人性化展示时间
-    let now = new Date();
+    const now = new Date();
     let v = props.value;
     if (!v) return '-';
     if ([String, Number].includes(v.constructor)) v = new Date(v);

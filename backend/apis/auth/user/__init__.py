@@ -40,7 +40,7 @@ async def _(
     q = User.filter(**d)
     if not include_disabled:
         q = q.filter(disabled=False)
-    q = query.query_keyword(q, "name", "id")
+    q = query.query_keyword(q, "name", "login_name", "id")
     r = await query.paginate(q)
     return PaginationJsonResp(
         data=[await UserGetter.parse_record(i) for i in r],

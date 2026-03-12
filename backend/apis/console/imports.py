@@ -13,7 +13,9 @@ import chardet
 from backend.apis import *
 from backend.apis.auth.base import *
 from backend.core.tpdm import *
+from backend.services import Privileges
 from backend.models import (
+    Customer,
     MonthBill,
     MonthBillSettlementType,
     Order,
@@ -202,6 +204,12 @@ async def _import_month_bills_from_rows(rows: Iterable[list[str]], skip_header: 
             result.failed += 1
             continue
 
+        try:
+            await _require_customer_by_code(customer_code)
+        except Exception:
+            result.failed += 1
+            continue
+
         exist = await MonthBill.filter(
             year=year,
             month=month,
@@ -270,7 +278,18 @@ def _build_cost_remark(cost_type: str, remark: str | None) -> str | None:
     return f"{prefix} {base}"
 
 
+async def _require_customer_by_code(customer_code: str) -> Customer:
+    code = (customer_code or "").strip()
+    if not code:
+        raise BadRequest("customer_code 不能为空")
+    c = await Customer.filter(existed=True, code=code).first()
+    if not c:
+        raise BadRequest(f"客户不存在（客户编号={code}），请先在【客户支持-客户】中创建并配置客户编号")
+    return c
+
+
 async def _get_or_create_wallet(customer_code: str, customer_name: str | None = None) -> WalletAccount:
+    await _require_customer_by_code(customer_code)
     w = await WalletAccount.filter(customer_code=customer_code).first()
     if w:
         if customer_name and w.customer_name != customer_name:

@@ -49,7 +49,7 @@
   });
 
   const remoteMethod = async (q) => {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getRole({
         params: {

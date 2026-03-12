@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <order-header title="我的购物车">
-      <template v-slot:tip>
+      <template #tip>
         <span>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</span>
       </template>
     </order-header>
@@ -9,7 +9,7 @@
       <div class="container">
         <div class="cart-box">
           <ul class="cart-item-head">
-            <li class="col-1"> <span class="checkbox" v-bind:class="{ checked: allChecked }" @click="toggleAll"></span>全选 </li>
+            <li class="col-1"> <span class="checkbox" :class="{ checked: allChecked }" @click="toggleAll"></span>全选 </li>
             <li class="col-3">商品名称</li>
             <li class="col-1">单价</li>
             <li class="col-2">数量</li>
@@ -17,11 +17,11 @@
             <li class="col-1">操作</li>
           </ul>
           <ul class="cart-item-list">
-            <li class="cart-item" v-for="(item, index) in list" v-bind:key="index">
+            <li class="cart-item" v-for="(item, index) in list" :key="index">
               <div class="item-check">
                 <span
                   class="checkbox"
-                  v-bind:class="{
+                  :class="{
                     checked: item.selected > 0,
                   }"
                   @click="updateCart(item)"
@@ -73,7 +73,7 @@
   import NavFooter from './components/NavFooter.vue';
 
   export default {
-    name: 'index',
+    name: 'Index',
     components: {
       OrderHeader,
       ServiceBar,
@@ -134,7 +134,7 @@
       },
       // 控制全选功能
       toggleAll() {
-        let url = this.allChecked ? '/api/cart/unSelectAll' : '/api/cart/selectAll';
+        const url = this.allChecked ? '/api/cart/unSelectAll' : '/api/cart/selectAll';
         this.axios.put(url).then(() => {
           this.getCartList();
         });
@@ -148,7 +148,7 @@
       },
       // 购物车下单
       order() {
-        let isCheck = this.list.every((item) => !item.selected);
+        const isCheck = this.list.every((item) => !item.selected);
         if (isCheck) {
           this.$message.warning('请选择一件商品');
         } else {

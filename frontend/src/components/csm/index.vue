@@ -125,7 +125,7 @@
 
   const currentForDisplay = computed(() => {
     // 查询当前值（用于editable==false）
-    let r = [];
+    const r = [];
     for (const opt of data.allOptions) {
       if (props.modelValue == null || props.modelValue == undefined) {
       } else if (props.modelValue.constructor === String || props.modelValue.constructor === Number) {

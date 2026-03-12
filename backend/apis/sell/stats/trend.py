@@ -9,6 +9,7 @@ from backend.apis import *
 from backend.apis.auth.base import *
 from backend.core.tpdm import *
 from backend.models import *
+from backend.apis.sell.auth import verify_sell_user
 
 
 class MonthAmountPoint(BaseModel):
@@ -41,7 +42,7 @@ async def _(
             "customer_code": opt_query(str, description="客户编码（可选）"),
         }, keyword=False)
 ) -> JsonResp[list[MonthAmountPoint]]:
-    await header.verify()
+    await verify_sell_user(header)
 
     months = query.months or 6
     ym_list = _iter_recent_months(months)

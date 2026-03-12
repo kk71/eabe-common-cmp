@@ -219,7 +219,7 @@
       <div class="flex items-center gap-3">
         <a href="#" class="nav-link md-hide">文档</a>
         <a href="#" class="nav-link md-hide">备案</a>
-        <router-link to="/sell/management" class="nav-link md-hide">控制台</router-link>
+        <router-link v-if="!isAdmin" to="/sell/management" class="nav-link md-hide">控制台</router-link>
         <div v-if="isLoggedIn" class="header-user md-hide" @click="toggleUserMenu">
           <div class="user-avatar">
             {{ userInitial }}
@@ -231,6 +231,7 @@
               </div>
               <div>
                 <div class="dropdown-name">{{ userName || '已登录用户' }}</div>
+                <div v-if="customerName" class="dropdown-customer">客户：{{ customerName }}</div>
               </div>
             </div>
             <div class="dropdown-divider"></div>
@@ -318,11 +319,7 @@
         >
           登录
         </router-link>
-        <router-link
-          to="/sell/management"
-          class="mobile-link"
-          @click.native="mobileOpen = false"
-        >
+        <router-link v-if="!isAdmin" to="/sell/management" class="mobile-link" @click.native="mobileOpen = false">
           控制台
         </router-link>
       </div>
@@ -647,9 +644,16 @@ export default {
     isLoggedIn() {
       return Boolean(this.appStore?.token)
     },
+    isAdmin() {
+      return Boolean(this.appStore?.user?.is_admin)
+    },
     userName() {
       const u = this.appStore?.user
       return u?.username || u?.name || u?.login_name || ''
+    },
+    customerName() {
+      const u = this.appStore?.user
+      return u?.customer_name || ''
     },
     userInitial() {
       return this.userName ? String(this.userName).charAt(0) : 'U'
@@ -1166,6 +1170,11 @@ export default {
   font-size: 14px;
   font-weight: 600;
   color: #1d2129;
+}
+.dropdown-customer {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #86909c;
 }
 
 .dropdown-divider {

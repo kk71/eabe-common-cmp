@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
   import { useRoute, useRouter } from 'vue-router';
-  import { House, Wallet, Document, DocumentChecked, User } from '@element-plus/icons-vue';
+  import { House, Wallet, Document, DocumentChecked, User, OfficeBuilding } from '@element-plus/icons-vue';
 
   const router = useRouter();
   const route = useRoute();
@@ -34,6 +34,7 @@
     { id: 'month-bill', label: '账单概览', path: '/sell/management/month-bill', icon: Document },
     { id: 'bill-detail', label: '账单详情', path: '/sell/management/bill-detail', icon: DocumentChecked },
     { id: 'order', label: '订单管理', path: '/sell/management/order', icon: User },
+    { id: 'customer', label: '客户信息', path: '/sell/management/customer', icon: OfficeBuilding },
   ];
 
   const isActive = (item: (typeof menus)[number]) => {

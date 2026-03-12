@@ -173,14 +173,16 @@
   });
 
   async function onLoad() {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getMonthBillSummary({
         params: {
           ...data.filterData,
+          ...data.p,
         },
       }),
     );
+    data.p = resp.data.pagination;
     data.data = resp.data.data;
   }
 
@@ -217,7 +219,7 @@
   };
 
   const loadWalletForBill = async (row) => {
-    let resp = await waitRequest(
+    const resp = await waitRequest(
       loading,
       getWalletTransactions({
         params: {

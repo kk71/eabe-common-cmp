@@ -21,7 +21,7 @@
       <el-icon><Money /></el-icon>
       <template #title>财务资金管理</template>
     </el-menu-item>
-    <el-menu-item @click="showTips">
+    <el-menu-item index="/console/management/customer">
       <el-icon><Present /></el-icon>
       <template #title>客户支持</template>
     </el-menu-item>
