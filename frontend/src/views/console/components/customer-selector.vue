@@ -51,16 +51,20 @@
   });
 
   const normalizeOption = (c: any): CustomerOption => {
-    const rawCode = String(c.code ?? c.customer_code ?? '').trim();
-    const code = rawCode || String(c.id ?? '').trim();
+    const code = String(c.code ?? c.customer_code ?? '').trim();
     const name = String(c.name ?? c.customer_name ?? '').trim();
-    const label = name ? `${name}${code ? `（${code}）` : ''}` : code || String(c.id || '');
+    const hasCode = !!code;
+    // el-select-v2 需要稳定且唯一的 value，这里对“未配置 code”的客户使用不可选的占位 value
+    const optionValue = hasCode ? code : `__missing_code__${String(c.id ?? '') || name || 'unknown'}`;
+    const label = hasCode
+      ? (name ? `${name}（${code}）` : code)
+      : (name ? `${name}（未配置客户编号）` : `未配置客户编号（ID=${String(c.id ?? '') || '-'}）`);
     return {
       id: c.id,
-      code,
+      code: optionValue,
       name,
       label,
-      disabled: c.disabled,
+      disabled: !!c.disabled || !hasCode,
     };
   };
 
@@ -118,6 +122,12 @@
     if (multiple.value) return;
     const code = innerModelValue.value as any;
     const opt = data.options.find((o) => o.code === code);
+    // 如果选择了“未配置编号”的占位项（理论上 disabled 不可选），则不回填 name
+    if (typeof code === 'string' && code.startsWith('__missing_code__')) {
+      emits('update:customerName', null);
+      emits('selected', null);
+      return;
+    }
     const name = opt?.name || null;
     emits('update:customerName', name);
     emits('selected', opt || null);

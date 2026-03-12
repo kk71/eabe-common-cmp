@@ -42,7 +42,10 @@ async def _require_customer_by_code(customer_code: str) -> None:
     if not code:
         raise BadRequest("customer_code 不能为空")
     if not await Customer.filter(existed=True, code=code).exists():
-        raise BadRequest(f"客户不存在（客户编号={code}），请先在【客户支持-客户】中创建并配置客户编号")
+        raise BadRequest(
+            f"客户不存在（客户编号={code}）。请先在【客户支持-客户】中创建客户并填写“客户编号(code)”。"
+            f"注意这里的客户编号是客户的 code，不是客户ID。"
+        )
 
 
 @router.get(tags=[APITags.console], summary="查询钱包账户列表")

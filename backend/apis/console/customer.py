@@ -23,7 +23,8 @@ class CustomerSetter(TSetter):
         user_ids = [i for i in (self.user_ids or []) if i]
         if not user_ids:
             # 清空绑定
-            await User.filter(customer=t_inst).update(customer=None)
+            # tortoise 批量 update 外键字段时，使用 *_id 更稳妥（避免 None.id）
+            await User.filter(customer=t_inst).update(customer_id=None)
             return
 
         users = await User.filter(id__in=user_ids).all()
@@ -37,9 +38,9 @@ class CustomerSetter(TSetter):
             raise BadRequest(f"不允许绑定管理员用户: {', '.join(admins)}")
 
         # 用户只能属于一个客户：先解绑这些用户原本所属客户，再绑定到当前客户
-        await User.filter(id__in=user_ids).update(customer=t_inst)
+        await User.filter(id__in=user_ids).update(customer_id=t_inst.id)
         # 移除之前绑定但现在不在列表里的用户
-        await User.filter(customer=t_inst).exclude(id__in=user_ids).update(customer=None)
+        await User.filter(customer=t_inst).exclude(id__in=user_ids).update(customer_id=None)
 
 
 class CustomerCreateBody(BaseModel):
@@ -64,7 +65,7 @@ async def _(
 ) -> PaginationJsonResp[list[CustomerGetter]]:
     await header.verify(Privileges.system_control)
     qs = Customer.filter(**query.model_dump())
-    qs = query.query_keyword(qs, "name", "contact_phone", "principal")
+    qs = query.query_keyword(qs, "code", "name", "contact_phone", "principal")
     items = await query.paginate(qs)
     return PaginationJsonResp(
         data=[await CustomerGetter.parse_record(i) for i in items],
@@ -130,7 +131,7 @@ async def _(
     customers = await qs
     # 删除前先禁用并解绑用户
     for c in customers:
-        await User.filter(customer=c).update(customer=None, disabled=True)
+        await User.filter(customer=c).update(customer_id=None, disabled=True)
     await qs.delete()
     return JsonResp()
 
