@@ -1,84 +1,65 @@
 <template>
-  <div class="bill-page" v-loading="loading">
-    <section class="bill-hero">
-      <div class="bill-hero-bg"></div>
-      <div class="bill-hero-content">
-        <div class="bill-hero-text">
-          <div class="bill-hero-tag">账单中心 · 管理控制台</div>
-          <h1 class="bill-hero-title">按月总览您的云上费用</h1>
-          <p class="bill-hero-subtitle">
-            按客户与月份聚合展示月租费、Token 使用费与一次性费用，并与钱包扣费自动对齐，支撑对账与核销。
-          </p>
-        </div>
-        <div class="bill-hero-side">
-          <el-card class="bill-hero-card" shadow="hover">
-            <div class="bill-hero-card-title">筛选账单周期</div>
-            <div class="bill-hero-card-body">
-              <el-form :model="data.filterData" label-width="56px" label-position="left" class="bill-hero-form">
-                <el-form-item label="年份">
-                  <el-input-number
-                    v-model="data.filterData.year"
-                    :min="2000"
-                    :max="2100"
-                    controls-position="right"
-                    size="small"
-                  />
-                </el-form-item>
-                <el-form-item label="月份">
-                  <el-input-number
-                    v-model="data.filterData.month"
-                    :min="1"
-                    :max="12"
-                    controls-position="right"
-                    size="small"
-                  />
-                </el-form-item>
-                <el-form-item label="客户">
-                  <plain-text v-model="data.filterData.customer_code" clearable placeholder="客户编码" />
-                </el-form-item>
-              </el-form>
-              <div class="bill-hero-actions">
-                <el-button type="primary" size="small" @click="onLoad">查询账单</el-button>
-                <el-button size="small" @click="exportSummaryCsv">导出汇总</el-button>
-                <el-button size="small" @click="importDialog.visible = true">导入账单</el-button>
-              </div>
-            </div>
-          </el-card>
-        </div>
-      </div>
-    </section>
+  <filterable-list-frame
+    v-model:filterData="data.filterData"
+    v-model:pagination="data.p"
+    :filter-data-typing="data.filterDataTyping"
+    @filter-changed="onLoad"
+  >
+    <el-form ref="form" :model="data.filterData" class="filter-box" label-position="right" label-width="70px">
+      <el-row :gutter="10">
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
+          <el-form-item label="年份">
+            <el-input-number v-model="data.filterData.year" :min="2000" :max="2100" controls-position="right" />
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
+          <el-form-item label="月份">
+            <el-input-number v-model="data.filterData.month" :min="1" :max="12" controls-position="right" />
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="4">
+          <el-form-item label="客户编码">
+            <plain-text v-model="data.filterData.customer_code" clearable placeholder="" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
 
-    <section class="bill-section">
-      <div class="bill-section-header">
-        <h2>月度账单汇总</h2>
-        <p>一行即一张月度账单，汇总展示不同费用构成与账单总额。</p>
-      </div>
+    <el-space style="margin-bottom: 10px">
+      <el-button type="primary" @click="onLoad">查询账单</el-button>
+      <el-button @click="exportSummaryCsv">导出汇总</el-button>
+      <el-button @click="importDialog.visible = true">导入账单</el-button>
+      <el-button @click="downloadImportTemplate">下载模板</el-button>
+    </el-space>
 
-      <filterable-list-frame
-        v-model:filterData="data.filterData"
-        v-model:pagination="data.p"
-        :filter-data-typing="data.filterDataTyping"
-        @filter-changed="onLoad"
-      >
-        <el-table ref="listTable" :data="data.data" stripe v-loading="loading" class="bill-table">
-          <el-table-column type="selection" width="50" />
-          <el-table-column prop="year" label="年" width="80" />
-          <el-table-column prop="month" label="月" width="60" />
-          <el-table-column prop="customer_code" label="客户编码" min-width="160" />
-          <el-table-column prop="customer_name" label="客户名称" min-width="200" />
-          <el-table-column prop="rent_amount" label="月租费" min-width="120" sortable />
-          <el-table-column prop="token_amount" label="Token使用费" min-width="140" sortable />
-          <el-table-column prop="other_amount" label="其他一次性费用" min-width="160" sortable />
-          <el-table-column prop="total_amount" label="当月总费用" min-width="150" sortable />
+    <el-table ref="listTable" :data="data.data" stripe v-loading="loading">
+      <el-table-column type="selection" width="50" />
+      <el-table-column prop="year" label="年" width="80" />
+      <el-table-column prop="month" label="月" width="60" />
+      <el-table-column label="客户名称" min-width="160">
+        <template #default="{ row }">
+          <el-tooltip
+            v-if="(row.customer_code || '').trim()"
+            effect="dark"
+            :content="`客户编码：${(row.customer_code || '').trim()}`"
+            placement="top"
+          >
+            <span>{{ row.customer_name || '-' }}</span>
+          </el-tooltip>
+          <span v-else>{{ row.customer_name || '-' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="rent_amount" label="月租费" min-width="120" sortable />
+      <el-table-column prop="token_amount" label="Token使用费" min-width="140" sortable />
+      <el-table-column prop="other_amount" label="其他一次性费用" min-width="160" sortable />
+      <el-table-column prop="total_amount" label="当月总费用" min-width="150" sortable />
 
-          <el-table-column label="操作" width="140" fixed="right">
-            <template #default="{ row }">
-              <el-button type="primary" link size="small" @click="openDetail(row)">查看明细</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </filterable-list-frame>
-    </section>
+      <el-table-column label="操作" width="140" fixed="right">
+        <template #default="{ row }">
+          <el-button type="primary" link size="small" @click="openDetail(row)">查看明细</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
     <el-dialog v-model="detailDialog.visible" :title="`账单明细 - ${detailDialog.title}`" width="900px">
       <div class="detail-header">
@@ -107,7 +88,10 @@
 
     <el-dialog v-model="importDialog.visible" title="导入月度账单（CSV / Excel）" width="820px">
       <el-alert type="info" show-icon :closable="false" style="margin-bottom: 10px">
-        <template #title>选择 CSV 或 Excel(xlsx) 上传，用于生成账单与后续按月扣费</template>
+        <template #title>
+          选择 CSV 或 Excel(xlsx) 上传，用于生成账单与后续按月扣费。字段顺序：
+          账期(YYYYMM)、商品名称、客户编码、客户名称、订购账号名称、产品系列、资源编号、用量、出账类型、官网价格、优惠价格、实付金额
+        </template>
       </el-alert>
       <el-upload
         drag
@@ -128,7 +112,7 @@
         <el-button type="primary" :disabled="!importDialog.file" @click="doImportMonthBills">导入</el-button>
       </template>
     </el-dialog>
-  </div>
+  </filterable-list-frame>
 </template>
 
 <script setup>
@@ -290,6 +274,17 @@
     URL.revokeObjectURL(url);
   };
 
+  const downloadImportTemplate = () => {
+    const base = import.meta.env.BASE_URL || '/';
+    const url = `${base.replace(/\/+$/, '/')}templates/month_bill_import_template.xlsx`;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'month_bill_import_template.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
+
   onMounted(async () => {
     emits('update-title', '月度账单');
     await onLoad();
@@ -297,140 +292,6 @@
 </script>
 
 <style scoped>
-  .bill-page {
-    min-height: 100vh;
-    background: radial-gradient(circle at top left, #eef2ff 0%, #f7f8fa 50%, #ffffff 100%);
-    padding: 24px 32px 40px;
-    box-sizing: border-box;
-  }
-
-  .bill-hero {
-    position: relative;
-    margin-bottom: 24px;
-    overflow: hidden;
-    border-radius: 16px;
-  }
-
-  .bill-hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.3), transparent 55%),
-      radial-gradient(circle at 80% 0%, rgba(129, 140, 248, 0.4), transparent 60%);
-    opacity: 0.9;
-    pointer-events: none;
-  }
-
-  .bill-hero-content {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    padding: 24px 28px;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid #e5e6eb;
-  }
-
-  .bill-hero-text {
-    flex: 1 1 420px;
-  }
-
-  .bill-hero-tag {
-    display: inline-flex;
-    padding: 4px 12px;
-    border-radius: 999px;
-    border: 1px solid #c6d4ff;
-    font-size: 12px;
-    color: #1d2129;
-    background: #e8f0ff;
-    margin-bottom: 8px;
-  }
-
-  .bill-hero-title {
-    margin: 0 0 8px;
-    font-size: 24px;
-    font-weight: 600;
-    color: #1d2129;
-  }
-
-  .bill-hero-subtitle {
-    margin: 0;
-    font-size: 13px;
-    color: #4e5969;
-    max-width: 520px;
-  }
-
-  .bill-hero-side {
-    flex: 1 1 320px;
-    max-width: 360px;
-  }
-
-  .bill-hero-card {
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid #e5e6eb;
-
-    :deep(.el-card__body) {
-      padding: 14px 16px;
-    }
-  }
-
-  .bill-hero-card-title {
-    font-size: 13px;
-    color: #1d2129;
-    margin-bottom: 8px;
-  }
-
-  .bill-hero-form {
-    :deep(.el-form-item__label) {
-      color: #4e5969;
-      font-size: 12px;
-    }
-  }
-
-  .bill-hero-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-  }
-
-  .bill-section {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .bill-section-header {
-    margin: 8px 0 16px;
-
-    h2 {
-      margin: 0 0 4px;
-      font-size: 18px;
-      font-weight: 600;
-      color: #1d2129;
-    }
-
-    p {
-      margin: 0;
-      font-size: 13px;
-      color: #4e5969;
-    }
-  }
-
-  .bill-table {
-    background: #ffffff;
-
-    :deep(.el-table__header-wrapper th) {
-      background: #f7f8fa;
-      color: #4e5969;
-      border-bottom-color: #e5e6eb;
-    }
-
-    :deep(.el-table__row) td {
-      background: #ffffff;
-      border-bottom-color: #f2f3f5;
-      color: #1d2129;
-    }
-  }
-
   .detail-header {
     display: flex;
     justify-content: space-between;
