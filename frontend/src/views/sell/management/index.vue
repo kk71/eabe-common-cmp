@@ -21,15 +21,15 @@
             可用余额
           </div>
           <div class="balance-row">
-            <span class="balance-amount">¥0.00</span>
+            <span class="balance-amount">{{ currencySymbol }}{{ availableBalanceText }}</span>
             <router-link to="/sell/management/wallet" class="link-blue">收支明细</router-link>
           </div>
           <div class="balance-detail">
             <span class="link-muted">现金余额</span>
-            <span class="text-dark">: ¥0.00</span>
+            <span class="text-dark">: {{ currencySymbol }}{{ cashBalanceText }}</span>
             <span class="balance-sep">-</span>
             <span class="text-muted">欠费金额:</span>
-            <span class="text-dark">¥0.00</span>
+            <span class="text-dark">{{ currencySymbol }}{{ debtAmountText }}</span>
           </div>
           <div class="balance-alert">
             可用余额预警
@@ -138,16 +138,25 @@
 <script setup>
   import { inject } from 'vue';
   import { waitRequest } from '@/utils/http/tools';
-  import { getCostFeeTrend } from '@/api/sell';
+  import { getCostFeeTrend, getWalletAccounts } from '@/api/sell';
 
   const emits = defineEmits(['update-title']);
   const loading = inject('loading');
+
+  const walletAccount = ref(null);
 
   const bills = ref([
     { period: '2026-03', status: '出账中', statusClass: 'dot-blue' },
     { period: '2026-02', status: '出账中', statusClass: 'dot-blue' },
     { period: '2026-01', status: '已结清', statusClass: 'dot-green' },
   ]);
+
+  const currencySymbol = computed(() => '¥');
+  const cashBalance = computed(() => Number(walletAccount.value?.balance ?? 0));
+  const availableBalanceText = computed(() => cashBalance.value.toFixed(2));
+  const cashBalanceText = computed(() => cashBalance.value.toFixed(2));
+  // 后端目前未提供“欠费金额”字段，先以 0 展示，避免前端误算
+  const debtAmountText = computed(() => '0.00');
 
   const trendData = ref([]);
   const trendMonths = computed(() => trendData.value.map((x) => x.period));
@@ -183,8 +192,22 @@
     trendData.value = resp.data?.data ?? [];
   }
 
+  async function loadWalletAccount() {
+    const resp = await waitRequest(
+      loading,
+      getWalletAccounts({
+        params: {
+          page: 1,
+          per_page: 1,
+        },
+      }),
+    );
+    walletAccount.value = resp.data?.data?.[0] ?? null;
+  }
+
   onMounted(async () => {
     emits('update-title', '账户总览');
+    await loadWalletAccount();
     await loadTrend();
   });
 </script>
