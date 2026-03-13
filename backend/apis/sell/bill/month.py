@@ -9,6 +9,7 @@ from backend.apis import *
 from backend.models import *
 from backend.apis.auth.base import *
 from backend.apis.sell.auth import verify_sell_user
+from backend.core.http import Forbidden
 
 
 @init_t_pdm
@@ -62,6 +63,21 @@ def classify_fee_type(bill: MonthBill) -> str:
     return "other"
 
 
+async def _get_bound_customer_code(header: HeaderToken) -> str:
+    """
+    获取当前登录用户绑定客户的 customer_code（客户侧后台专用）。
+    账单相关接口仅允许访问自己所属客户的数据。
+    """
+    user = header.user
+    customer_id = getattr(user, "customer_id", None)
+    if not customer_id:
+        raise Forbidden("当前登录用户未绑定客户")
+    customer = await Customer.filter(existed=True, id=customer_id).first()
+    if not customer or not (customer.code or "").strip():
+        raise Forbidden("当前登录用户绑定的客户不存在或未配置客户编号")
+    return customer.code.strip()
+
+
 @router.get(tags=[APITags.buyer], summary="查月账单明细（原始记录）")
 async def _(
         header: Annotated[HeaderToken, Header()],
@@ -74,7 +90,11 @@ async def _(
         }, pagination=True, keyword=True)
 ) -> PaginationJsonResp[list[MonthBillGetter]]:
     await verify_sell_user(header)
+    # 月账单明细仅允许查询当前登录用户绑定客户的数据
+    customer_code = await _get_bound_customer_code(header)
     d = {k: v for k, v in query.model_dump().items() if v is not None}
+    # 强制使用绑定客户的 customer_code，忽略外部传入的 customer_code
+    d["customer_code"] = customer_code
     bills = MonthBill.filter(**d)
     bills = query.query_keyword(
         bills, "product_name", "customer_name", "customer_code", "account_code", "resource_code")
@@ -99,7 +119,11 @@ async def month_bill_summary(
     并按【月租费 / Token 使用费 / 其他一次性费用】拆分金额。
     """
     await verify_sell_user(header)
+    # 月账单汇总仅允许查询当前登录用户绑定客户的数据
+    customer_code = await _get_bound_customer_code(header)
     filters = query.model_dump()
+    # 强制使用绑定客户的 customer_code，忽略外部传入的 customer_code
+    filters["customer_code"] = customer_code
     bills_qs = MonthBill.filter(**{k: v for k, v in filters.items() if v is not None})
     bills = await bills_qs
 

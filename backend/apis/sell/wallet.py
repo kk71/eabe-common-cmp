@@ -7,6 +7,7 @@ from backend.apis import *
 from backend.models import *
 from backend.apis.auth.base import *
 from backend.apis.sell.auth import verify_sell_user
+from backend.core.http import Forbidden
 
 
 @init_t_pdm
@@ -21,6 +22,21 @@ class WalletTransactionGetter(TGetter):
         cls = WalletTransaction
 
 
+async def _get_bound_customer_code(header: HeaderToken) -> str:
+    """
+    获取当前登录用户绑定客户的 customer_code（客户侧后台专用）。
+    收支相关接口仅允许访问自己所属客户的数据。
+    """
+    user = header.user
+    customer_id = getattr(user, "customer_id", None)
+    if not customer_id:
+        raise Forbidden("当前登录用户未绑定客户")
+    customer = await Customer.filter(existed=True, id=customer_id).first()
+    if not customer or not (customer.code or "").strip():
+        raise Forbidden("当前登录用户绑定的客户不存在或未配置客户编号")
+    return customer.code.strip()
+
+
 @router.get(tags=[APITags.buyer], summary="查询钱包账户（客户侧）")
 async def _(
         header: Annotated[HeaderToken, Header()],
@@ -29,7 +45,12 @@ async def _(
         }, pagination=True, keyword=True)
 ) -> PaginationJsonResp[list[WalletAccountGetter]]:
     await verify_sell_user(header)
-    wallets = WalletAccount.filter(**query.model_dump())
+    # 钱包账户仅允许查询当前登录用户绑定客户的数据
+    customer_code = await _get_bound_customer_code(header)
+    d = query.model_dump()
+    # 强制使用绑定客户的 customer_code，忽略外部传入的 customer_code
+    d["customer_code"] = customer_code
+    wallets = WalletAccount.filter(**d)
     wallets = query.query_keyword(wallets, "customer_code", "customer_name")
     wallets = await query.paginate(wallets)
     return PaginationJsonResp(
@@ -48,12 +69,15 @@ async def _(
         }, pagination=True, keyword=True)
 ) -> PaginationJsonResp[list[WalletTransactionGetter]]:
     await verify_sell_user(header)
+    # 钱包流水仅允许查询当前登录用户绑定客户的数据
+    customer_code = await _get_bound_customer_code(header)
     d = query.model_dump()
-    customer_code = d.pop("customer_code", None)
-    wallet_qs = WalletAccount.filter(customer_code=customer_code) if customer_code else WalletAccount.all()
+    # 忽略外部传入的 customer_code，始终按绑定客户过滤
+    d.pop("customer_code", None)
+    wallet_qs = WalletAccount.filter(customer_code=customer_code)
     wallets = await wallet_qs
     wallet_ids = [w.id for w in wallets]
-    if customer_code and not wallet_ids:
+    if not wallet_ids:
         await query.paginate([])
         return PaginationJsonResp(data=[], pagination=query.pagination)
 
