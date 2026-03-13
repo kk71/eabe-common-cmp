@@ -106,7 +106,8 @@ async def _import_orders_from_rows(rows: Iterable[list[str]], skip_header: bool)
             continue
         idx += 1
         cols = [c.strip() for c in cols if c is not None]
-        if len(cols) < 10:
+        # 订单导入：必须包含 customer_code，用于关联客户信息
+        if len(cols) < 11:
             result.failed += 1
             continue
 
@@ -116,12 +117,13 @@ async def _import_orders_from_rows(rows: Iterable[list[str]], skip_header: bool)
             product_name,
             resource_code,
             order_guanxi_id,
+            customer_code,
             origin,
             product_type,
             order_date,
             status,
             total_price,
-        ) = cols[:10]
+        ) = cols[:11]
 
         try:
             origin_v = OrderOrigin.get_by_name(origin).value
@@ -132,9 +134,18 @@ async def _import_orders_from_rows(rows: Iterable[list[str]], skip_header: bool)
         except Exception:
             result.failed += 1
             continue
+        if not (customer_code or "").strip():
+            result.failed += 1
+            continue
+        try:
+            await _require_customer_by_code(customer_code)
+        except Exception:
+            result.failed += 1
+            continue
 
         exist = await Order.filter(order_id=order_no).first()
         if exist:
+            exist.customer_code = customer_code or exist.customer_code
             exist.batch_code = batch_code or exist.batch_code
             exist.product_name = product_name
             exist.resource_code = resource_code
@@ -149,6 +160,7 @@ async def _import_orders_from_rows(rows: Iterable[list[str]], skip_header: bool)
         else:
             await Order.create(
                 order_id=order_no,
+                customer_code=customer_code,
                 batch_code=batch_code,
                 product_name=product_name,
                 resource_code=resource_code,

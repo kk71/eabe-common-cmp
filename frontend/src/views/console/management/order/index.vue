@@ -32,11 +32,14 @@
 
     <el-space style="margin-bottom: 10px">
       <el-button type="primary" @click="importDialog.visible = true">导入订单</el-button>
+      <el-button @click="downloadImportTemplate">下载模板</el-button>
     </el-space>
 
     <el-table ref="listTable" :data="data.data" stripe v-loading="loading">
       <el-table-column type="selection" width="50" />
       <el-table-column prop="order_id" label="订单编号" min-width="200" />
+      <el-table-column prop="customer_code" label="客户编号" min-width="160" />
+      <el-table-column prop="customer.name" label="客户名称" min-width="180" />
       <el-table-column prop="batch_code" label="批次" min-width="200" />
       <el-table-column label="产品" prop="product_name" min-width="160" />
       <el-table-column prop="resource_code" label="资源编号" min-width="200" />
@@ -77,7 +80,7 @@
         <el-table-column prop="change_amount" label="变动金额" min-width="120" />
         <el-table-column prop="balance_after" label="变动后余额" min-width="120" />
         <el-table-column prop="remark" label="备注" min-width="180" />
-        <el-table-column prop="create_time" label="时间" min-width="180" />
+        <table-column-dt prop="create_time" label="时间" min-width="180" />
       </el-table>
       <template #footer>
         <el-button @click="txDialog.visible = false">关闭</el-button>
@@ -86,7 +89,10 @@
 
     <el-dialog v-model="importDialog.visible" title="导入订单（CSV / Excel）" width="760px">
       <el-alert type="info" show-icon :closable="false" style="margin-bottom: 10px">
-        <template #title>选择 CSV 或 Excel(xlsx) 上传，后台仅导入入库，扣费由定时任务到期执行</template>
+        <template #title>
+          选择 CSV 或 Excel(xlsx) 上传，后台仅导入入库，扣费由定时任务到期执行。字段顺序：
+          订单编号、批次、产品名称、资源编号、订购关系ID、客户编号(code)、区域、订单类型、下单日期、状态、总金额
+        </template>
       </el-alert>
       <el-upload
         drag
@@ -99,7 +105,7 @@
         <el-icon class="el-icon--upload"><upload-filled /></el-icon>
         <div class="el-upload__text">拖拽文件到此处，或 <em>点击选择</em></div>
         <template #tip>
-          <div class="el-upload__tip">支持 .csv / .xlsx，首行表头会自动跳过</div>
+          <div class="el-upload__tip">支持 .csv / .xlsx，首行表头会自动跳过；客户编号需在客户表已存在</div>
         </template>
       </el-upload>
       <template #footer>
@@ -221,6 +227,17 @@
   };
   const onImportFileRemove = () => {
     importDialog.file = null;
+  };
+
+  const downloadImportTemplate = () => {
+    const base = import.meta.env.BASE_URL || '/';
+    const url = `${base.replace(/\/+$/, '/')}templates/order_import_template.xlsx`;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'order_import_template.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   };
 
   onMounted(async () => {

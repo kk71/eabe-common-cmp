@@ -33,7 +33,7 @@ class OrderWalletChargeTask(BaseCeleryTask):
 
         for o in orders:
             # 这里约定使用 order_guanxi_id 作为钱包账户标识
-            customer_code = str(o.order_guanxi_id)
+            customer_code = (getattr(o, "customer_code", None) or "").strip() or str(o.order_guanxi_id)
             amount = Decimal(o.total_price)
             if amount <= 0:
                 o.status = OrderStatus.paid.value

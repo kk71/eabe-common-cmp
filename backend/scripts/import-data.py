@@ -341,6 +341,7 @@ async def process_orders():
         try:
             o = Order(
                 order_id=order_no,
+                customer_code=order_guanxi_id,
                 batch_code=batch_code,
                 product_name=product_name,
                 resource_code=resource_code,

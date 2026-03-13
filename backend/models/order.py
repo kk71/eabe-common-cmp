@@ -35,6 +35,7 @@ class OrderStatus(StatusMachine):
 class Order(SoftDeletionModelMixin, BaseTModel):
     """订单"""
     order_id = CharField(max_length=64, default=generate_order_id, editable=False, description="订单编号")
+    customer_code = CharField(max_length=64, null=True, db_index=True, description="客户编号（关联客户表 code）")
     batch_code = CharField(max_length=64, null=True, description="批次")
     product_name = TextField(null=True, description="产品名")
     resource_code = TextField(null=True, description="资源编号")

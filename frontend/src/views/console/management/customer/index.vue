@@ -45,7 +45,7 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column prop="create_time" label="创建时间" min-width="180" />
+      <table-column-dt prop="create_time" label="创建时间" min-width="180" />
       <el-table-column label="操作" width="180" fixed="right">
         <template #default="{ row }">
           <el-tooltip content="编辑" placement="top" effect="light">

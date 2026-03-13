@@ -23,7 +23,7 @@
       <el-table-column prop="frozen_balance" label="冻结余额" min-width="120" sortable />
       <el-table-column prop="total_recharge" label="累计充值" min-width="150" sortable />
       <el-table-column prop="currency" label="币种" width="80" />
-      <el-table-column prop="create_time" label="创建时间" min-width="180" />
+      <table-column-dt prop="create_time" label="创建时间" min-width="180" />
       <el-table-column label="操作" width="140" fixed="right">
         <template #default="{ row }">
           <el-button type="primary" link size="small" @click="openTxDialog(row)">查看流水</el-button>
@@ -39,7 +39,7 @@
         <el-table-column prop="balance_after" label="变动后余额" min-width="120" />
         <el-table-column prop="related_order_id" label="订单号" min-width="150" />
         <el-table-column prop="remark" label="备注" min-width="180" />
-        <el-table-column prop="create_time" label="时间" min-width="180" />
+        <table-column-dt prop="create_time" label="时间" min-width="180" />
       </el-table>
       <template #footer>
         <el-button @click="txDialog.visible = false">关闭</el-button>

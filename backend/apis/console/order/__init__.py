@@ -9,12 +9,24 @@ from backend.services.auth import *
 from backend.services import WalletAccountService
 from backend.core.http import Forbidden
 from backend.apis.auth.base import *
+from backend.t_pdm.customer import CustomerGetter
 
 
 @init_t_pdm
 class OrderGetter(TGetter):
+    customer: CustomerGetter | None = None
+
     class TMeta:
         cls = Order
+
+    @classmethod
+    async def extra_fields(cls, t_inst: Order, results: dict[str, Any]) -> None:
+        code = (getattr(t_inst, "customer_code", None) or "").strip()
+        if not code:
+            results["customer"] = None
+            return
+        c = await Customer.filter(existed=True, code=code).first()
+        results["customer"] = await CustomerGetter.parse_record(c) if c else None
 
 
 @router.get(tags=[APITags.console], summary="查询订单")
@@ -23,6 +35,7 @@ async def _(
         query: build_query({
             "id": opt_query(int),
             "order_id": opt_query(str),
+            "customer_code": opt_query(str),
             "origin": opt_query(OrderOrigin.str_enum()),
             "product_type": opt_query(ProductType.str_enum()),
             "status": opt_query(OrderStatus.str_enum()),
@@ -30,7 +43,7 @@ async def _(
 ) -> PaginationJsonResp[list[OrderGetter]]:
     await header.verify(Privileges.system_control)
     orders = Order.filter(**query.model_dump())
-    orders = query.query_keyword(orders, "order_id", "batch_code", "product_name", "resource_code")
+    orders = query.query_keyword(orders, "order_id", "customer_code", "batch_code", "product_name", "resource_code")
     orders = await query.paginate(orders)
     return PaginationJsonResp(
         data=[await OrderGetter.parse_record(i) for i in orders],
@@ -52,7 +65,7 @@ async def _(
     if o.status == OrderStatus.paid.value:
         raise Forbidden("订单已支付")
 
-    customer_code = str(o.order_guanxi_id)
+    customer_code = (getattr(o, "customer_code", None) or "").strip() or str(o.order_guanxi_id)
     amount = o.total_price
     if amount <= 0:
         o.status = OrderStatus.paid.value
