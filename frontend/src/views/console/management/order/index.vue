@@ -38,8 +38,19 @@
     <el-table ref="listTable" :data="data.data" stripe v-loading="loading">
       <el-table-column type="selection" width="50" />
       <el-table-column prop="order_id" label="订单编号" min-width="200" />
-      <el-table-column prop="customer_code" label="客户编号" min-width="160" />
-      <el-table-column prop="customer.name" label="客户名称" min-width="180" />
+      <el-table-column label="客户名称" min-width="200">
+        <template #default="{ row }">
+          <el-tooltip
+            v-if="(row.customer_code || '').trim()"
+            effect="dark"
+            :content="`客户编号：${(row.customer_code || '').trim()}`"
+            placement="top"
+          >
+            <span>{{ row?.customer?.name || '-' }}</span>
+          </el-tooltip>
+          <span v-else>{{ row?.customer?.name || '-' }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="batch_code" label="批次" min-width="200" />
       <el-table-column label="产品" prop="product_name" min-width="160" />
       <el-table-column prop="resource_code" label="资源编号" min-width="200" />
