@@ -26,7 +26,23 @@
       <el-table-column prop="principal" label="主要负责人" min-width="140" />
       <el-table-column label="关联用户" min-width="240">
         <template #default="{ row }">
-          <el-tag v-for="uid in row.user_ids || []" :key="uid" style="margin-right: 6px" type="info">{{ uid }}</el-tag>
+          <el-popover
+            v-for="uid in row.user_ids || []"
+            :key="uid"
+            placement="top"
+            trigger="hover"
+            :width="260"
+          >
+            <div style="line-height: 20px">
+              <div><span style="color: #86909c">用户ID：</span>{{ uid }}</div>
+              <div><span style="color: #86909c">昵称：</span>{{ userMap[uid]?.name || '-' }}</div>
+            </div>
+            <template #reference>
+              <el-tag style="margin-right: 6px" type="info">
+                {{ userMap[uid]?.login_name || uid }}
+              </el-tag>
+            </template>
+          </el-popover>
         </template>
       </el-table-column>
       <el-table-column prop="create_time" label="创建时间" min-width="180" />
@@ -79,11 +95,15 @@
   import { QSValidator } from '@/utils/router';
   import { confirmBox } from '@/utils/msgbox';
   import { getCustomers, createCustomer, updateCustomer, deleteCustomer, getCustomerDetail } from '@/api/console';
+  import { getUser } from '@/api/system';
   import UserSelector from '@/views/console/components/user-selector.vue';
 
   const emits = defineEmits(['update-title']);
   const loading: any = inject('loading');
   const dialogFormRef = ref<any>(null);
+
+  const userLoading = ref(false);
+  const userMap = reactive<Record<string, { id: string; name?: string | null; login_name?: string | null }>>({});
 
   const data = reactive<any>({
     p: { page: 1, per_page: 20, pages: 0 },
@@ -91,6 +111,30 @@
     filterDataTyping: new QSValidator({ page: Number, per_page: Number, keyword: String }),
     data: [],
   });
+
+  const ensureUsersLoaded = async (ids: string[]) => {
+    const uniq = Array.from(new Set((ids || []).filter((i) => !!i)));
+    const missing = uniq.filter((id) => !userMap[id]);
+    if (!missing.length) return;
+    for (const id of missing) {
+      const resp = await waitRequest(
+        userLoading,
+        getUser({
+          params: {
+            id,
+            include_disabled: true,
+            per_page: 1,
+          },
+        }),
+      );
+      const u = (resp.data.data || [])[0];
+      if (u) {
+        userMap[id] = { id: u.id, name: u.name, login_name: u.login_name };
+      } else {
+        userMap[id] = { id };
+      }
+    }
+  };
 
   const dialog = reactive<any>({
     visible: false,
@@ -153,6 +197,8 @@
     const r: any = resp.data as any;
     data.p = r.pagination;
     data.data = r.data;
+    const allUserIds = (data.data || []).flatMap((c: any) => c?.user_ids || []);
+    await ensureUsersLoaded(allUserIds);
   }
 
   const openAdd = () => {
