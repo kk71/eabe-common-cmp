@@ -99,7 +99,7 @@
     <el-dialog v-model="importDialog.visible" title="导入扣费记录（CSV / Excel）" width="760px">
       <el-alert type="info" show-icon :closable="false" style="margin-bottom: 10px">
         <template #title>
-          支持流量/短信/token 费用扣费记录导入。建议字段顺序：time, customer_code, customer_name, cost_type, amount, remark
+          支持流量/短信/token 费用扣费记录导入。建议字段顺序：time, customer_code, cost_type, amount, remark
         </template>
       </el-alert>
       <el-form :model="importDialog.form" label-width="140px" style="margin-bottom: 10px">

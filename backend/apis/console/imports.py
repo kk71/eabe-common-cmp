@@ -184,7 +184,8 @@ async def _import_month_bills_from_rows(rows: Iterable[list[str]], skip_header: 
             continue
         idx += 1
         cols = [c.strip() for c in cols if c is not None]
-        if len(cols) < 12:
+        # 新模板：不再包含“客户名称”列，仅要求客户编码
+        if len(cols) < 11:
             result.failed += 1
             continue
 
@@ -192,7 +193,6 @@ async def _import_month_bills_from_rows(rows: Iterable[list[str]], skip_header: 
             yearmonth,
             product_name,
             customer_code,
-            customer_name,
             account_code,
             product_type,
             resource_code,
@@ -201,7 +201,8 @@ async def _import_month_bills_from_rows(rows: Iterable[list[str]], skip_header: 
             homepage_price,
             discount_price,
             total_paid,
-        ) = cols[:12]
+        ) = cols[:11]
+        customer_name = None
 
         try:
             year = int(yearmonth[:4])
@@ -217,7 +218,7 @@ async def _import_month_bills_from_rows(rows: Iterable[list[str]], skip_header: 
             continue
 
         try:
-            await _require_customer_by_code(customer_code)
+            customer = await _get_or_create_customer_by_code(customer_code=customer_code, customer_name=customer_name or None)
         except Exception:
             result.failed += 1
             continue
@@ -234,7 +235,7 @@ async def _import_month_bills_from_rows(rows: Iterable[list[str]], skip_header: 
 
         if exist:
             exist.product_name = product_name
-            exist.customer_name = customer_name
+            exist.customer_name = customer.name
             exist.amount = amount_v
             exist.homepage_price = homepage_price_v
             exist.discount_price = discount_price_v
@@ -246,8 +247,8 @@ async def _import_month_bills_from_rows(rows: Iterable[list[str]], skip_header: 
                 year=year,
                 month=month,
                 product_name=product_name,
-                customer_code=customer_code,
-                customer_name=customer_name,
+                customer_code=customer.code,
+                customer_name=customer.name,
                 account_code=account_code,
                 product_type=product_type_v,
                 resource_code=resource_code,
@@ -303,15 +304,27 @@ async def _require_customer_by_code(customer_code: str) -> Customer:
     return c
 
 
+async def _get_or_create_customer_by_code(customer_code: str, customer_name: str | None = None) -> Customer:
+    code = (customer_code or "").strip()
+    if not code:
+        raise BadRequest("customer_code 不能为空")
+    c = await Customer.filter(existed=True, code=code).first()
+    if c:
+        return c
+    name = (customer_name or "").strip() or code
+    c = await Customer.create(code=code, name=name)
+    return c
+
+
 async def _get_or_create_wallet(customer_code: str, customer_name: str | None = None) -> WalletAccount:
-    await _require_customer_by_code(customer_code)
-    w = await WalletAccount.filter(customer_code=customer_code).first()
+    customer = await _get_or_create_customer_by_code(customer_code=customer_code, customer_name=customer_name or None)
+    w = await WalletAccount.filter(customer_code=customer.code).first()
     if w:
-        if customer_name and w.customer_name != customer_name:
-            w.customer_name = customer_name
+        if customer.name and w.customer_name != customer.name:
+            w.customer_name = customer.name
             await w.save()
         return w
-    return await WalletAccount.create(customer_code=customer_code, customer_name=customer_name)
+    return await WalletAccount.create(customer_code=customer.code, customer_name=customer.name)
 
 
 async def _import_wallet_transactions_from_rows(
@@ -323,16 +336,15 @@ async def _import_wallet_transactions_from_rows(
     """
     导入扣费流水（钱包流水：consume）。
 
-    列顺序（推荐）：
+    列顺序（推荐，新模板）：
     1) time: 扣费时间（如 2026-03-01 12:30:00）
     2) customer_code
-    3) customer_name（可选）
-    4) cost_type: stream/sms/token（或中文“流量/短信/token”）
-    5) amount: 扣费金额（正数）
-    6) remark（可选）
-    7) related_bill_id（可选）
-    8) related_order_id（可选）
-    9) tx_id（可选；用于幂等，存在则跳过）
+    3) cost_type: stream/sms/token（或中文“流量/短信/token”）
+    4) amount: 扣费金额（正数）
+    5) remark（可选）
+    6) related_bill_id（可选）
+    7) related_order_id（可选）
+    8) tx_id（可选；用于幂等，存在则跳过）
     """
     result = ImportResult()
     idx = 0
@@ -346,14 +358,8 @@ async def _import_wallet_transactions_from_rows(
             result.failed += 1
             continue
 
-        (
-            time_s,
-            customer_code,
-            customer_name,
-            cost_type,
-            amount,
-            *rest,
-        ) = cols
+        time_s, customer_code, cost_type, amount, *rest = cols
+        customer_name = None
 
         remark = rest[0] if len(rest) >= 1 else None
         related_bill_id = rest[1] if len(rest) >= 2 else None

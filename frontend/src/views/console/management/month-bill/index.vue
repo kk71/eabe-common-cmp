@@ -86,11 +86,11 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="importDialog.visible" title="导入月度账单（CSV / Excel）" width="820px">
+      <el-dialog v-model="importDialog.visible" title="导入月度账单（CSV / Excel）" width="820px">
       <el-alert type="info" show-icon :closable="false" style="margin-bottom: 10px">
-        <template #title>
+      <template #title>
           选择 CSV 或 Excel(xlsx) 上传，用于生成账单与后续按月扣费。字段顺序：
-          账期(YYYYMM)、商品名称、客户编码、客户名称、订购账号名称、产品系列、资源编号、用量、出账类型、官网价格、优惠价格、实付金额
+          账期(YYYYMM)、商品名称、客户编码、订购账号名称、产品系列、资源编号、用量、出账类型、官网价格、优惠价格、实付金额
         </template>
       </el-alert>
       <el-upload
